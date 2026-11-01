@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佐藤の地べたブログ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 
+         * 阿部寛のHP × 四畳半レコード / THE NINTH APOLLO 風
+         * 極限まで削ぎ落としたモノトーン・明朝体・アナログHTMLスタイル
+         */
+        :root {
+            --bg-paper: #f9f8f6;
+            --text-ink: #111111;
+            --border-ink: #111111;
+            --muted-ink: #555555;
+            --hover-bg: #111111;
+            --hover-text: #f9f8f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            border-radius: 0px !important; /* 角丸は一切排除 */
+        }
+
+        body {
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            font-family: "MS PMincho", "MS Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+            line-height: 1.75;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 等幅・アナログ数値用フォント */
+        .font-mono-raw {
+            font-family: "MS Gothic", "Osaka-Mono", "Courier New", monospace;
+            letter-spacing: 0.05em;
+        }
+
+        /* 1pxの無骨な黒枠線 */
+        .raw-border {
+            border: 1px solid var(--border-ink);
+        }
+        .raw-border-b {
+            border-bottom: 1px solid var(--border-ink);
+        }
+        .raw-border-t {
+            border-top: 1px solid var(--border-ink);
+        }
+        .raw-border-r {
+            border-right: 1px solid var(--border-ink);
+        }
+
+        /* 左メニューのリンク挙動（白黒反転） */
+        .nav-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-ink);
+            font-size: 15px;
+            background: transparent;
+            color: var(--text-ink);
+            cursor: pointer;
+            transition: none; /* アニメーションなしでパキッと切り替え */
+        }
+        .nav-item:hover {
+            background-color: #e6e4df;
+        }
+        .nav-item.active {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+            font-weight: bold;
+        }
+
+        /* アナログボタン（白黒反転） */
+        .raw-btn {
+            border: 1px solid var(--border-ink);
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            padding: 4px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .raw-btn:hover {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+        }
+        .raw-btn:active {
+            transform: translateY(1px);
+        }
+        .raw-btn.active-btn {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+        }
+
+        /* 昔ながらのテーブルデザイン */
+        table.raw-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        table.raw-table th,
+        table.raw-table td {
+            border: 1px solid var(--border-ink);
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        table.raw-table th {
+            background-color: #eae8e3;
+            font-weight: normal;
+        }
+
+        /* アクセスカウンター風ボックス */
+        .counter-box {
+            display: inline-block;
+            background: #111;
+            color: #fff;
+            font-family: "Courier New", "MS Gothic", monospace;
+            padding: 2px 8px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            border: 1px solid #111;
+        }
+
+        /* スクロールバーも最小限に */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f9f8f6;
+            border-left: 1px solid #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #111;
+        }
+
+        /* 2重線 */
+        hr.double-line {
+            border: 0;
+            border-top: 3px double #111;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- 最上部・極細ステータスバー -->
+    <div class="raw-border-b px-3 py-1 text-xs flex flex-wrap justify-between items-center bg-[#f0eee9] font-mono-raw">
+        <div>SATO NO JIBETA BLOG // TOKYO UNDERGROUND ARCHIVE</div>
+        <div class="flex items-center gap-4">
+            <span>最終更新: 2026.10.26</span>
+            <span>文字サイズ: 標準</span>
+        </div>
+    </div>
+
+    <!-- メイン外枠（昔の2カラムフレーム構造を意識したコンテナ） -->
+    <div class="max-w-5xl w-full mx-auto my-4 px-3 flex-grow">
+        <div class="raw-border bg-[#f9f8f6] flex flex-col md:flex-row min-h-[640px]">
+
+            <!-- 左カラム：フレームメニュー（ナビゲーション＆基本情報） -->
+            <aside class="w-full md:w-56 raw-border-b md: border-b-0 md:raw-border-r flex flex-col justify-between shrink-0 select-none">
+                <div>
+                    <!-- サイト表札 -->
+                    <div class="p-4 raw-border-b cursor-pointer" onclick="switchTab('top')">
+                        <p class="text-[11px] font-mono-raw text-[#555] mb-1">四畳半・都市生活記録</p>
+                        <h1 class="text-xl font-bold tracking-widest leading-snug">佐藤の<br>地べたブログ</h1>
+                        <p class="text-[11px] mt-2 text-[#444] leading-relaxed">
+                            変に背伸びしない、東京の地べたからの視点と好奇心の記録。
+                        </p>
+                    </div>
+
+                    <!-- タブメニュー（ご指定の6タブ＋TOP） -->
+                    <nav aria-label="メインメニュー">
+                        <button class="nav-item active" data-tab="top" onclick="switchTab('top')">
+                            ■ トップ / 玄関
+                        </button>
+                        <button class="nav-item" data-tab="band" onclick="switchTab('band')">
+                            ● 商売バンド
+                        </button>
+                        <button class="nav-item" data-tab="dialy" onclick="switchTab('dialy')">
+                            ● Dialy
+                        </button>
+                        <button class="nav-item" data-tab="zakki" onclick="switchTab('zakki')">
+                            ● 雑記
+                        </button>
+                        <button class="nav-item" data-tab="map" onclick="switchTab('map')">
+                            ● 地べたMAP
+                        </button>
+                        <button class="nav-item" data-tab="book" onclick="switchTab('book')">
+                            ● 本Log
+                        </button>
+                        <button class="nav-item" data-tab="game" onclick="switchTab('game')">
+                            ● 地べたゲーム
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- 左カラム下部：カウンター＆月額100円システム枠 -->
+                <div class="p-3 text-xs space-y-4 bg-[#f3f1ec] raw-border-t">
+                    <!-- アクセスカウンター -->
+                    <div>
+                        <p class="font-mono-raw text-[11px] mb-1">あなたは</p>
+                        <div class="counter-box" id="visitor-counter">000412</div>
+                        <p class="font-mono-raw text-[11px] mt-1">人目の地べた訪問者です</p>
+                    </div>
+
+                    <!-- 月額100円パトロン枠（試作） -->
+                    <div class="raw-border p-2 bg-[#f9f8f6]">
+                        <p class="font-bold text-xs mb-1">【地べたサポーター】</p>
+                        <p class="text-[11px] leading-normal text-[#333] mb-2">
+                            月額100円（缶コーヒー未満）でデモ音源のボツ曲や制作の裏側を共有する実験枠。
+                        </p>
+                        <button onclick="openSupportModal()" class="raw-btn w-full text-center font-mono-raw text-[11px]">
+                            [ 月額100円 応援窓口 ]
+                        </button>
+                    </div>
+
+                    <!-- ミニマルHTMLソース確認ボタン -->
+                    <div class="text-[11px] font-mono-raw text-[#555] pt-1">
+                        <button onclick="openSourceModal()" class="underline hover:text-black">
+                            &gt; 最小限HTML構造を見る
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 右カラム：メインコンテンツ表示領域 -->
+            <main class="flex-1 p-5 md:p-8 overflow-y-auto">
+
+                <!-- ==========================================
+                     0. トップ / 玄関 (TOP)
+                =========================================== -->
+                <section id="tab-top" class="tab-pane space-y-6">
+                    <div class="flex flex-wrap justify-between items-baseline raw-border-b pb-2">
+                        <h2 class="text-2xl font-bold tracking-wider">佐藤の地べたブログ</h2>
+                        <span class="font-mono-raw text-xs text-[#555]">EST. 2026 / TOKYO, JAPAN</span>
+                    </div>
+
+                    <!-- ステートメント（四畳半レコード風の短い散文） -->
+                    <div class="raw-border p-4 bg-[#fff]">
+                        <p class="text-sm leading-loose">
+                            東京で都市生活を送りながら、変に背伸びした自分ではなく、地方で育ったありのままの「地べた」の感覚で面白がるための個人サイトです。<br>
+                            つくった音楽、日々の短い記録（Dialy）、考えたことの雑記、読んだ本や漫画、そして東京の日常で起きるささいな出来事をシミュレーションする「地べたゲーム」を置いています。
+                        </p>
+                    </div>
+
+                    <!-- 最新情報（阿部寛のHP風のシンプル更新履歴） -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ What's New（更新履歴）</h3>
+                        <div class="raw-border bg-[#fff] p-3 max-h-48 overflow-y-auto text-sm space-y-2">
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.26</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('game')" class="underline font-bold">【地べたゲーム】</a> 試作第1弾『19時45分、スーパー半額シール攻防戦』を公開しました。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.25</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> デモ音源3曲（Webシンセ試聴）とアルバム構想メモを追加。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.24</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('zakki')" class="underline font-bold">【雑記】</a> 「背伸びしないまま頭を本気で使うことについて」を掲載。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.20</span>
+                                <span>ホームページ『佐藤の地べたブログ』を仮開設しました。</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 各部屋の案内テーブル -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ コンテンツ一覧（部屋案内）</h3>
+                        <table class="raw-table bg-[#fff]">
+                            <tbody>
+                                <tr>
+                                    <th class="w-32"><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">商売バンド</a></th>
+                                    <td>自作の音楽プロジェクト。デモテープの試聴、歌詞、録音メモ。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('dialy')" class="underline font-bold">Dialy</a></th>
+                                    <td>日々の短い生活記録。東京の天気、食べたもの、ふとした違和感。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('zakki')" class="underline font-bold">雑記</a></th>
+                                    <td>少し長めに考えたこと、知的好奇心、都市と地方の距離感についての文章。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('map')" class="underline font-bold">地べたMAP</a></th>
+                                    <td>気取らない定食屋、ガード下、落ち着く路地やベンチの個人的マッピング。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('book')" class="underline font-bold">本Log</a></th>
+                                    <td>読んだ小説、漫画、文庫本の感想と抜き書き。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('game')" class="underline font-bold">地べたゲーム</a></th>
+                                    <td>ブラウザでそのまま遊べる、東京の日常コマンド選択式RPG・シミュレーション。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     1. 商売バンド (BAND / MUSIC)
+                =========================================== -->
+                <section id="tab-band" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 商売バンド（音楽・自主制作音源）</h2>
+                        <span class="font-mono-raw text-xs">CATALOG NO: JBT-001</span>
+                    </div>
+
+                    <div class="raw-border p-4 bg-[#fff] space-y-2">
+                        <p class="text-xs font-mono-raw text-[#555]">PROJECT STATEMENT</p>
+                        <p class="text-sm leading-relaxed">
+                            部屋の隅で鳴らしたギターと生活のリズムをそのままパッケージする音楽枠。<br>
+                            綺麗なスタジオ音源というよりは、カセットMTRや宅録のざらついた質感のまま置いていきます。下の「▶ 試聴」ボタンを押すと、ブラウザ内蔵のローファイ音源（Web Audio）がテスト再生されます。
+                        </p>
+                    </div>
+
+                    <!-- プレイヤー状態表示バー -->
+                    <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] flex flex-wrap justify-between items-center gap-2 font-mono-raw text-xs">
+                        <div id="audio-status">■ STOP // 試聴したいトラックの [▶ 試聴] を押してください</div>
+                        <button onclick="stopDemoAudio()" class="border border-[#f9f8f6] px-2 py-0.5 hover:bg-[#f9f8f6] hover:text-[#111]">
+                            [ ■ 停止 ]
+                        </button>
+                    </div>
+
+                    <!-- トラックリスト（カセットテープのインデックスカード風） -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ デモテープ収録曲 / 制作中リスト</h3>
+                        <table class="raw-table bg-[#fff]">
+                            <thead>
+                                <tr>
+                                    <th class="w-12 font-mono-raw">No.</th>
+                                    <th>曲名 / タイトル</th>
+                                    <th>制作メモ・編成</th>
+                                    <th class="w-24 text-center">デモ試聴</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono-raw">01</td>
+                                    <td class="font-bold">四畳半と環七のあいだ</td>
+                                    <td class="text-xs text-[#444]">深夜2時の換気扇のうなりと3コード進行。</td>
+                                    <td class="text-center">
+                                        <button onclick="playDemoTrack(1, '01. 四畳半と環七のあいだ')" class="raw-btn font-mono-raw text-xs" id="track-btn-1">▶ 試聴</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">02</td>
+                                    <td class="font-bold">領収書の出ない夜</td>
+                                    <td class="text-xs text-[#444]">アップテンポなカッティング。商売と生活の境界線。</td>
+                                    <td class="text-center">
+                                        <button onclick="playDemoTrack(2, '02. 領収書の出ない夜')" class="raw-btn font-mono-raw text-xs" id="track-btn-2">▶ 試聴</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">03</td>
+                                    <td class="font-bold">各駅停車で帰る</td>
+                                    <td class="text-xs text-[#444]">ゆっくりした2拍子。急行を見送ったホームにて。</td>
+                                    <td class="text-center">
+                                        <button onclick="playDemoTrack(3, '03. 各駅停車で帰る')" class="raw-btn font-mono-raw text-xs" id="track-btn-3">▶ 試聴</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">04</td>
+                                    <td>地べたのファンファーレ（仮）</td>
+                                    <td class="text-xs text-[#555]">現在歌詞とAメロのコード直し中。</td>
+                                    <td class="text-center font-mono-raw text-xs text-[#777]">録音中</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-[#555] mt-2">
+                            ※実際の運用時は、ここに自分のMP3ファイル（<code>&lt;audio src="song01.mp3"&gt;</code>）を置くだけでそのまま再生できます。
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     2. Dialy (日々の短文ログ)
+                =========================================== -->
+                <section id="tab-dialy" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● Dialy（日録・短文）</h2>
+                        <span class="font-mono-raw text-xs">DAILY RAW LOGS</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        格好をつけない日々のメモ。SNSに流すと消えてしまうけれど、自分の地べたに残しておきたい断片。
+                    </p>
+
+                    <!-- その場で書いて試せる下書きボックス -->
+                    <div class="raw-border p-3 bg-[#f0eee9] space-y-2">
+                        <div class="text-xs font-bold font-mono-raw">＋ 新しいDialyを書き足す（プレビュー体験）</div>
+                        <textarea id="dialy-input" rows="2" class="w-full raw-border p-2 text-sm bg-[#fff] focus:outline-none" placeholder="今日起きたこと、見かけた景色などを短く書く..."></textarea>
+                        <div class="text-right">
+                            <button onclick="addDialyEntry()" class="raw-btn text-xs font-mono-raw">日録に追加する</button>
+                        </div>
+                    </div>
+
+                    <!-- Dialyタイムライン -->
+                    <div id="dialy-list" class="space-y-4">
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.26 (Mon) / 晴れ・風少し冷たい</div>
+                            <p class="text-sm leading-relaxed">
+                                夕方、自転車で商店街の端っこを通ったら、八百屋の店先で段ボールにマジックで「柿 1山200円」とだけ書いてあった。東京のおしゃれなフォントより、ガムテープの上から太いマッキーで書かれた文字のほうがなぜか安心する。1山買って帰った。
+                            </p>
+                        </article>
+
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.23 (Fri) / 曇り</div>
+                            <p class="text-sm leading-relaxed">
+                                ギターの弦を張り替えたあと、1時間くらい同じリフばかり弾いていた。自分のサイトを作るなら、こういう何でもない時間をそのまま箱詰めできる場所がいい。
+                            </p>
+                        </article>
+
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.19 (Mon) / 雨あがり</div>
+                            <p class="text-sm leading-relaxed">
+                                朝の満員電車を1本見送って、ホームの端で缶コーヒーを飲んだ。たった5分遅らせるだけで、人間としての呼吸が戻る感じがする。
+                            </p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     3. 雑記 (ZAKKI / ESSAYS)
+                =========================================== -->
+                <section id="tab-zakki" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 雑記（考えたこと・長文）</h2>
+                        <span class="font-mono-raw text-xs">THOUGHTS &amp; ESSAYS</span>
+                    </div>
+
+                    <!-- 雑記の目次テーブル -->
+                    <div>
+                        <p class="text-xs text-[#444] mb-2">タイトルをクリックすると下に本文が表示されます。</p>
+                        <table class="raw-table bg-[#fff]">
+                            <thead>
+                                <tr>
+                                    <th class="w-28 font-mono-raw">日付</th>
+                                    <th>題名</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(0)">
+                                    <td class="font-mono-raw text-xs">2026.10.24</td>
+                                    <td class="underline font-bold">背伸びしないまま、頭を本気で使うことについて</td>
+                                </tr>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(1)">
+                                    <td class="font-mono-raw text-xs">2026.10.15</td>
+                                    <td class="underline font-bold">地方で育った身体感覚と、東京のアスファルト</td>
+                                </tr>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(2)">
+                                    <td class="font-mono-raw text-xs">2026.10.02</td>
+                                    <td class="underline font-bold">なぜ今、自分の手で簡素なホームページを作るのか</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 雑記の本文リーダー枠 -->
+                    <article id="zakki-reader" class="raw-border p-5 bg-[#fff] space-y-4">
+                        <!-- JSで初期表示 -->
+                    </article>
+                </section>
+
+                <!-- ==========================================
+                     4. 地べたMAP (JIBETA MAP)
+                =========================================== -->
+                <section id="tab-map" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 地べたMAP（東京・生活圏の定点観測）</h2>
+                        <span class="font-mono-raw text-xs">FIELD NOTES</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        ガイドブックには載らないけれど、自分の生活を支えている場所の記録。図の中の番号（[01]〜[04]）をクリックするとメモが開きます。
+                    </p>
+
+                    <!-- アナログテキスト地図（ASCII＆罫線マップ） -->
+                    <div class="raw-border p-4 bg-[#fff] font-mono-raw text-xs leading-relaxed overflow-x-auto">
+<pre class="m-0 select-none">
+  ==================== [ 私鉄沿線・ガード下エリア ] ====================
+         |                                                |
+   <button onclick="selectMapSpot(0)" class="raw-btn font-bold px-1 py-0">[01: 深夜スーパー見切り品コーナー]</button>                     |
+         |                                                |
+  -------+-------------------- 環状線通り ----------------+-------------
+         |                                                |
+         |          <button onclick="selectMapSpot(1)" class="raw-btn font-bold px-1 py-0">[02: 450円の個人経営・中華定食]</button>       |
+         |                                                |
+   <button onclick="selectMapSpot(2)" class="raw-btn font-bold px-1 py-0">[03: 河川敷の誰もいないベンチ]</button>                         |
+         |                                                |
+  =======+================================================+=============
+                                                          |
+                                     <button onclick="selectMapSpot(3)" class="raw-btn font-bold px-1 py-0">[04: 古本と中古カセットの店]</button>
+</pre>
+                    </div>
+
+                    <!-- 選択したスポットの詳細表示 -->
+                    <div id="map-detail" class="raw-border p-4 bg-[#fff] space-y-2">
+                        <!-- JSで初期表示 -->
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     5. 本Log (BOOK & MANGA LOG)
+                =========================================== -->
+                <section id="tab-book" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 本Log（読書・漫画の記録）</h2>
+                        <span class="font-mono-raw text-xs">BOOKS &amp; COMICS</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        電車の中や寝る前に読んだ本、漫画の備忘録。
+                    </p>
+
+                    <table class="raw-table bg-[#fff]">
+                        <thead>
+                            <tr>
+                                <th class="w-20">種別</th>
+                                <th class="w-48">書名 / 作者</th>
+                                <th>地べたメモ・感想</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono-raw text-xs">漫画</td>
+                                <td class="font-bold">『つげ義春大全』（短編集）</td>
+                                <td class="text-xs leading-relaxed">
+                                    旅先の鄙びた宿や、何者でもない生活者の描き方がやっぱりすごい。東京にいながらふと地方の湿った空気を思い出すときに開く本。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono-raw text-xs">小説</td>
+                                <td class="font-bold">ハードボイルド短編集（古文庫）</td>
+                                <td class="text-xs leading-relaxed">
+                                    100円棚で買った背表紙の焼けた文庫。余計な形容詞を削ぎ落として、行動と会話だけで空気を作る文体は、音楽の歌詞やこのサイトの文章にも通じる気がする。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono-raw text-xs">エッセイ</td>
+                                <td class="font-bold">『貧乏サバイバル読本』系古書</td>
+                                <td class="text-xs leading-relaxed">
+                                    お金を使わずに知恵と工夫で面白がる人たちの記録。知識体験というのは高い金を払うことじゃなくて、目の前の現象をどう観察するかだと再確認。
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- ==========================================
+                     6. 地べたゲーム (TOKYO JIBETA RPG)
+                =========================================== -->
+                <section id="tab-game" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 地べたゲーム（東京日常RPG・シミュレーション）</h2>
+                        <span class="font-mono-raw text-xs">HTML5 PROTOTYPE #01</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        HTMLとJavaScriptだけで動く「東京の地べたRPG」のプロトタイプ第1弾です。特別な勇者ではなく、東京で暮らす「佐藤」として日々のささいな選択を切り抜けます。
+                    </p>
+
+                    <!-- ゲーム筐体枠（モノトーン・レトロPC風） -->
+                    <div class="raw-border bg-[#fff] p-4 space-y-4">
+                        <!-- ゲームタイトル＆ステータスバー -->
+                        <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] font-mono-raw">
+                            <div class="flex flex-wrap justify-between items-center border-b border-[#555] pb-2 mb-2 text-xs">
+                                <span id="rpg-scene-title">【第1話】高円寺・19時45分のスーパーマーケット</span>
+                                <span id="rpg-turn-display">経過: 1 / 5 ターン</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                <div>体力(HP): <span id="stat-hp" class="font-bold">70</span>/100</div>
+                                <div>所持金: <span id="stat-yen" class="font-bold">680</span>円</div>
+                                <div>背伸び度: <span id="stat-ego" class="font-bold">15</span>%</div>
+                                <div>地べた度: <span id="stat-jibeta" class="font-bold">80</span>pt</div>
+                            </div>
+                        </div>
+
+                        <!-- メインテキストウィンドウ -->
+                        <div id="rpg-log-box" class="raw-border p-4 bg-[#f9f8f6] min-h-[160px] text-sm leading-relaxed space-y-2 font-serif">
+                            <!-- JSで描画 -->
+                        </div>
+
+                        <!-- コマンド選択肢ボタン群 -->
+                        <div class="space-y-2">
+                            <div class="text-xs font-mono-raw text-[#555]">▼ どうする？（コマンドを選択）</div>
+                            <div id="rpg-commands" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <!-- JSでコマンド生成 -->
+                            </div>
+                        </div>
+
+                        <!-- リセット＆ゲーム解説フッター -->
+                        <div class="raw-border-t pt-3 flex flex-wrap justify-between items-center text-xs text-[#555] font-mono-raw">
+                            <span>※シナリオや選択肢はHTML内の配列を書き換えるだけで無限に増やせます。</span>
+                            <button onclick="initRpgGame()" class="raw-btn text-xs">[ 最初からやり直す ]</button>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- 最下部フッター -->
+    <footer class="max-w-5xl w-full mx-auto px-3 mb-6 text-xs text-[#555] font-mono-raw flex flex-wrap justify-between items-center">
+        <div>&copy; 2026 佐藤の地べたブログ (SATO NO JIBETA BLOG). All Rights Reserved.</div>
+        <div>Built with Minimal Raw HTML. No Heavy Frameworks.</div>
+    </footer>
+
+    <!-- ==========================================
+         モーダル1: 月額100円 地べたサポーター仕組み確認
+    =========================================== -->
+    <div id="support-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+        <div class="raw-border bg-[#f9f8f6] max-w-md w-full p-5 space-y-4">
+            <div class="flex justify-between items-center raw-border-b pb-2">
+                <h3 class="font-bold text-base">■ 月額100円「地べたサポーター」の実装イメージ</h3>
+                <button onclick="closeSupportModal()" class="raw-btn text-xs font-mono-raw">× 閉じる</button>
+            </div>
+            <div class="text-xs leading-relaxed space-y-2">
+                <p>
+                    この枠は、実際にサイトを公開した際に<strong>「月額100円の購読・応援システム」</strong>を置く場所のサンプルです。
+                </p>
+                <div class="raw-border p-3 bg-[#fff] space-y-1">
+                    <p class="font-bold">【一番シンプルでアナログな実装方法】</p>
+                    <p>1. <strong>Stripeの決済リンク</strong>（またはpixivFANBOX / OFUSEの100円プラン）を発行する。</p>
+                    <p>2. 下のボタンのリンク先（<code>href="..."</code>）に設定する。</p>
+                    <p>3. 登録してくれた人に、サンクス画面や自動メールで「今月のボツ音源＆秘密の日記ページの合言葉」を届ける。</p>
+                </div>
+                <p class="text-[#555]">
+                    これなら大掛かりなデータベースを組まなくても、この最小限のHTMLサイトのまま今日から月額100円システムを動かせます。
+                </p>
+            </div>
+            <div class="text-right">
+                <button onclick="closeSupportModal()" class="raw-btn text-xs">了解した</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         モーダル2: 最小限HTMLテンプレート構造の確認
+    =========================================== -->
+    <div id="source-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+        <div class="raw-border bg-[#f9f8f6] max-w-xl w-full p-5 space-y-4">
+            <div class="flex justify-between items-center raw-border-b pb-2">
+                <h3 class="font-bold text-base">■ このサイトの骨格（最小限HTML構造）</h3>
+                <button onclick="closeSourceModal()" class="raw-btn text-xs font-mono-raw">× 閉じる</button>
+            </div>
+            <p class="text-xs text-[#444]">
+                阿部寛のHPや四畳半レコードのように、画像や重いスクリプトに頼らず、白黒の枠線（<code>border: 1px solid #111</code>）と明朝体だけで組んでいます。
+            </p>
+            <pre id="minimal-code-preview" class="raw-border bg-[#fff] p-3 text-[11px] font-mono-raw overflow-x-auto max-h-60 leading-normal">&lt;!-- 佐藤の地べたブログ 最小骨格 --&gt;
+&lt;div style="display:flex; border:1px solid #111; font-family:serif;"&gt;
+  &lt;!-- 左メニュー --&gt;
+  &lt;nav style="width:200px; border-right:1px solid #111;"&gt;
+    &lt;h1&gt;佐藤の地べたブログ&lt;/h1&gt;
+    &lt;ul&gt;
+      &lt;li&gt;商売バンド&lt;/li&gt;
+      &lt;li&gt;Dialy&lt;/li&gt;
+      &lt;li&gt;雑記&lt;/li&gt;
+      &lt;li&gt;地べたMAP&lt;/li&gt;
+      &lt;li&gt;本Log&lt;/li&gt;
+      &lt;li&gt;地べたゲーム&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;!-- 右メイン枠 --&gt;
+  &lt;main style="flex:1; padding:20px;"&gt;
+    ここに本文やRPGを記述
+  &lt;/main&gt;
+&lt;/div&gt;</pre>
+            <div class="flex justify-end gap-2">
+                <button onclick="copyMinimalCode()" id="copy-btn" class="raw-btn text-xs font-mono-raw">骨格コードをコピー</button>
+                <button onclick="closeSourceModal()" class="raw-btn text-xs">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================
+         * 1. タブ切り替えロジック（アニメーションなし・瞬時切り替え）
+         * ========================================================= */
+        function switchTab(tabId) {
+            // すべてのセクションを非表示
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.add('hidden'));
+
+            // 対象セクションを表示
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // ナビゲーションのアクティブ表示更新
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // ページ上部へスクロール
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        /* =========================================================
+         * 2. 商売バンド：Web Audio APIによるローファイ・デモ試聴機能
+         * ========================================================= */
+        let audioCtx = null;
+        let audioInterval = null;
+        let currentPlayingTrack = null;
+
+        function stopDemoAudio() {
+            if (audioInterval) {
+                clearInterval(audioInterval);
+                audioInterval = null;
+            }
+            currentPlayingTrack = null;
+            document.getElementById('audio-status').textContent = '■ STOP // 試聴したいトラックの [▶ 試聴] を押してください';
+            [1, 2, 3].forEach(num => {
+                const btn = document.getElementById('track-btn-' + num);
+                if (btn) {
+                    btn.textContent = '▶ 試聴';
+                    btn.classList.remove('active-btn');
+                }
+            });
+        }
+
+        function playDemoTrack(trackNum, trackTitle) {
+            if (currentPlayingTrack === trackNum) {
+                stopDemoAudio();
+                return;
+            }
+            stopDemoAudio();
+
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            currentPlayingTrack = trackNum;
+            document.getElementById('audio-status').textContent = '▶ PLAYING // ' + trackTitle + ' (宅録デモシンセ再生中...)';
+            const activeBtn = document.getElementById('track-btn-' + trackNum);
+            if (activeBtn) {
+                activeBtn.textContent = '■ 停止';
+                activeBtn.classList.add('active-btn');
+            }
+
+            // トラックごとの素朴なコード・メロディ進行（四畳半フォーク/インディーロック風）
+            const patterns = {
+                1: { tempo: 420, notes: [220.0, 261.63, 329.63, 293.66, 220.0, 246.94, 196.0, 220.0] }, // Am - C - Em - G
+                2: { tempo: 260, notes: [164.81, 196.0, 246.94, 220.0, 293.66, 246.94, 196.0, 164.81] }, // アップテンポ
+                3: { tempo: 550, notes: [196.0, 246.94, 293.66, 392.0, 329.63, 293.66, 246.94, 196.0] }  // ゆったり各駅停車
+            };
+
+            const config = patterns[trackNum] || patterns[1];
+            let step = 0;
+
+            const playStep = () => {
+                if (!audioCtx || currentPlayingTrack !== trackNum) return;
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                // 少しざらついた矩形波・三角波
+                osc.type = trackNum === 2 ? 'square' : 'triangle';
+                osc.frequency.setValueAtTime(config.notes[step % config.notes.length], now);
+
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + (config.tempo / 1000) * 0.9);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + (config.tempo / 1000));
+                step++;
+            };
+
+            playStep();
+            audioInterval = setInterval(playStep, config.tempo);
+        }
+
+        /* =========================================================
+         * 3. Dialy：ローカル下書き追加機能
+         * ========================================================= */
+        function addDialyEntry() {
+            const input = document.getElementById('dialy-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const list = document.getElementById('dialy-list');
+            const now = new Date();
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} (${days[now.getDay()]}) / 東京にて`;
+
+            const article = document.createElement('article');
+            article.className = 'raw-border p-4 bg-[#fff]';
+            article.innerHTML = `
+                <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">${dateStr}</div>
+                <p class="text-sm leading-relaxed"></p>
+            `;
+            article.querySelector('p').textContent = text;
+
+            list.prepend(article);
+            input.value = '';
+        }
+
+        /* =========================================================
+         * 4. 雑記：記事データと切り替え
+         * ========================================================= */
+        const zakkiArticles = [
+            {
+                date: '2026.10.24',
+                title: '背伸びしないまま、頭を本気で使うことについて',
+                body: `東京にいると、つい「何者かにならなければいけない」とか「賢そうな言葉を使わなければいけない」という空気に飲まれそうになる。\n\nでも、自分が本当に面白いと感じるのは、地方で育ったときのあの素朴な感覚のまま、目の前の音楽や仕組みや人間の行動について本気で頭をひねっている時間だ。格好をつけた瞬間に、言葉も音楽も急に嘘くさくなる。\n\n地面に足をつけたまま、泥臭く考え抜くこと。このサイトはそういう自分のための実験場にしていきたい。`
+            },
+            {
+                date: '2026.10.15',
+                title: '地方で育った身体感覚と、東京のアスファルト',
+                body: `地元の夜道は、街灯が途切れると本当に真っ暗になった。一方で東京の夜は、深夜2時でも自販機とコンビニの白い光でずっと明るい。\n\nその明るさの中で暮らしていると、自分の輪郭がぼやけることがある。だからこそ、四畳半の部屋で弦を鳴らしたり、スーパーの見切り品コーナーで今日のおかずを真剣に選んだりする「手触りのある生活」をちゃんと言葉にして残しておきたいと思う。`
+            },
+            {
+                date: '2026.10.02',
+                title: 'なぜ今、自分の手で簡素なホームページを作るのか',
+                body: `SNSのタイムラインは便利だけど、流れていく速度が速すぎる。誰かのアルゴリズムに乗っかるのではなく、路地裏に自分の小さな看板を出しておくような場所が欲しかった。\n\n白と黒の文字だけでいい。クリックしたら一瞬で開いて、そこに自分の音楽と、日記と、くだらなくて真剣な地べたRPGが置いてある。それだけで十分に豊かな気がしている。`
+            }
+        ];
+
+        function showZakki(index) {
+            const item = zakkiArticles[index];
+            if (!item) return;
+            const reader = document.getElementById('zakki-reader');
+            const paragraphs = item.body.split('\n\n').map(p => `<p class="text-sm leading-loose mb-3">${p}</p>`).join('');
+            reader.innerHTML = `
+                <div class="raw-border-b pb-2 mb-3">
+                    <span class="font-mono-raw text-xs text-[#555]">${item.date}</span>
+                    <h3 class="text-lg font-bold mt-1">${item.title}</h3>
+                </div>
+                <div>${paragraphs}</div>
+            `;
+        }
+
+        /* =========================================================
+         * 5. 地べたMAP：スポット詳細切り替え
+         * ========================================================= */
+        const mapSpots = [
+            {
+                id: '01',
+                name: '深夜スーパー見切り品コーナー（私鉄沿線）',
+                tag: '生活・サバイバル',
+                desc: '19時45分を過ぎると、総菜コーナーに黄色い半額シールを持った店員さんが現れる。ここで見栄を張らずにアジフライをカゴに入れられるかどうかが、東京の地べた生活の基本になる。'
+            },
+            {
+                id: '02',
+                name: '450円の個人経営・中華定食',
+                tag: '食事・人間観察',
+                desc: 'テレビがずっと野球中継を流している小さな店。誰もスマホの画面を見ず、黙々とレバニラとご飯を食べている。背伸びしたカフェより100倍落ち着く。'
+            },
+            {
+                id: '03',
+                name: '河川敷の誰もいないベンチ',
+                tag: '思考・歌詞書き',
+                desc: '頭の中がごちゃごちゃしたときに行って、ノートを広げる場所。風の音と遠くの電車の走行音しか聞こえないので、商売バンドの歌詞がよく進む。'
+            },
+            {
+                id: '04',
+                name: '古本と中古カセットの店',
+                tag: '好奇心・インプット',
+                desc: '店主のおじいさんが奥で半分寝ている古書店。100円の文庫本と、誰が聴いていたのか分からない古いカセットテープが積まれている宝の山。'
+            }
+        ];
+
+        function selectMapSpot(idx) {
+            const spot = mapSpots[idx];
+            if (!spot) return;
+            const box = document.getElementById('map-detail');
+            box.innerHTML = `
+                <div class="flex justify-between items-baseline raw-border-b pb-1">
+                    <span class="font-bold text-sm">■ [${spot.id}] ${spot.name}</span>
+                    <span class="font-mono-raw text-xs text-[#555]">分類: ${spot.tag}</span>
+                </div>
+                <p class="text-sm leading-relaxed pt-1">${spot.desc}</p>
+            `;
+        }
+
+        /* =========================================================
+         * 6. 地べたゲーム（東京日常コマンドRPG・試作第1弾）
+         * ========================================================= */
+        let rpgState = {
+            hp: 70,
+            yen: 680,
+            ego: 15,     // 背伸び度（低いほど自然体）
+            jibeta: 80,  // 地べた度（高いほど良い曲や雑記が書ける）
+            step: 0
+        };
+
+        const rpgScenes = [
+            {
+                turn: '1 / 4',
+                text: `午後7時45分。仕事帰りの佐藤は、私鉄沿線のスーパーマーケット「ライフマート」の総菜売り場に立っている。\nポケットの中の小銭は680円。奥の扉から、半額シール機を持った店員さんがゆっくりと姿を現した。周りには3人のライバル（常連の主婦、疲れたサラリーマン、学生）が息を潜めている。`,
+                choices: [
+                    {
+                        label: '1. カゴを持つ手を緩め、店員さんの動線を静かに先読みする',
+                        effect: { hp: -5, yen: 0, ego: -5, jibeta: +15 },
+                        result: '変に焦らず、地べたの観察眼を発揮した！店員さんが最初にシールを貼る「幕の内弁当（元値580円→290円）」の正面ポジションを自然に確保した。'
+                    },
+                    {
+                        label: '2. 「別に半額なんて狙ってませんけど」という顔で輸入チーズ棚を見る',
+                        effect: { hp: -5, yen: 0, ego: +20, jibeta: -10 },
+                        result: '東京の妙な見栄が出てしまった！輸入チーズを眺めている間に、狙っていたアジフライと弁当がすべてライバルのカゴに吸い込まれていった……。'
+                    },
+                    {
+                        label: '3. 総菜は諦め、1袋38円のもやしと特売の豚こま切れ肉へ直行する',
+                        effect: { hp: -10, yen: -180, ego: -10, jibeta: +20 },
+                        result: '自炊の道を選んだ！フライパンで炒める手間はかかるが、180円で山盛りのもやし炒めが確定した。地べた度が大きく上がった。'
+                    }
+                ]
+            },
+            {
+                turn: '2 / 4',
+                text: `スーパーを出ると、商店街の路地からいい匂いが漂ってきた。\n時刻は午後8時15分。スマホが震え、東京で知り合った知人から「今夜、渋谷のちょっといいバーで飲まない？会費4,000円くらい！」と連絡が入った。`,
+                choices: [
+                    {
+                        label: '1. 「今日は曲作りと自炊があるからまた今度！」と正直に断る',
+                        effect: { hp: +10, yen: 0, ego: -10, jibeta: +20 },
+                        result: '変な付き合いに流されず、自分の時間と財布を守った！心がスッと軽くなり、帰ってからギターを触る元気が湧いてきた。'
+                    },
+                    {
+                        label: '2. 見栄を張って「行く！」と返信し、ATMへ走る（所持金マイナス）',
+                        effect: { hp: -25, yen: -500, ego: +30, jibeta: -20 },
+                        result: '背伸びをしてしまった……！慣れない横文字のカクテルと業界トークに気疲れし、帰り道でどっと体力を消耗した。'
+                    },
+                    {
+                        label: '3. 返信を保留にし、まずは駅前のガード下のベンチで缶コーヒー（110円）を飲む',
+                        effect: { hp: +5, yen: -110, ego: -5, jibeta: +10 },
+                        result: '電車のガタゴトという音を聞きながら一息ついた。「やっぱり今日は真っ直ぐ帰ろう」と自分のペースを取り戻した。'
+                    }
+                ]
+            },
+            {
+                turn: '3 / 4',
+                text: `四畳半の部屋に帰宅した。時刻は午後10時。\nご飯を食べて一息つくと、机の上にはノートとアコースティックギターが置いてある。今日一日の東京での出来事をどう形にしようか？`,
+                choices: [
+                    {
+                        label: '1. 『商売バンド』の新曲として、今日のスーパーの風景を3コードで鳴らす',
+                        effect: { hp: -10, yen: 0, ego: -5, jibeta: +25 },
+                        result: '指先から素朴で力強いメロディが生まれた！背伸びしない歌詞が1番まるごと完成した。'
+                    },
+                    {
+                        label: '2. 『佐藤の地べたブログ』を開き、Dialyと雑記に今日の思考を書き留める',
+                        effect: { hp: -5, yen: 0, ego: -10, jibeta: +20 },
+                        result: 'キーボードを叩くうちに、東京で暮らす自分の立ち位置がクリアに言語化された。良い記事が1本上がった！'
+                    },
+                    {
+                        label: '3. 今日はもう布団に潜り込み、古本屋で買った文庫本を読んで寝る',
+                        effect: { hp: +25, yen: 0, ego: -5, jibeta: +10 },
+                        result: 'ハードボイルド小説を15ページ読んでそのまま熟睡した。体力がしっかり回復した！'
+                    }
+                ]
+            }
+        ];
+
+        function updateRpgStatsUI() {
+            document.getElementById('stat-hp').textContent = Math.max(0, Math.min(100, rpgState.hp));
+            document.getElementById('stat-yen').textContent = rpgState.yen;
+            document.getElementById('stat-ego').textContent = Math.max(0, rpgState.ego);
+            document.getElementById('stat-jibeta').textContent = rpgState.jibeta;
+        }
+
+        function initRpgGame() {
+            rpgState = { hp: 70, yen: 680, ego: 15, jibeta: 80, step: 0 };
+            updateRpgStatsUI();
+            renderRpgScene();
+        }
+
+        function renderRpgScene(lastActionResult = null) {
+            const logBox = document.getElementById('rpg-log-box');
+            const cmdBox = document.getElementById('rpg-commands');
+            const turnDisplay = document.getElementById('rpg-turn-display');
+
+            // 全ターン終了時（エンディング判定）
+            if (rpgState.step >= rpgScenes.length) {
+                turnDisplay.textContent = '結果発表';
+                let rankTitle = '';
+                let rankComment = '';
+
+                if (rpgState.jibeta >= 120 && rpgState.ego <= 15) {
+                    rankTitle = '【称号：四畳半の哲学者・純度100%の地べた】';
+                    rankComment = '東京のノイズや見栄に一切惑わされず、自分の足元から最高の音楽と言葉を生み出しました。今夜のデモテープは名曲になります。';
+                } else if (rpgState.ego >= 35) {
+                    rankTitle = '【称号：少し背伸びして足がつりそうな東京人】';
+                    rankComment = '都会の空気に当てられて少し見栄を張ってしまいましたが、こういう失敗もまた『Dialy』の良いネタになります。明日は38円のもやしからやり直しましょう。';
+                } else {
+                    rankTitle = '【称号：健やかなる地べた生活者】';
+                    rankComment = '無理をせず、自分のペースで東京の一日を生き抜きました。こういう何気ない1日の積み重ねが『佐藤の地べたブログ』の骨格になります。';
+                }
+
+                logBox.innerHTML = `
+                    ${lastActionResult ? `<div class="raw-border p-2 bg-[#fff] text-xs mb-3">▶ 直前の結果: ${lastActionResult}</div>` : ''}
+                    <div class="font-bold text-base mb-2">${rankTitle}</div>
+                    <p class="text-sm leading-relaxed mb-3">${rankComment}</p>
+                    <div class="font-mono-raw text-xs text-[#444]">
+                        最終スコア // 地べた度: ${rpgState.jibeta}pt / 背伸び度: ${Math.max(0, rpgState.ego)}% / 残り所持金: ${rpgState.yen}円
+                    </div>
+                `;
+                cmdBox.innerHTML = `
+                    <button onclick="initRpgGame()" class="raw-btn font-bold py-2 col-span-2">▶ もう1日プレイする（最初から）</button>
+                `;
+                return;
+            }
+
+            const currentScene = rpgScenes[rpgState.step];
+            turnDisplay.textContent = '経過: ' + currentScene.turn;
+
+            logBox.innerHTML = `
+                ${lastActionResult ? `<div class="raw-border p-2 bg-[#fff] text-xs mb-3">▶ ${lastActionResult}</div>` : ''}
+                <p class="whitespace-pre-line">${currentScene.text}</p>
+            `;
+
+            cmdBox.innerHTML = '';
+            currentScene.choices.forEach((choice) => {
+                const btn = document.createElement('button');
+                btn.className = 'raw-btn text-left p-2.5 text-xs leading-snug';
+                btn.textContent = choice.label;
+                btn.onclick = () => {
+                    rpgState.hp += choice.effect.hp;
+                    rpgState.yen += choice.effect.yen;
+                    rpgState.ego += choice.effect.ego;
+                    rpgState.jibeta += choice.effect.jibeta;
+                    rpgState.step += 1;
+                    updateRpgStatsUI();
+                    renderRpgScene(choice.result);
+                };
+                cmdBox.appendChild(btn);
+            });
+        }
+
+        /* =========================================================
+         * 7. モーダル＆クリップボード制御
+         * ========================================================= */
+        function openSupportModal() {
+            const m = document.getElementById('support-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function closeSupportModal() {
+            const m = document.getElementById('support-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        function openSourceModal() {
+            const m = document.getElementById('source-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function closeSourceModal() {
+            const m = document.getElementById('source-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        function copyMinimalCode() {
+            const text = document.getElementById('minimal-code-preview').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            const btn = document.getElementById('copy-btn');
+            btn.textContent = 'コピーしました！';
+            setTimeout(() => { btn.textContent = '骨格コードをコピー'; }, 2000);
+        }
+
+        // 初期描画の実行
+        window.onload = function () {
+            showZakki(0);
+            selectMapSpot(0);
+            initRpgGame();
+        };
+    </script>
+</body>
+</html>
