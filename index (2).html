@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佐藤の地べたブログ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 
+         * 阿部寛のHP × 四畳半レコード / THE NINTH APOLLO 風
+         * 極限まで削ぎ落としたモノトーン・明朝体・アナログHTMLスタイル
+         */
+        :root {
+            --bg-paper: #f9f8f6;
+            --text-ink: #111111;
+            --border-ink: #111111;
+            --muted-ink: #555555;
+            --hover-bg: #111111;
+            --hover-text: #f9f8f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            border-radius: 0px !important; /* 角丸は一切排除 */
+        }
+
+        body {
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            font-family: "MS PMincho", "MS Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+            line-height: 1.75;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 等幅・アナログ数値用フォント */
+        .font-mono-raw {
+            font-family: "MS Gothic", "Osaka-Mono", "Courier New", monospace;
+            letter-spacing: 0.05em;
+        }
+
+        /* 1pxの無骨な黒枠線 */
+        .raw-border {
+            border: 1px solid var(--border-ink);
+        }
+        .raw-border-b {
+            border-bottom: 1px solid var(--border-ink);
+        }
+        .raw-border-t {
+            border-top: 1px solid var(--border-ink);
+        }
+        .raw-border-r {
+            border-right: 1px solid var(--border-ink);
+        }
+
+        /* 左メニューのリンク挙動（白黒反転） */
+        .nav-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-ink);
+            font-size: 15px;
+            background: transparent;
+            color: var(--text-ink);
+            cursor: pointer;
+            transition: none; /* アニメーションなしでパキッと切り替え */
+        }
+        .nav-item:hover {
+            background-color: #e6e4df;
+        }
+        .nav-item.active {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+            font-weight: bold;
+        }
+
+        /* アナログボタン（白黒反転） */
+        .raw-btn {
+            border: 1px solid var(--border-ink);
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            padding: 4px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .raw-btn:hover {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+        }
+        .raw-btn:active {
+            transform: translateY(1px);
+        }
+        .raw-btn.active-btn {
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+        }
+
+        /* 昔ながらのテーブルデザイン */
+        table.raw-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        table.raw-table th,
+        table.raw-table td {
+            border: 1px solid var(--border-ink);
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        table.raw-table th {
+            background-color: #eae8e3;
+            font-weight: normal;
+        }
+
+        /* アクセスカウンター風ボックス */
+        .counter-box {
+            display: inline-block;
+            background: #111;
+            color: #fff;
+            font-family: "Courier New", "MS Gothic", monospace;
+            padding: 2px 8px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            border: 1px solid #111;
+        }
+
+        /* スクロールバーも最小限に */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f9f8f6;
+            border-left: 1px solid #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #111;
+        }
+
+        /* 2重線 */
+        hr.double-line {
+            border: 0;
+            border-top: 3px double #111;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- 最上部・極細ステータスバー -->
+    <div class="raw-border-b px-3 py-1 text-xs flex flex-wrap justify-between items-center bg-[#f0eee9] font-mono-raw">
+        <div>SATO NO JIBETA BLOG // TOKYO UNDERGROUND ARCHIVE</div>
+        <div class="flex items-center gap-4">
+            <span>最終更新: 2026.11.08</span>
+            <span>文字サイズ: 標準</span>
+        </div>
+    </div>
+
+    <!-- メイン外枠（昔の2カラムフレーム構造を意識したコンテナ） -->
+    <div class="max-w-5xl w-full mx-auto my-4 px-3 flex-grow">
+        <div class="raw-border bg-[#f9f8f6] flex flex-col md:flex-row min-h-[640px]">
+
+            <!-- 左カラム：フレームメニュー（ナビゲーション＆基本情報） -->
+            <aside class="w-full md:w-56 raw-border-b md:border-b-0 md:raw-border-r flex flex-col justify-between shrink-0 select-none">
+                <div>
+                    <!-- サイト表札 -->
+                    <div class="p-4 raw-border-b cursor-pointer" onclick="switchTab('top')">
+                        <p class="text-[11px] font-mono-raw text-[#555] mb-1">四畳半・都市生活記録</p>
+                        <h1 class="text-xl font-bold tracking-widest leading-snug">佐藤の<br>地べたブログ</h1>
+                        <p class="text-[11px] mt-2 text-[#444] leading-relaxed">
+                            変に背伸びしない、東京の地べたからの視点と好奇心の記録。
+                        </p>
+                    </div>
+
+                    <!-- タブメニュー（ご指定の6タブ＋TOP） -->
+                    <nav aria-label="メインメニュー">
+                        <button class="nav-item active" data-tab="top" onclick="switchTab('top')">
+                            ■ トップ / 玄関
+                        </button>
+                        <button class="nav-item" data-tab="band" onclick="switchTab('band')">
+                            ● 商売バンド
+                        </button>
+                        <button class="nav-item" data-tab="dialy" onclick="switchTab('dialy')">
+                            ● Dialy
+                        </button>
+                        <button class="nav-item" data-tab="zakki" onclick="switchTab('zakki')">
+                            ● 雑記
+                        </button>
+                        <button class="nav-item" data-tab="map" onclick="switchTab('map')">
+                            ● 地べたMAP
+                        </button>
+                        <button class="nav-item" data-tab="book" onclick="switchTab('book')">
+                            ● 本Log
+                        </button>
+                        <button class="nav-item" data-tab="game" onclick="switchTab('game')">
+                            ● 地べたゲーム
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- 左カラム下部：カウンター＆月額100円システム枠 -->
+                <div class="p-3 text-xs space-y-4 bg-[#f3f1ec] raw-border-t">
+                    <!-- アクセスカウンター -->
+                    <div>
+                        <p class="font-mono-raw text-[11px] mb-1">あなたは</p>
+                        <div class="counter-box" id="visitor-counter">000412</div>
+                        <p class="font-mono-raw text-[11px] mt-1">人目の地べた訪問者です</p>
+                    </div>
+
+                    <!-- 月額100円パトロン枠（承認制・本稼働） -->
+                    <div class="raw-border p-2 bg-[#f9f8f6]">
+                        <p class="font-bold text-xs mb-1">【地べたサポーター】</p>
+                        <p class="text-[11px] leading-normal text-[#333] mb-2">
+                            月額100円（承認制）。1st Album『Owner』全5曲の限定配信や制作の裏側を共有する実験枠。
+                        </p>
+                        <button onclick="openSupportModal()" class="raw-btn w-full text-center font-mono-raw text-[11px]">
+                            [ 月額100円 参加申請窓口 ]
+                        </button>
+                    </div>
+
+                    <!-- ミニマルHTMLソース確認ボタン -->
+                    <div class="text-[11px] font-mono-raw text-[#555] pt-1">
+                        <button onclick="openSourceModal()" class="underline hover:text-black">
+                            &gt; 最小限HTML構造を見る
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 右カラム：メインコンテンツ表示領域 -->
+            <main class="flex-1 p-5 md:p-8 overflow-y-auto">
+
+                <!-- ==========================================
+                     0. トップ / 玄関 (TOP)
+                =========================================== -->
+                <section id="tab-top" class="tab-pane space-y-6">
+                    <div class="flex flex-wrap justify-between items-baseline raw-border-b pb-2">
+                        <h2 class="text-2xl font-bold tracking-wider">佐藤の地べたブログ</h2>
+                        <span class="font-mono-raw text-xs text-[#555]">EST. 2026 / TOKYO, JAPAN</span>
+                    </div>
+
+                    <!-- ステートメント（四畳半レコード風の短い散文） -->
+                    <div class="raw-border p-4 bg-[#fff]">
+                        <p class="text-sm leading-loose">
+                            東京で都市生活を送りながら、変に背伸びした自分ではなく、地方で育ったありのままの「地べた」の感覚で面白がるための個人サイトです。<br>
+                            つくった音楽、日々の短い記録（Dialy）、考えたことの雑記、読んだ本や漫画、そして東京の日常で起きるささいな出来事をシミュレーションする「地べたゲーム」を置いています。
+                        </p>
+                    </div>
+
+                    <!-- 最新情報（阿部寛のHP風のシンプル更新履歴） -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ What's New（更新履歴）</h3>
+                        <div class="raw-border bg-[#fff] p-3 max-h-48 overflow-y-auto text-sm space-y-2">
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.11.08</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> 1st Album『Owner』（全5曲・14分）が完成しました。地べたサポーター（月額100円・承認制）にて限定ストリーミング配信を開始。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.26</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('game')" class="underline font-bold">【地べたゲーム】</a> 試作第1弾『19時45分、スーパー半額シール攻防戦』を公開しました。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.25</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> アルバム構想メモと収録曲リストを追加。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.24</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('zakki')" class="underline font-bold">【雑記】</a> 「背伸びしないまま頭を本気で使うことについて」を掲載。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.20</span>
+                                <span>ホームページ『佐藤の地べたブログ』を仮開設しました。</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 各部屋の案内テーブル -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ コンテンツ一覧（部屋案内）</h3>
+                        <table class="raw-table bg-[#fff]">
+                            <tbody>
+                                <tr>
+                                    <th class="w-32"><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">商売バンド</a></th>
+                                    <td>自主制作音楽ユニット。1st Album『Owner』（全5曲）の限定ストリーミング配信申請、『Nice飲酒!』フル試聴。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('dialy')" class="underline font-bold">Dialy</a></th>
+                                    <td>日々の短い生活記録。東京の天気、食べたもの、ふとした違和感。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('zakki')" class="underline font-bold">雑記</a></th>
+                                    <td>少し長めに考えたこと、知的好奇心、都市と地方の距離感についての文章。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('map')" class="underline font-bold">地べたMAP</a></th>
+                                    <td>気取らない定食屋、ガード下、落ち着く路地やベンチの個人的マッピング。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('book')" class="underline font-bold">本Log</a></th>
+                                    <td>読んだ小説、漫画、文庫本の感想と抜き書き。</td>
+                                </tr>
+                                <tr>
+                                    <th><a href="javascript:void(0)" onclick="switchTab('game')" class="underline font-bold">地べたゲーム</a></th>
+                                    <td>ブラウザでそのまま遊べる、東京の日常コマンド選択式RPG・シミュレーション。</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     1. 商売バンド (BAND / MUSIC)
+                =========================================== -->
+                <section id="tab-band" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 商売バンド（音楽・自主制作音源）</h2>
+                        <span class="font-mono-raw text-xs">CATALOG NO: JBT-001</span>
+                    </div>
+
+                    <!-- 1st Album『Owner』特設ボックス -->
+                    <div class="raw-border p-5 bg-[#fff] space-y-4">
+                        <div class="raw-border-b pb-2 flex flex-wrap justify-between items-baseline gap-2">
+                            <div>
+                                <span class="font-mono-raw text-xs text-[#555] block">1ST DEBUT ALBUM</span>
+                                <h3 class="text-2xl font-bold tracking-wider">『Owner』 / 商売バンド</h3>
+                            </div>
+                            <span class="font-mono-raw text-xs text-[#444]">2026 / Alternative / 5 Tracks (14 min)</span>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-5 items-start">
+                            <!-- ジャケット画像（Owner.jpg 埋め込み済み） -->
+                            <div class="w-full sm:w-56 shrink-0">
+                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAHSAeQDASIAAhEBAxEB/8QAHAAAAQQDAQAAAAAAAAAAAAAAAAIDBAUBBgcI/8QARxAAAgEDAwIDBgMHAgQEBgEFAQIDAAQRBRIhMUEGE1EHFCJhcZEyUoEIIzNCobHBFdEWYuHwJTRDchckU3OC8ZIYJjeisv/EABoBAAMBAQEBAAAAAAAAAAAAAAABAgMEBQb/xAAxEQACAgEEAQQBAwQBBAMAAAAAAQIRAwQSITFBEyJRYQUUMnEzgZGhIwaxwfAVQoL/2gAMAwEAAhEDEQA/APZdFFFABTV1/Bb6U7TV1/Bb6UAecvH1hNH4xv8AVkuPMhWbY4BGYyQvA747mtEmsLW68a3FzCkElvPHuLsw4cfh6dckY+1bj7WdK1/S9evtWS3kk0+7ulkMqZYIoCjkdjweeeDXKvE18mntcW+nzzSITuZgcFMENwc8jJ/TFfKZNMsOdt83fByTuyN48u4tM86CzciW/TY8flcxtyAR24IHzrQJhqGheJRDfLJuCbdrJ1UjI/SujtrGmTxGW4jWafIKSznnOc9uta5441mXVNUGoXFhE9umxYpIz1UA8Edupp6LK23DZSfYo0Qb+Vb/AE2SJQfLIDbvmOlMaFrEiFFLkrKNzoTxuHQk4649KsRc23xbLVVBQkAH4RnoAf1qV7P9L8P6loutw6texWFzaxs9sz9XPI2+ld+mxUpR6QRKvxRNNqMNra2txNJaRAyFHPAkb8WP0ApMmi+9OrLbr5VvFkgv17nNNxSSwxNDaNvMYLZbHGO49fpU2HzI7H3q6gklVm+JlxnJ9cVc8jiqYN8EG2uNPGvaXd6pYwpp1vN+8SMfjUY7famfG/iy68TX4lmj8mBQkccSDjCggcAehroMXh7wfrng24v5N+m6tBKFMancCmMc579P1rSra8On6XvisYZUtZy9vLgb4m7H5jpwa3xyjFLaiVdUapcJdxGG5LP8KbYyX+KNcnjHUDNRobONYfNlt5pdxIVl/CCB61YeItXfVr9riXc1y/MrlQAWyckAdKe0zVrqGxOlylhZmbzSFAJDbduR+hrrtpApfIeGdUutB1q11q02ye7uOHHX5f8AWmrqW3nlkuEAjYy5VMcbT15oUWMV05YySI5I2hcBSBgGraz0jQ5LS2uLnV/LklQs6CPcUOehAolPbVjdvoqPMeeaBHYnacgjvWxaZbTopBcb3O8pnv2FU2n2wh115Yt/uquQGAyBn8PWrbU52SaIQlWlaTfIc8D5VUafJjNvohXRngEwk2sHYMTjleahPbxzTPNG24nkKx5x3qVqPme/PGdq78BwORmrKfTVstPt5zCpmkkKlD1C4q1wOLrshaa0Es0Ud3G7xRoxwoyQfSpothgDfL57E4LdFHpUrTbGD3VpYxOspOVwODx0py3aIzIDIGbBBLk5JzzVomUvgp7hblpGnTIVWBAz3FbRp13be6292kAnvS+2beMYz+Ud+AKh6Vpfvl5I4BjtUclstwf+lX7G0t4hcRFQMlAAuOMdQP8ANaPlGU5r9o7JAmowvCiGOT8ZAPHyzSZNPuI7QwpEcEgu3XkVOsGSLTRMke24lU9TnOP8U6i3NvGF8zMsybijHnhe9NRMba4RWQ2UwSTLAtnCMexNM3gu1aK2ljCtH0dR1HrVhYiS5k8i4k8uMjKlezdqf+N1RbkqqoSoOOT9a2UaBNoYvNMSHSIb2zbcZSUcbgWQjuR86rkR5QgckhRxntWxWg3wsVAxk4zTFpGoLgIDzxkVpCLorfZDaGLKGEY+HD/WnYLZWlKkMcjgKO9WcdqXRpkjGyMBmA7Gs3JE9z56x+Q5x+DgD6elWo+BbrIE8CR3BRG8xAoxxjBxzSo4ixwP1FTCgMu/n5nqSakaTbJNexxSv5e5xuOM8Ve2kS5claka+VIuPiJGKwtvIRuOeD0q1vY1N5NtUBS5xgYyM8HFPadaGe5jiCNukcBT2GOtVSUbE58lD5GGJcnAPA+tMTWqM27GOeK2aPSrjUdZFrbKX3TsPh+tR9U05m1TUhC5aK0yWJAU8YXoO+ahtFK2rNehSyWSVLiGV1aMqNhGQ3aibQ1uFPlq0DKOVcg9PWto8LaFHcS29/cXlpGnmnEUh3MxHIGO+apPFcMkesXDC4CxvJ8OPy/T6VxTluntizdJpJsr7tpIIHltUaaCIoku4ZOcHnPaqO5eG5MhDi3jLHy4/X6mp8jrbSyR2czvCWGc8B8fKq+/aKeV5FCq24fAFwMHrUODTNVIp5k4Ze3ekgyLgBj8I6jrzVhd2uXxG3BHBqCSsCOj/wAQEYI71Fpj5ZVXdo0wiMGWkkZhgf0/zUB7SbLBiBgc5NW648zzTysZycHHNR+PKaRo22+u3iluaNEVps2Fu02RtHTjrUNwT+lWk80j2ywhTtXOAKr3U5pxvyUJEreQIyeBnikDG3AFLK8dKQFIBNBSMtdzQWctvGcJNgP9BUSBctntUl0DjFIiXB2jHXFNcIGuTbvZXbwr4li1O8t5pbSx/ev5Yz8X8v8AXFbb43j8O6boGlvayH/WNQ33F3GH4jVyWAPpwRVd4A8ZWug+FNT8PtpiTtqXDzueEG0gfXqauvaZBpkvgPRtTtLKEXUoHvFwD8W4LjaB6YA6V5ObHLJqFJukv9mipRO4fsX2Pumk+I5UWMQz3MRj2OHHCtxkd+a9D156/Yrggh8M6wY2YySzRyMpYYAIYDgdDwf6V6Frvx3t5NIdBRRRVlBRRRQAUUUUAFNXX8FvpTtNXX8FvpQB5v8AHXia4ufGOseHJ9U90tVcR7XXEZBUHk9RXHPFdlZf6hJZQT9Ix5RWUOobOW544Irffbd4etb3xnql7DdBpQwLwxZZ1YKMkjsMY+1c4aEGxYFQ4BK+YwJf/avknGcs8pRfmqOXI/DKSK3EiwMZlzFLsETdWHUt9Mf2pIsGae4mjkSS0tTwQuA6s2M47cHvUq3U297HMQJVjXjdjg+uO1bHoVvYbLqFI5J4rmFmeJBnHPQ/Lmu3PmeBK1ZnBq2Z1fTNAj0+FQ7KVQSNtj4bAwD/AL1oUHlMb5InZo2cqFUlNwycHH24NbEwGnyNDrkUrQtERbyoDhDg7VrW7GOOWVlhhkmuHb92AvTPXJ7cVvpVVtu0XTrgXpzs8xtocq7LlC6Z6f79KtYJtYacLOtvZwxvlvNU7O3OD6ZFasl1cW9550bESRvtXjpg962XUtQu9auFmW2ZWdSbjyxkFiMZOPUVrniruhKPBb3jQK0tzcNHdrDIUKwHYshJznI5P6etalcXohhexMMax+eshcrk9xj5itj0K/1eyeSzubOB1aIKQUClW6jGQe2OfnVVNoq3NpeajdPcI0bokSEYDMTkk9+gNPTtJUTJNdEe00Vdbku7uOS3tDGjTFSCBKAeVX0qraBnjeRATs4ZO4AHWpNy+2CRo5HJi4VGYkZPpVTPd+8Tx3Eg5WPayAd/X9a7ouybs3qW18H6roVpNZXclhqMMAS6hdMiVtrEup+u0YrUfD0VjJrUMGpSPHC5O50PQ9jSbYxPDGXZQWQsOaS0QuLNjEjvIjAll5GDwM063WNT+DZpzB5dxbaO019bwKPNuuOBnA/QE1WhfgF3MVmK5BDdGA6dKn6an+mwGyRGjmkQPMTwHB7fpUQySyyvILbcigsUXpgdT9MUQjt4M20yTZadFPJ73I4kh2AjJ6kdqktMtxNGyo7Ic4LfL0pv3u3iKqIi6mIeSiuCoJPNMTPthiguN2VJ2ACtdqZm075LSyuN8sscYZVQZJzgVWIRHNJLIqyKCQB/ai2u3hlWaLDgNwv9807HHJIzOV5Y5wRxWkY8go0XVjPLY2EDm1b3W5DDcR+IjqP0yKmXF15umGOSDzJAwUTDgY6j/anfB9rb3MxsL5W93cZLfkPbHpyBUu8uZbdJNMtUWG1RwcOoLlhjmpUrybUuQko1ZVxy3s4SMEluMYHJ54q/t7KS7V5t0txMQMkA57Zz/bFQ9F0i41Bpktd2+GMyj5gelXHhGRbXVIy/mqyneuzrvHQY75rpnwnt7RCp9jviDT2tr2FltltpEgjYqj5AYDr8s46VVTb57hndRuJLHHzq/ktdR1HV5zcM7yTNlyB69vlUW9sGs7lYmZWbbk4PTkjB+fFbYKdfNGUnz9D+p6TLpmg2klyFSS5ffEqnOUx1PpzjH61AtIZEDSKpK9CfrVtrGrXmqWFnaXTCRLNSkTbcHaccf0p1NHu49Aj1Yo3ujymMFezgd/TrXQo7V7vJMnb4IKRtcDyobfLEdM85Hf7VdaJplv5M19cbJDbgOIieJAQeB6/9KufZ3p9hNHczXKLPJ5MgCMcduAD2PNOafqFpbX50+1jjXYojJIyTjrg9PWuTNkkrjBdFxilTZp8tjNbRRh0/Em8HPbkffik+WyuMggkdx2rcdat0vNYiF1LHY2LSgfAvBY8MftUjULDSLm/kNlOs1rZRiLLH43XJ+IeuP811Ys1xTaMp4+XTNMeMfD8Ls5HPPU9q2/RtIlttJWUxDdKuwORyueoFP6N4f8u1uL64jZrUfCzKN7JgZJA+tbX4Whuzpl01nGrtIjeVI2A5+QB9QKx1eW0lHovDibfJzTVtLbSLeM20hE5lLrIH+Pb0HFa1dTON0qGVZJQfMcn8ZJ5rYvFUd1Fq7xTM63SD95jgKx5wuO2Kl+HbDSdd03Zqd9LE9gOERRzGWGSPn1rSvTxqUuRR90nFGm2d1exOZIct5ETBSB/DB7/1oTw5earqEdnpCtfO0al2UcKxGdufpW9+0DwbYaFokmr6TeOAu2FonIbzVfo2R8u1c707Vb/RpPMsruW3b+bY2OOhrntT90DdrY9syn1nTZLKWKIOHmYBmReShz0NTNd0qOXwxZavDbJamMNDOWJzM4Od315AxU/wtfWUfiVNQ1CQi3gbcC435ycAEd+tWXtAuG1nSmudNZrixgYyMyphQ/Ic4HTtXmanLOM4rr7N4RW1nNfMEe0spfYcriqzVkeZ94AABOBjmrG7w8bCN8yM2AB0A9aaRlLxJdRkR7h5hQZNbulyTFtMrYLCT3OS7EsP7rBKFxuOSAMDv1qNKk8zqhVyoOdueAfpW7yQeG5NM8vRYmmu8ZD3LGNhyOQOjdDWttdXM2qKbmZYwB5TN5eQq5Ocgdep+dcscznfHRu0iovLUxwGbGVI6j0qo21sXii4ae+kRXQopC/uhiMgDAIFUpjxXRitxtjRHKjr3pthxUnZzg8U064zVlDJHwjisWse+5IPY5NOMPhplZHifehIJ70iiUlxcxJLCRtjYhiMZyR0+lYa5aSIe8zvJs4jTefgpl5ZpfxuTx0HFTvDWkLrWswaf71DZrI3xzzNhI17sT6Co2x8iPVf7CMwl0LxGFlaTbPACSuMHa/3r01Xnn9jbRbXQ7bxTaWeq2+qQrdxKLiAHY2Fbpn616Go48HRDoKKKKCgooooAKKKKACmrr+C30p2mrr+C30oA8u+0azuh481aSzYsZJPjAfGPgH9utaLr1hFBpHlya7DKkaiV8Alo2J7jHJJrfvaq0UXjPUXa+ihbcGALYzwBj61o72Vglpczpc+8SSAmQDB4xnOPlmvkNs1qJSt9/BhJK6NP1Kxe1VNQVvhIX4FjwSDj4s/4q/1eznMthc++LFFdHypRAPjVOuTjg/WomsPb7rdLctJCHMRc553L1Ix26YqPLdXmjRPpSRhVWRTFK652gAZHWu3IpySa7RCgiR4nS2i8PXsA98e3ggRkLpjLjP2ANVHhO3yr3FmgaVkBCHHXkYOaRretzSwyI9w/kyphk/5uecfrUO0vlh0/wAsXKpIzck/iYevyqYafLLG4vtsHJbXRr9zDN/q915yt5SyMWZeeM9vWm49S1DThLHHczJHIql02lTnsPpT+oXLx3BcjazE7SDncaf1PVDe2ULXEapJGnlA5APHdh3r1q4SatEp+WQZtWkupIbziKZV2sy5UyY7nnrU7zr5Y5mtZJBaXKqGJX4Q3UgZ5qrnWIWm33dyB+CT5d6cUPJZxymTY+8KI+5GOprSKS5RLlwTFjtVtVV23MH3fCcZHHX071E1CG3mDNaxsUDYBxwRipctsryibZK2B+8FSNMmto4LxThURg3nDgjIxjB//dXD7IIM2lG60tLlLa1tFt4wgG4753z6E9ef6VdeAfBmt6wLybT4Wimhi4SQ7RKc9BnqR1qEJ44JLpbSXz1dPQ9Ozg/L71ep4u8nRksofMluopA8czscJwM4579KN0zSKT5Zd2/ge5MFtNNdNJq7oBHadTMTk8fMHAxVZ4n8H+I9Kt7a+u7WSNbtS5RI2Xy8vs2EH54+9Vej+J9V0jUodZimYXCcJL1KnGMiul617Y77VfB9tYSRgzMu25nIz/8AxB6Hvn1qluSvsJKLOarp0ySMkNu3nRsd4I/CQef61m4tJItkU5VmzuJznqKkqySyeZLM3kuwy/OcetZFtFOVKtlUJDMB19MVvFs5W0Y0+0jdMRDMgPxYFWJtoRabOQ2cDmsWcAgkd1BUKME1NWE4YbWLZymBwRjrW0bZDlRN0r36GJo4WdVfg/MCnIbSe6viViaWZgXKkcn6etSrKV7ZxKn40TOG6HjkYpdtPcR3C3CO0TBgwdTyDWkMbtuKIc0+wj99sLv4Ea2lCYII6gj5+tTbKRoJlvIsNMO7nocda2tbqG6WDVbrTJZFePyppSvwscYBX+ufpVTqlpHHOJolIjfOFbANXhlvltmqZM1S4YjSr+8Opxysw8yR13u3QD9Km+NLNbbxLdoGR0LZV0HB4FR9JWe0uRI8CuDEz7WOAV5/rWyeLdNt4/B2g38Mm9pTLvHoSRx/SuqGKMMqpd8GSe6D+jSgmTtA4zW8vBex+yyNYUIja6LsVTOQPU1qMUeG4Ga6za22qWfs2iCmNIJIGdhKc7vi6AeuK013sUX9j063bv4Kj2U3NtbTNcPDCwMZWbeBj5ECs6q2lXmrtNHDBDs3CMRR43EnOf8AeqjSCA0iWiiDzuCOcL6mr9rO2tZI7nbsKIVXa+d3HJ+tedlTjkf2aQyXBR+DXPFltPcajBbQzrJAoDBeQoJxnimtd8PTWd8pgmjuoyFyITwox0/vV1d2sY1ayNwDJHO25nU5JHHHNbjpnh+2vdWnSymt0t41RUYpuJY5J46ZAOP1rpx6h4YRX0RHD6raXyaz4bt7/SL2COVWMN9KFe2cn4kI6/PtW83elyaXC88UaRqxKfEwAUYwCMdsZ+9bG2jWjyQz3aJNJAPgbYBjof7jNRPEV2DZOk6KsQPxEj+X1rzdVq12+z1MWm2Rps5trGniHTL/AFae1juLyRWCSI2/49vGV7cVzC9t7rR7qIsvlzKA5UnnHoa3Lxd4yuJpWt9IQQRISom7sOnTtXPL+SWV2lmlaSQ9WZsk16Wk0+dRby+Tzs2SDl7PBvurSLdeFobCGSZoLxfOKsc+Uw6KP+XJ4rS73wpBFCt3fagttaNGWBYfGzDjGPmc/oKh6frN7plykqSmWNSMxSNlSB2q48TSjXrSxube6gUpDzb7vwZbGSegrzsmPLgko3w2dalHJG2uUaJqJS2do7aQyxkEAlCAw9cGomo6zPBpJ0Swe4W0lJafJx5hOOOOwx+tWN+HcokrbigKLznAz2qnuLeQxyToreWh2s+OAT2qpxTrcZwlXRUkyD4weQOCO1NJPdXCe7wwsXzkMgOae2szKqruYtt5rbrnxpJpnh6TRLLRbGC6aDyLi8jTLsueCPynPGazlI6IxTXJoCQXMswhjEjzZwgBORiuj6X7OvGOkWvvs0NrBLcWTyo0hEwlQgZGOcMBz61qfg6Fk1+yvDwxl/dI7lN2D3Nd7mutRtRbvNewrI8e7yJW24X0xn07V5mt1WXHJRxpP5NYRXk8569aaldK+qzWAt4VCREIm0L8OFJHzx1qhddpxXqbxTbJqPsv1SbULRVV4vKhdEHDJ0Ynsox16CvL8qgHmtfxmterhK41TorJDY0QmBzikOoKmpEuBzTBya9BiQxIvBFOaTBHNdok8bvEpy4TrikupPbrWUaW3RioO1yFYA9e9Zy6KJzaYz6a2qHZHbRyCIRsRvJxnj1qdoVppt0XUTJE8YD4dsYXPJx3I9BVr4k8VaXqPs6sNDs9HjtJ7OYM9yZcvLkHPGOn+1a/4XvEsZJvIhSS7liKwvIBtQnqefQVyTUtjvsOD1R+xLt918W7HV199i2lRgEYfBAr0jXnH9iSFINJ8SL7zDPMLmESmNtwzsbnP64/SvR1b4/2o2j0FFFFaFBRRRQAUUUUAFNXX8FvpTtNXX8FvpQB5n9tugW2p6pdXdrAI5opD7xK27e/wjCr2xXEhY6haXIQLJCYhlUfOOT9K9K+0qLUYbi5uFu5FtnkwUKjA6cgjmuSaze3GsXBsbecW6w/xrliSNnqe4FfOaKWRuau/c/+5nnhFU/Jo/8A81NcLDtbaJN7IHzx6Z/zWNRa2WRnDeYsnxESnPk+nXluKn69Z2+nwWMFuzeXcZLXiRMgYbsEKG+n9aqr3TkW2kvp77GSRbRsPjkA7tjOPpXqRiuzkcWkUN5bvLOJnLGPAKkDBPPNIuxYCZoxLtj8slZSvP0PzzU3WtSikUx2Vqkau/BRjwe4z+uaqNQgmto9sjRyGOMKXB9T0+taKJm+HRECQRuCkzSMfi3heOfl2oinjmvGXClnBVQBwMD/AKU1b3fl2rRERhS4yCOeM8+verDTpjHB5hRHcswhkxwOOeP161ckWnS5IEl2xj3AyYY7Sg9Pn2q8f3PCTrCUYIud4zsOMYB/rVTaXcMZEbqWh3AkEYyeelOPNcX9lfNHGrbAN4B/Dz1FJRoTk62olXk+pL5cYZ4oD1fgBj/mq+6ZGuZbT3jy4/N3sCCVkbGBjHek6JdXWpSGylcsuCVYLk5A6fKpWp2kVkYzC0rSuAcMMlD64q0mnyC4GbmIw3SwRQshIGVGR8PU9aYtC3va+SSVdzjPp2qHqdxJPPG7SyuwG1t3UiplpbkywNMfJQEB2LYP2rVJIrwbPaxRTWNwHHUhc46HnnH0zVQoeO8W1Z3eNGwMd/0py2u4UuYm2MkROwnOcrk4P9alnTkNzNNb3KuFAIkyMA9xxSh7XTIfBeiCJ9JXYQJXOMdlAqVb262+nKyv5kpJJQN+AjHUfOoizQxWKrcEKwUqNp6nHepWl2YZVkM+/ceFJ5bj/FaxMPBKhjlMvmXBRVfqAeD8qs9PLTyNcuBiP4V9MCoeoo9tNG2Q0U4BK46Yp22VVmIXcuOQvyrohAh8otoEjllUs3lxsfiOPw1smmaPDch7KKL99HcBzJI20PGeAB9SRUOxtzdWcaFEVEXz5JV54HY46HrxXRYLtJPAovoL2P32EhDHsAkfByAOM44FEpyTSQ4Y0+yDNaiyh/0S8leG3gmDmJpM+STjjPpz/SqvxDd22oubcFFeGRlWQDh1HAwad8SWutak/wDrdzprW0EhRWA6Z6DPz4qFe6Teae1uLmEqZl3Be4Gcc11afT49yk5cmGfJLlJcGYdFuJhBEJAzuQsCE9Qc85/Stk8Z6c9h4T0y1vN63aO3A/hspHUepqw9m+lC+8SHyjiO1iJQOMYbHf6En7VsHtvhKaHpzOgBRypIHHStfWf6iMH0VHD/AMEpnH7dDlQOTmu56uYYfZ5DBcqu6G2Q4PckZx/WuMaQqNeQ7uF8wZ+9ds9pswi8GTKI0MMixrEw69uPtWn5NbpQiLQ8QnL6Ob+E4nn3o0S+SUPxEc5+VP6naPLtjDBYhPzJvz14P+M1M8AwNd3cenz2zzwlMsFGCgz1z2retS8E2QsLsW88sZdSyZOcHH9f+tcGWezNyXiwSyY7Ry11S31KCIyeckZO0ZP0x8q6X4DS3tbiKCAtJJ5bPMAvRif8dK51pUCjXLQXKbtilyoOd5yRj7iuxeFbiKW3do44Il3EBUGCPrS1sktsUXoIXJsu/wAQ5HXtWk+P7a5j0TU5wkkr+UcFRgBTxj9K2i91KG3mhUOrBpAjYPTPStX8S6rc3EUywuwhyyFAvXHr6V5kpQuLlzyetP3Jo4bf2shbEaN8SgqAOvrVTrVn7osWW+Jxkgjoa36xuYpvLPlRjYvAHasahb2M7LLNBG7Lk4A68V7+TV7aODHoVJcM5Df5VMkcHpWx+DUsrzRHtZbeN2MjPIf+UDPPyqs8dTW5vVt7eMRrEOQO5NWXgGWCG1a1vEbM4OQiEuIsguePkK8z8lkbwbvJePGoZHGym8SR2CzR2WnmFpNm55hL/DPoc8VX6La3WqabdeHPfLaN5GNxuflU25J5HQnH2rfB4X06WG9vLOwgGxiYzJIdp6kH+o+1azp2hvc2F0NG1JS96xjkkKBVXGd4BP8ALz2615EdfjrbfRr6Ti+jnVzugkKrIrMrY3DvjvVrFr3m2s1mbGOOaZVCzQJlyynPOeuarL+xW1vJraSTe8Tsm5ehwcVa+Hb/AEvRDI99pEs99s3WzlzsOT0Ix9a7sqjKN9kRs3rwBa6FfPDB4mlWTVoY28uFlKZVhnbjGM8ggj1rpXgPwDpuo+Enutdguri5uIWCi5UkwxOThFY98Ac/OtR9j41LW7e4m1XSre1jjcmG4dQshAxhORyAAMfSuw2uqXaafHFNcxSrHnhBjOOgJrwYQ1EtS4qLcX8HSpRiuTRvDnhuOwvpok1e7m0dC9o9jIAyHIGOPTB5+deX/GNidO8UanYEAeRdSIMem44/pivXInuU169s98cKXoEsWw5JYfiGexxg/PFeafbtYpYe0/VY1yRIUkzjGSVGT9xXtaeMsWR46pEN7uTRGA9KakGc5H2qUuAPwDr1NMzdTXTJjSIhXnsOKxwzqhAY5+EfOnGHPSpsF1pnuDW85kgughEciIMAlhyx6njjjpWOSVIp9G4eFvG/g/T/AAXdWWv6FHqGsW7p/pzPDiMKN3BKj/mPXrXPbSSzu7oe8E28bScAHO1TTU0KQuQZDNGp+F8cGsWsliZSTvjycgYrBQStryQ3fB66/YcisIbDxUmnXDzRe8wcsuMHa/Fela86fsSx2C+HNaex2kNLD5hHUth+v3r0XW2J3FG8OgooorQoKKKKACiiigApq6/gt9Kdpq6/gt9KAOL+LNc8OnxHc6Zqk95HLCeYxGdkgPzrhfi/Vra3u7pdNkjZ50MK28cZRAuf5j/MQK6v7S9KtDqN/cCAC8muW33EALOkQQYBGeuc9K4Tq9k8BuJJphEyxbkUtkn0xx1rwdD+Px4808kZP3N8Prsx1OXpUGu6vdajpuj6ZNZpClvFtTaMFhk/Fk/U1TX0s8Mh3SLIsXJBx6cDI7cmmtTuDLbwxRAu0QAWVjg7fygfUmnp9Nlh0yK4SSK6EwKSgu2YZOg3A17Kgoo5P3LkprtHtrpRb3EW24C5fPCHPI571aWtik1jd3hjjmkB3fCclccE49KjbLtGkleKD3Ulbd3VQdx5IP8A1+VPGzvbbS/Ouljt5OQibsM4Pc/KlKLIn9GtazbPayiN7UtI3V4zwOOlSxot9ZabDqV5ciITJuihj6he+7HTNNW0jobe5F6jSFyhQDdjtms6zqFvGs1tHdvMu3ao/K3+1OnVBbIkdu13dW0CxyLicKMD8YPP4vpVvLBFAjNZRtHu3s4b4i4HqehpHhmd5LFnuhJItu6gJwOGBwaI49rGLzrsKDskOAFAPOPlUP4BttkTT9QSKbyYSq5PLIgGPXmrO5ubiOOTZaAgDDHOeT0paWVrHC1wyH4jwcjp2HHfn+lRvEN09r5dtCMoAC0bd8jv9KmTuSSBU3wUtzqcmNjW0QlUlg+MHk8/WkiWa8udoJAPUgcU7bQxTz5upgwGdxiHSr7Tbdo7BTCAivDlyxGSM/0re1H+TRtJUVvuAMsayLInGCD/AIq20rTxEgQMJCGzkd/lSILV3i3ohWEtkbnPT5fKpVu1tBO0a3TsoIIAGASQc/4o32RJ8cE+2sx/qEyFWMefgVzzmrCMHT7gSZRcAgqTkjj+9RHVisYMh3OmUYDGRnqaVeBruRFVBHgDfzwx9a1hJNmdN9jkUk0jrvdmUEkZPrVxZoc5JJJ6fSqqxi4G7JwDkA9KvbGNgoyNwHSu3HJGci1sL27htzbxTOkLdU7HPyq68Ne+XF6kVuJnlJyhTqpqu0azS4Z1bI2RkqpPLHHGP9q677LdPtrHS4buQpHlXE5dciQN2+WMD7mnqNXiwQthixSyS7Le2sdaOkNbXF5510sRlmtJIxJls4Dr6DHb5VUeHrK51HxrpsF8Em8uNSRjA2pnqPXg11DTtS0mSFJYXVmA8rzFXPGAevpyK1aGJdP9qK3IdRb3MTYJGADjkf8AfrXLjzK38nbPEuOSJYI9v4t1t7Hcsa3CKdqZHIz/AHqF7YdXa40S3tJoPLkE2Tg/8tbJ4TWK51nxLIsnwSTDlDg4A7GtQ9rSbNHsHW7M0ckzsoZcH9T3rfT+7Uxswzpxwya6Zp3g2199120tSM75VBH611P20SmHSLG2RWEXmdB04HArm3gOX3fxRp8ijJEwzW6e1bWBfwadEgG0lmJ+YwP9679bNfq4RZx6RpYJ/I17KLyUX1w0MJaRlAZmPGM1u3iCTVruweMRrDEyqWKNlwc8njoBWj+yq1nuLu6SC5MO1N3TIb5EVuGrazFp8MlrHEZLkofhKnrj+1eRrG/XdLg9HT8YeWaV4Wt1vdW1C4vPiELmCMBM92OcjpW128Vra6UAkrNLuyEU4YA+vc5rHsthSXR31GVFXzJ3k5HY/wBqi39xYXettJDHJH5Y+MY+HOePvWOqhLPa+AxJY4p+WPA2flRO88isRlSX/m565pmIWUEEjxhnc53OWyWJpWsSWRgSWRQyIMHA/CCe32qotmfU7XdGFtbRnLAKhZpcHnB7CvDzxk4rc3GKO6LV8K2atqthfWlhJeQtb3EKybQY2weTxwarBM9vaSXd9KsaKOhrYPaBrml6Vovukv8A553DRxqfiCg4yfQcVyDxDrUuozbckRL+Fc8D519LpYyzY02/7nLPP6b47Mww2+q6zcXJfakf73a5/EPSty8OzLb3sXuiD3qaFkiIGWBLAEn6DNcpuJnjl3oxUjoRW9+yvxBbnVvN1E/vIYwoK8Ernkj51h+Ux7cTk7aXgjBkTf2zo01s1tGAbQymLLNGTlQe7Me5P2rVfaBNFoPhmRYLE29xK+6OKNDiIjnIx0AGfrW2ajqbe9LckNIpYCBMk9uCR3qTOkl1bXFreGFsjEquhAYEdOR9K+Hw5cebUtzTUbX/AKzqnaXHZ5TVbqa8MzRyTSzMWJPU+tdx0bwzJ4i9l9papBbW12Yz5M5iG8kOSPi9MjrXGtVLQ6tcBDhUmdQFPQbjwK9Aey9rlvAmnOki7EBABUn+Y/719xHSw1E47nwueDlySlCHtLTwPY69pejPp2u6nDqMseTEwHKgDGCe9TdK1Ka71GS3KokaQl+BjoQP80q+mt7Dbd3EpG5GBIXqc+lI0ywS2LXEc255IsEle2QcV6sHig/Tj2jmlGbqTK7xbeyWkNvNagGf3kOj90Iz0/tXEf2kNsvjyDUEzi80+KU5PRssCP0xiu3aks1zLDHFuUCXOCQMjp3riP7SFpJZ+Okg8wtGYA8YbqoYkkffP3rl1MI796XJ1YXxRzZfw0zPnOKkxqQMNTUwBOOd1cknydKRFAycV2v2e+ynTL3wUnii4vXL3dlOmx4gwifBUMvqRwa4uEYNmu7+zv2i6Bo/s5s9K1bU/JnillURiJnwhwR0/WubLuaqIpp7bRyXVLO9l8PXCwaZ7hZ2rjeXHxTsq/iAIyBj4iPnWnBYyU2DOBkkdq7/AKp428DX9hcWU2qN5MqsPis5MrkY4ytcY1LT7e0vytjMLizL/DLt2ll7cHkUuYq2jLG2/B6g/YNlY+HvEcJ/BHcw7ePVWzXpuvOH7ESKmieIQqBR58PTv8LV6PNbQ/adSVIKKKKsYUUUUAFFFFABTV1/Bb6U7TV1/Bb6UAeQfbtHqKeNL+4V5XjEv4wfhjTC4GO/OTWp395rGuW/udzMGtrXagmbaEQZHXuRXo/xR4P0jVdSup7hJGkmbL4fgnGOlc+1z2X3WoXPuunXdqkYdWKyxMDjPXOMHH+K0nh2pSSOFVKbTOP6j4auLW6gKWyxQog8wyPyzcfFj0JPH0py+sJQ8Ed3NA5nZtwVgjxAKACV6en/AGa3bxj7Ndd8PYZ2mvSkTXDzW43xovTn0xWgat4V163sINT1KG4Ns4aTeFOccYwT61kmrVlSio8fJA1MRwzto80Q8tB5wO7+KwGB8hwTxVOi2c+mXIllkR7c/uVf0PbPfFW8sFjHqK27TNfGZANzsU2MOdpz1wfStYupZBFPbIv7t35yc4IzyDTa5MErZWtatFeu4uMd14IBz6VBeC4GqxpGilmYDDsOTVrogvdS1mC0kbf8Xlhn7D0rYNX8E3wlMkTq23GQOD8+tROai6LbinTIUNwkNwwmLR+8KAHUghXBz27ccfWrKHTlmLOtz5VrOS4UfmHr6d6rTYNf31uWZrUQ/BuI4Yr6fatg0zU9Ma7jgVZEBUKVI4Jxgt39f61zSnVUZyfwV2pWrNbmGNivmA+WSAdp7k9/Xmq+xgttQto0u5G943Nvn3eg4Hyxis61fXEeq3EFv8aSHYXHUAdge3zp/T7eOOwkaXLQuGAVT0IGSSaHLahrhEKa1El3BHpyuI5sbhjO7nHNXWq+8JILc2wUQptA2bcnpjr0FO+GFjt5YbiWJltUOYn25LEdfrTN3fK7vcgNHPG5LAjcoB4796tNt0Jtvsj6kGSzjdVkyuOnQeoFYs4WNzGfL3ZbJX5+lYjguDceVLdtJEQHRs9DzwB6VZtZ3MFqswX+PkRMTzkd6rmI+lRPhi8iwUFjJcEnofwj/H/Ws2Swm1lkuNyR+YFyDyf+lJskklQWy+WzOuW+L4lA5INSLm7srFvJjTzHQYwwOK0g7ZP0NWzRtkLJjBwuKt9OmkiA+PJ7DPNVjxQNHDcwqymTJdMcD6VNj/lKgkDv867sckRJWbPYXxQqwysgIJweuK3Lwl4jubKeWJo3uFuI9ojA6tjC/YVomlxSTRzTRlAYVyyMwyR04Hetq0LWVso7eE2sL+W+8SFDlT25B57/AHpamMJ42ttigmpXdHXfBd9pV5Ddy20ksc+xQ1uZeEAAAwOgz6U1eXhl1mBS4ddwwWGSDg5H0qm8PW0dqs2oRW6rFIVOVY5JPJ3KTkYPekanrLL4q02eRwttvIUFecAgc/KuCGD3bl0dEp8Uyz8DSTWt9rFyk8aAucoTk4LZxg1S+2LUluptKCOMCNyVAxt5HFWXhmaCTVtSkkZPLmnGxn6EjmtT9s91J/xVBA2z93apjZ0AJP8AtXraaC9ZTs5crfpuHgz7PLhE8Xae8mSqvnArZvak3/idiNiqhiaRQPmRWheCb2a38QW08MayOhJCk47VtniyS51W4iupfLQxWwRYoyWz17nvXXnip5lP4McTUcbibT7I0aKO6vOq5EeATnJB7VceNp1/4Z1DUk2ib+ArPHgkHHHPf51rHs1vLizs71C0kT714PGOD60r2m6rcy6fbWspJLTjAz1AGa8bLK9TR6eOvRom6Nciy8KQxJMVZ4ti7Sckk55qN4euZ5NUaPd8QjJJwMnHaq1JLlUma437mwwTsoxgUaBP5WrGSSRY1KMNznaAcVWJRUHzyyIt2vo2m8miNpLNKgl8sbSrgA49arNDmVNEttxKx4YqoPbex+2Kkz3drcW8re9Q3DoC5RMNwB3rUrvWbTRvZ57zPJ+/Nuxt0x1Zi2B9q8fUaXdxJOSbOuE/PXBy3x5qSal4u1K6hZmiMu1CxzwoA/uDWsXMuOlSIHYabcz5JLMsefryf7VU3cuO/avqceNYscYLpI8ttzk2KmYkcmnvDOof6b4ksrwsQqSrux6Z5quM27vUd5PjyCeKnLFTg0/JceGepNIt7qS598uTHJB0iIXqB0+ufWpN9cztBJIuzgN8RXJwB0qk9lmuw634Ptpixee3IglRv5Tjg8eo/wA1d3UGbGVRMeFc5UfI8V534vQRwQlLJBbis023SZ5T1G4E+qzyDjfOzYx6mvQ+hzyaB7MfD11bSsrXLHzARx+OvODPu1JjzzIc5+teo/ClnZ6r7MfDiXKFxH5mAD3DZqousiSOqS9jbHfEsYurfaEdlwrKAemab8P6ot6J9sxkiVGEJx6VYPFvYQKXkIYA46hc/wC1VEUejaRGY7ee4VthIQDnnnnP612LHCGVzvmjmeRuCXgpvE8ckGr2MlohzLOofAz9a5n+0okT+N1ljMh3RlcN2IxwPlzXXksxq8trcm6SOJJCQu88g8HpXI/2lTGviu2hjIKqjgHr+WuXPkg3UWb6d3ZzCAfAOKyyRkk9x60m3I2hSeppcq7n2kVxt8nWlwR+Bz15ot7eW71dIY3CsI2dR88cVnyxjAJJqRYs1tqSXCuiukRI3IWz9qeP95OX9ps9t4Thi0drjVZVG0ZYqwO0+nzrW78Qi0EuMRZIGF9M4pzT9B8Ra/NJc2V5EyE75AJCp5J+EjtT+u6NdaXG9hdxFH2l4lLbiAegJ7nrT1GfE36ce0Rp8c17n0emP2J8f8O60wPWWE//AOrV6Jrzn+xGuPDuuHrmaHn/APFq9GUsf7ToYUUUVoIKKKKACiiigApq6/gt9Kdpq6/gt9KANIvVPvbbepbtVNrmo2+n21jc32orYwxXLI7eXvMg67PpVxqBxcsRnO6tE9sMQfwRJLuKtDdRyAgE98HpXVu9qPOlxJsofaX7RjBqMdppyCK3jyshaM7pAei+g/UHrVXqC6L4m0iQ3MOv20yQ+ZIiofIQjqFG0ZPp865bqF1d6jO93eee7o24yZ79gae0/wAa+JJdfg2ane3aKwDW7tlWQdsDj9aiDijFzc3bK3x/YWVprEGn6aDdxum9GLhzz05XgYHH1zUBvDkvu6meOWyRDkkgNvGORxVxr+sXJaGB9Ks4XtXZY4oI2GzPOCT/AN81M9+Fzojma7Usfg27s4P+9ceVu/aXLK49Ffo11pUT2tlZwQwSMpllOPiLA8de9VnjPVLqa6kjSUL+7Gwg9frUK40crdw3UV1Em+LIcnBByQRipn+kQLJHDevJMzJyc4H6VnJKPL5M243dmdK0WeXR03vG8rA43E/f+1RNRaS0hkDCHdESoyvJJA61tyWTHT/dbef3dhG2yXrzjjNcsuLiZrnY6OZGI3qzYOT61njSmONy6J1j5M1pvMipPLJ5fxngEn8Q/rS7yBCssLFVCttCt+EnIBYc89Kj2Sz29ykrWkbCMByJOm0/5q1vjaSQLfCMpdbmwm7grjkD0rTb8FuTTBbaSKyWO6kn8qOPEEnYf7VV2QkmmMMUrL5x2kE9+2T2FJs9cmjsXtJUMib/ADAGYkDk8VJ06eUpGphWOGTLFgvJPbmnG4u2OpLsto1aE+V5xkEafE23Cn5D1p//AFGJ7K3aO08vyQVbEv48nqfv/StfikxbzxXMkvvYYYUjgCoqXU20WqnducEkDpj0orcCizb9JVhYXM7xlZ0c/FtGMGo8U093dSRzzRRZ/AXXAJqutGu7y6jhBaEyAA88Y9TUy7gK7YrdiwjzuOPxNntWkE07ZVpFvZXj3CRJIi+TAMDYTk1YWyySSqoYpsIwMcGqjSCUj3yRYXptJ5J+lTGud10yRDaitwSOQK6E2jN8vg3TRNKku9CvdSiniEtiwaSNjy6HuP1wKn20N9byM0u2ErglSRwCMgn9KqPC2tLZWd7aXAZYbyPazp1JHIU+gyOasfD+pT6jdtaySO8Uj5wuMM20j9c1jLLPn4OhRg0vk2y11OSS3F1fzSRtCgVJUXJYdlJ71BvtYiu7+3LSyzLGM5fhjk5PNVKRztbyyW7Te5mRkVSTjI/xU6PSZyPIa3BldVCyu20Kc5AHzrGGSEW22RKDfRbaFqUE13JFMCvmuNrlyDGfUk9cdaovF08Da3PHFc+8CEBI5uquMZ4/Umo7yi1eXzJGDr3OfiPrVHfXBNw/lzLt/FgD+ldunb37k+DnnzGi00jfe3scI25Y8A4ArcJtKR3gFpamKQEb2WUYP9a53pN6be8jlAO5GDY9a3jSPEtpK7+cDb7CCDIRz9MCvXhlhzZwaiGRNOJuWnPq9rEsilEeL4JlnIKMRgDn6E1WeKdR1S81WwaeO38uLLRrDz0IBqBql9cSWbOhLCVgSV7J2P8AiqyN196kiE7A+SApJGVPpXh58C9ffaPQ0+VvFT7N50rXNbmuFjl0tdpXCmSHBk74p24XTgnnX+kyQsx3sY5CcHPTFabpV14jtXkSASMyj4Wfkr8wakr4h8TqQpVZoo+pVM7j/nk14efR5HO8bSX06PQhkSj7jYbeCK1uNTmglBtzFuBPG0dTXOtcSSD2Yy3987SXEgSG2DdI4y3b681sd54j1hgvvkG+IqFkQrx8wRxVD7XdXs28ERW0MKQPJcIqoisF2gbuM16Oky5YbMUlfPZlNRlbTNYsrGR/ZldXZTB94DqfVRwa0a9k4DZ74Nb95txF4IS0RyENscr65ya5rdyFojjrjivrdXg9KMPtHn4pbm/oQspBKntWZJMVCE4Z1PrwadlY4rhTOijtX7O9yh07UkRJG/eqZWLAJGMHBP8AWukNLbXFhcLp+pWszorucvjAAOeK4h+z1p99qnjaS1s5ljVrZjLzzgcggeua6h7RLZPBngy6/wBQ8oXdyrpAUfEjuTwcDtjrXg6zWZMef0Yy78HTj08ZR3NHm+eQC83k87iSR9a7r7JvF+mWXhKGG8uJ45oXlGUQuFDAY4+9cGaKWSUbEJ+lbz7O/eI9Sl0iWGORbggAscKjdsntV6mKnjpmteDumh+LPDhv3ngvJwpTa4mXGFxywqtf/gV9Qa4GtXGwnGyQZB7ZzkUzo/gLWFjjvWs7d4/KKvEkgO4nI9ar/EXhK7PkB7CztLhtxdUuF5HGO/yP3rzJ6nG3fqP/ACV6XHKNtSDQNTs5otH1J393HDW8WdmeAMd64T+0LF7vr2mQATfDbsczJh25HJrt/gTw9f6ToMjQRw3VxM4YhZhjAz39ea4j+0Y2oN4s03/UrUW1x7mCYw+7aCxxz609HnjKe2ErRp6MIRtds5xaPg8qrHP8w6U+yOfj55PGBTVkgDtuJHNT5YgiLiVZMjOMdK9JvkEQwiGIEybW7rzSrclNQtpAC20jgNjPPSkrGpfLMBk0zq8pspoVjKszISrhCxHzGKMcqnYppONMsNU8c2iW/k6dZT2VwGG+SJgu71HHamI9Xub61s5rqd7h2kbluSvbHzprT/AmtakWmtrN7hTEJg+Cm4H0z3q7h8Ha3baZayNpUttHDNslLt0Y85+QwP61Wo1GObttWZaeLjwuj0N+xExOh+IE/Lcxcfo1ejq86fsWWzWth4oiY8i7iyMfJq9F1WP9puwoooqxBRRRQAUUUUAFNXX8FvpTtNXX8FvpQBo2onE8n/urUfag0X/AWpsVB2IJM/Q1sGt39tFezRyXESFW5BcA1ontT1S3PgjUlhnjkZo8YVga7Him8d0eXPLDc1Z55vGd2d40eTcCyAnp65qP4dkfT9Ta8jfcpXcEbtg9/lVhpj3Mk/mC3E1v0fccEdu9L1C2iudStxK8S2DowESjG4/9TxXK2kqMVKN0VvinXZr23f8AeKPJdnLgfizwuMdeKZ0K89+SJookt4mJWRgcZ464NO68JdLsbpYrbyllAQlk4HHTP2qJ4bg1C6sWtoYljKDqQPiyM9f0rPhRsbVogG+3zRWz7bcOSQ79SM9flWY2vIi10JZAqqGLEdB2NS9Vtk0+1t5prNRI67XWQggHPB4qu/1K4vTscEuCf3eNqAc8VFKRcEvgVNreoxzjUS9wrbSqZHBXpn51W2wOo3PvEk48x5PidwS2Pn6mpdo7tKolhlkhVCCqsSFX+bANO6Tb2q3C+VE+FDFSAQZD2I+lLiKNuErQrVVaW08lCJI7Y7ndUIYj5+tVUTpdTYYnGeXIwcgYqVqE99HvR4njMrbNxHGM4wT3qRo1qt0ghSPnzNplb8I+ZqW2lwSpfIxHZAzfh8uAEEFjkSVaRPCbby2kXyscyA8xKDnjFV+p3Qsr+NA0kwjzzBkKSf5efSs27W4t2I+ISOM7hg89v71LT7NG00mNu6xXH45HlY43N+EjsQanWjW1pG0TW8cpzkSHIwDTJtbkxm7VElW1A3L0IFN6jC5toZYJWkjnX953KYPT/NaQTIfJb6ZdWkOWgiE0wO5pZCeB6AU7LdB4fhMeXBI2djmodtayR2pWF0eEgbpScg8dPl9KiRP5IIeT4XyUwBgjPfFaWSop9FsL4QzABdrHHJGRVh5kDeUsTbyV3M1a78ToCqYVMHLHrmrCEMqAyv8ADKh2gdqd8EtUX9v5izmPazsRjHORVvaaodKjhkh2LKpJB7qMVptteT72mZ/3gIC9t3zqdPPNPcKPxAoMKB0NS0vJStM6DpXja9jtApgSRQpAzgY75xjFP6prZvrRbpdSeSSXC+UeCpHT5VpctvdWcMc6IxVkG7gkL8jUnT7y0aOWGQ/vio8ohc8g9OOlYOGNPfBfyaRcnwyydZIwrvLuDjgNnJ7U2scYBDNsKk456+lV17fTG4hkM3nLs+MkYyc/4pm+1GB41EO6UHqehU+n0rpxtuifTLVkgmEk3mPG6nGMcGrrT9TtrS2SD3gSZGWBjHH35zWle+7nyrFUH8pPfFP++SiXcinBHRTz0rokrVFbEdFtPEME0kUSTwCRhhg64HyH9Kb/ANbeNGYR26gE/HtwD9D6Vo0N1btiScmNx0OOOPX51kXi+ZG5kknLZAUEMMdMYJ4rBYor7KUKOijxbePxA0nlpGCxyMACoq65K9+z7USQrzKOM557VoIO2ERPvDgAABQCDnJ6dRiosF9OlzMqusysO5544yKl6fG1VGlX2dWXxBPb2LrcXCbGySMb85PY9q0j2u6vPeR6XbujRxlnZVZcZHAB+xqnl8T65HbrbCZZISAoUYyQM9fXrVJNqE+t63pdpPkspWIdectnvW2i0sVljSJzOMYUdJEYWygtymQYlUfauR3QMU81u3WJ2Q/ocV2dY9+rwoPwmVRgdua5F43h9z8ZapbkFczswH15/wA19j+ZglGB4+jduRQOxWQgcYNTrfzL4eVApZxwagTj4933qZ4evhp+pJI3MbHDf7181k3Ri9p62KMXJbjpfsi02/8ADesNrN5d+6wNEYy0ZJYZ78VtV14gtb+W4hvlj1VVyCbpclQfnnI/SqVr5D4buphl0WPeAp6itGu9WlUN5ZuNsjbiJAORnseteLKCyy3y7PTnCOP2x6N/lh8PRLG8dsI1Y8eUmQPl/SmV1PTIZ08toTubBBStIg8QvHJs3ybMDHOeewz1A59aYiupJJpE+KWNn/EuSo74+dPYqpmLSu0dy0HXNNSC4vp9ZljtUXY0cUjqyHOAcc5rXdZCy6zMbHWzJa9VWXOeevQ1zay1Oe3v23zRiJhgpjduA6cdM1LN/crblLBV81h5sn7oZP8A/LoMd/nXnv8AF4/WeW7+vBbUZdnYPDviK+0W3ktNO1C1AK5dV4yR3wehxXHvbdr95r/i6GW8lWWSC2SPIxjufvyKi3N5qHnKTdQq4B2BWBBHccfWtd1VmuNQkmeRSWkxuGcfpXVh0uPFLdFCk/A3aDO5iBweoqV5YZgu8DJAGTwP1pnT1O10468k1LZGFsyBFYyDjAya2fYVwRnzHI8eEyDjIOf/AN11H2H6dY6iNTW5SBpY0UxGSMMfQ9eg5rmckrNAtvIYwqDg7OfpkVeeGNTk0IySOzGKePG0DOeR1FY5YuSpFRrydzmWGxjjaOFAZPgURkenTFRn1xWQ6fqVj51qUO4KhGPrnr9flXMJfFd4iR3VrncgO9ljwQPl0+VJj8aXdtJJeRqZQY/iRi2TwSTkjGK5v0ql+5G6lFdHqH2HWuiQ2uoXGjQzQid0MqOehAOMfoa6bXEf2WNfi1/TdYmS1e3kjki8wHGCSGwRjtgV26vTwx2wSOfJTlwFFFFakBRRRQAUUUUAFNXX8FvpTtNXX8FvpQB5q8feFtTv/GOq3cFukkbz/DuOD+ADP0rS/FVpPoXg6+t3s953q7TH6EbRXf8AxDc6ZFNfPNPEkluoknL5Oxexrmftent7zwTOLSeK7lwHCqmAwJPWvqY/lcs9N6EorbVHy+b8NghmeojJ7rujjaTLDpUECSmFnTIJA3Hgk59KrJZEvVsbR/3c6EL8lBIIOan2SRrbx2+8SXkqFmbGdqgc8/IdqrIC8sC2ttukvGlAjQYAK/M/4r5eSO6CGPFSCAyLcah58bTYjiRsluxJ5xSjdXNqEOn2NzHbOMujDLlRx9qctrS0bWjG8RQwuDJCw5BPJxVxrutNpzpJE9pFcSDb5br+BM8ZrGXHHZbk+kahqc97cMLqaGbbgrFCCMooOOflVbAHWecSkzOEKI5OVT5j9Km3bah70brezQ3c3lggfjPoPlUzw/ZWs15NOqbbcDa6l+MjtR0W5e0b0KG4SYWsKkhhh3wCRxnirLVDZXLy2OmFlnt1D8npwMkGmNWjT/WfcNChEZkjDSEscKx61caVBb6RazxSbveHRQJxggkdcg9vkKzfySvk0HXnm1B43E0hTy1CFgfx85FXT3a2uiLYXFtHHP5agSrkn16GpdhaNfW63PkNLbwXBaGQ4HmPnpt/pT0ipMJn1C2giuWlCxQ9wO5LCrbe0cnfBUrbQ3emTGHzVdHGDIcAA9SKheRb++SWtpM/u2zPmzDGX+VWuq6gJNSthYtE0ezb5QyQTnn5H1qmu5YI71MyrlcsQ5wQBVKpLgUbLbSLq4i1WO1Um4IQqfN5RcDilzyTWuGvGXyZSSiQqO//AHiqe0zdyySSEwRyZ8vaeSfUmpcd2LKA6S6QzXkm0CdXyqrnPfoacUuh7eRqa/8AItLi1kCksw2rnocilRzsbBIUCdSSwAzj0qJfKBPJZNAJbgEYkDZzmpFksVmnmPCZnZeNxwAfrVOjVJJFxaPf3ljs8mPy40HmHAHwg8Z9am212DAsKiFY1DKJ5E9e1U9ndQ+TOXEgkYqXSMYQrmn7m9N3EbeyjMNnEFyoXLZHzo4ROx2LkZhIqYwN27KgHkd62zw5YPe2ge1EbXMoKIQCPjHX9a13RBLucmEMoA2mQ/hyeSR3roOk2k8d7aRWdzZKsR2XK25IBPXfz9cfpXl67UOEfadGONjOkwX+mtP75bXZsJSEk7hMfCxwT1qhFisHiSW3srstGmWikIxuGMg8VsviDU/9Rg1KxEILgkSnBzIwPBAzzjP2rUra5ubKIxXFlKWUDawAycHnOR/3ms9FKck5vhvwbbEh+cwXOoyRW+1mEZJVjjJ79arDCwwwIZm6bSCR9qXrM1idSkbTVdo3wwPPwknOB9Kgm4PnebHFyo2uRxuavXw8RRO0sYxJ5myZ1VX/AJ2OAD6GkeZhn2S4cHGPX6Uy11JeSpAsLMQ25gBk9MHNSI7izZvd3gkZkO38PX/rmtdwbQdZRny1dwVyzdee/Wk+bJEcqxDjkADoaRIXicvAx+Pjyk42dsHmlzXE28RMgxnIAXufQ0rGohDfXiz+aMEk5ORxUuJ5J4svb/GDwT0xzTEfmxrKJZP3canKjnJ65x37VmN5DPb+6bjM7YUN8JU9sCkOjFvIpuN0lyVXBB2oM4x86k+zbT21D2h27xwNJFagTOgxyBwOvzqCyNMzi7LRsXYgqg5bqRnjrirv2I3iDx/fRkqCbXaoHfDA8V3aCvWVnNqVWNnZLqzhj1C3nhsNjh8ls4x9RXDfbhbm28byTD/1YkkJHryD/YV6Eui4KbV3bh+L0rjP7RFlibTb8KQGVomJHU8Ef5r6PWrdi76PM08v+Q5VKx25HIppmB5FJikLJsJ/Bx+lOTW1zFEsstvKkbDKsyEAj614bPRN98CXvn+Hry0mnxtQqOecY4xWvS3QjkImhyI3+MO2Dnp07Vn2f38Frq2y4i3I+Mt1K/pW2eLtKN1atqEENuJo+MkArPGTww+favIyrbkaPVhB5MSlfRphaJpJS80cPwkgZJz3ABHU1H/AN6SyZyPiUnOalXCTSSoDb7cEZwBgY7AZpcsskcbqUdg+Oo6CsmZoYhunWAw3ahn3YAKY69TntVvIVbRHniuYoGg/dtGFJZ+2SRx0qmja7uAzxzRnYed68nH1609EbgThvMZMja0WNqkHt86Uk/A4jk168EqhYfh27UOMAn8361DdcGFc5ySSKfmMjXMiyQmJS3wLvJwM/wBqYZw1yoHG1cUITH9PGZpRgcnjPapzQSIBcRsqg9Cr85qNYQS+dIigMwBztOalNL8PkNAAU6jdz/0qH2BEmkVtoYHOeMdD86ctJZVDLAdpYbXyR0/XpSJ/JbCqpQDuzZrEflrMpyHUENjJGftSfY0wkFm+/wB5upE3ttVSBjGfXOKl6QypDJbWeo+QxIDknP6DjkUq0tYLu5+MIqSDHlMeWA5wDg9+9Ow+H0kWaZIvJhV9oCkSGJvn6DjrT3pFnpL9kBWWw8QKZYpQJ4cFFA5w+c4rv1cD/ZC0ltK03X18xZY5J4mWRTkN8LZ579a75XRF8GTCiiiqEFFFFABRRRQAU1dfwW+lO01dfwW+lAHDvG0Vwdc8RwxQyF7uwjWBghKllY5Ga1b2h6RNZeE9ThcSPmAMZlXhs7icfqRW6eOLv/xG7gtGnkjQbr0JkhemAMd/pWje0Fb3/hnVZ1gni0xIXSBpSd4ViCODz1H9a96Ua06d9o8Rzc8ko10cbS6hmuIrWPEc8sXkhycbPXj1q/UWui2rG309byfAjVsbimf5vr861q00qK4Ed3Nb3AIfOCNhYdQQak+I9SbToZrWytlDuoUOOQCeckmvDy8vgUW06TLG3to/9aeeGGIpEcyPwTI/fB7Yqp8eLbX2nQ3MaRxzCQZZ+oXPT51jQriZ9NniSAxjbtLFz+LrnNUuqa3JcxQ2fkrHGrcSbsB26ZORWFOylHng2FbqzuZYLW7uFWWJQ0ClMAHHUds+lZttAgjuIVlmdlwdzk7d7E5HAGO9M+A/dJZ21GVzLJA5Vlz+EYxmo/jjXhqoTSNJdWlzuklRuARyACP71NNOh026Q4mjQ6XqQZXAm3581iTvJ5qD4qsZI76O6nvTMuQy2qAgfMmtX0yTWJdWWxned5oyNpYk7Wz/AGro2q2kAR7i9dmURBGdBjbjqRSmmqG1taKCG/ENjG8cqossu3YSFCnOB88981BvzJBNdRWk3nMSoZG5B7k5NNeII7CZ0vtNASNlPlNIAMEcE1T3qapJbr5bBtqcuw5xVx5RrHH5LXTTHNHHHcD8DhEbGOWqJJHDdXE0KWUQe0c7pS+NwPGPnUe2uL6W090nbKFhhioGCB8qmz29hFay3lk/nRoVEpLYDt3x8qapdBtoRbQwW9hJJLIkTIC0SsCd3NSvE0kRkt5ooLYTTRBy6kntjBFU2v3zamIIoljt7eEHaobPJ61EuIgdkEbO2B8TnufSq20aY8TfLJUsSW64eQGZWCFkORz8xT/nySObZju8r8JZcADimdG0yaW8KS20k6FcqobafrV3faYZ0Z4RumC4dFGcY7571LfJq+6orniujdOpZRIMBiB8J+VX3h/T7l5hLFHI8PG8gYB56HNVcGmXMV6FLEpleWP4sda2Gwe5htLprW3luo3J2pk4+ZFZ5X7eAt2ki0tQ8FncajK0UZdm2REfE4zg47U/e3Un+mQXTlyCVVFjAXGOu4jufnVXqGqDUZbaCKExWMbboh/PuIGc+vIOKmQyC5syIIJFH4Zwg64PDY7dK5HHrcjoukl5F6hqd80lnNavHbvEhZWGNwOe5Pyp46lrGoacY5vdYwg3mYx/GRz/ALVFmDoDEbbmNWDhkOJAeM+nTmoqy3Fvm3tbeUjJ+EE9PStIxSjxHkKbRGRo1kyH2B+ScEKp79OKy1oBKGtmUKqnf8W7zD+bpx9KsYveLubyGULNK6q6bsjH071jVYZbOVv3AiZtoCFihKkEBv6V0xnxT7K28FY9qglCG88t2bJkIOB6dqfmZpIGja6SaRJGaIquHAz+LIHOfnUg203lLukVtrAHONxHcqKl6jBEZDCsRZggG8kZKkdflVbmG1IqtyvD5bea5cbn3jHx4PT1xxT1vFNhTDII/N5UOvC9iadi0u4eRYrOO7edYyXWIcYHOc/99Kk6bHeTyReSswRIgvmmTKqfQk4+1PdSGoWMppzSwNObmRJArMV2j4sD+mfSrbw7p8EsIl1K3lyE8vzGkAGTnB5Pw1eadoia1MZIdQt4GTb8JAR+MAtnOD1/pTuuaTaWtsIf9W8y4iGI4mQkqw56ng8dhUSyX0axxPyaxfaD7tOZLcxz26N5kQQ5LjPHJ749a1CS8bw9q8N9pU5TUAS8jEfhB/kI7jFb34plGk6Zdz6jcye9NAr2sbHbhSOgH1rkk00kjGWUl3Y5Zieprt0Sbe6+jl1SSW06bYe2HxAkYEtlZyEdwWX/AHqt8V+0SXxPDDZ65p0Yto33g27fvAcY6njvWjxEbcAYrJYAYr1nknJU2ecoRT6NhiXwIRvaXXYWOM/u424+9dJh9qvga08M2+hyaFqGqW8EXlr7wseSP1PH6VxF2GOlMNliFQfETgCsk9i4NmtxutvZaXrWqy6jo1tLpUDMfIjaTIjYdyfQ+lX122rFBp0YhXcmcudgkP8AygnrTnhW1u4LC20yOXTZJdm5CWA8vPJLHIwQfWo17evp7Qe+WNrcFoyv4d4Y5Px5B5rw803ObZ6uP/jgkmQ7yyt7KGRLi4M+4K6AAEOTwRu68GrbTtOig0q4F3bEPewA2xMgYgdAMfI461Ct9f8Ai9yOnRBnAALJyBnqAe9TrOS1tLuQ28BubqLj41A2+jAg/XrXNkUmqKSRqmqre6bfCKW2VXtmwVZPxjNZjvUtZG1JkuFkOREjjgN2PPPQ1s+sXWr6izrNp3vMZKKk+RjIORzj/PetavbV2uiJ/jZT+BQSR8jVwuuTOUWuiBC00gku7h2LsSxLHJzTenBZGaU/Fk45py+Ys/unEeRkHHJPpin7C0FvAEZsEDjPrWj6IHYmjR2kC7cY703EzPdzBi3xHBbd1FM3bn3Zto5yM47U5aqfJiduS1TQCrxoUVlRW3Y+9RkYFUH+adjIurt4o2ZVA/HjhfrT0cdosDozO0ecRuEyC2fvilRaTJWjPGJkgvZX91kwrEclRnOK6pYL4K0A/wCoWbWt0twgY2yStIE6gjYFPPTniuR+XbJP5UF2ZJOoTYRkd+TTlpeSW1yrW7PHLuxgH4h+lYZ9N60drfBpGVdo9X/su2VpbabrFxYqkdvczRvHEspfYApHOQMfSu1d64B+x9M0um6+pTaI5oUGGJGNrdPSu/12Yo7YKJjLsKKKK0JCiiigAooooAKauv4LfSnaauv4LfSgDnGp6ffy6hNIt8YYjLuCoOox0NaH7U1iOkz6cLueeaSLMg3ZACnP6ZrYfEepX8es30DShIEf4MdcYFc/1+4Rm1JkDsxtihdgele/DQ/8Lm30rPB1H5SW9Y6pN10c/mjImVBCzNjaN3IGfXNUesqb9ZLa3sSrxvlpDxg1ZSag73Ukdyw3oowFJZm+dRRqDXUNxb+S5aTpnj9a+dlaZccUovlESwk0+4t7nTVG/A2Ajq0ny+lR5tF0xbeA6tIy28UquYI+rDnO70HFXNlp8WnxwGMGVs72A429zzSJ79WmlMUCTwlB7xnsD0FZvh2awhJyqKGpb/S7a5DWVqkUUoLBFTB29gfXites9Ljl8Qm7WHyC8mQijAUYxirzR7KO2v7m5ZGkDBghIOFB/lHr1pFpojyT213lkiLg7XJO85PT1pNtvg3lpnBcdjd9bQWLXV/bMB5uFIxnLDvVXf8AvN6i2xkuY4ZWH7tMbGHUkk85q9udNYSvHHF+7EgdYy2M+uafmd7VFunWH4DuUYBGcdB60r8l4YLHG5KzUpPDlzGzpDEr22Qck5BX/wDfanLLStTnuVj1BoY7UggL0CgmtnEN5qDGa8gFnJLjyn4QdOvzqWYLP4C94DKVJw+SSw6DB+daWdbxKUbo1DUNFZHWKwTPlYQKDwufWifwqZYxFcXMZWJMGBDghj0P0zV15dypuXmHxuN7hRk9cD9Ke1a6v7CxgcwLKJQCjyjO9fXI6fSptpkLGscerZSQeC4XEcKyKzR5LEYwo/zUKXSYvfEtiTGygE5OQxHfir+09+nuo5pJWXALbIkPxc/hJpm+nSSWTy7NlYr5bPIMOD1OKFJ3TJipOTTKy296tLgQrsFsWyHI5Ax0qZpBstQJjN2kNy52KC2P6UzHbFoAJZk8sMSVx+HjtQ1lNPeRvBHtiVAzBlwRj+9C+yYYpxn0W13bmG2aEsmASqS4yXx3+QpuzudPtrBLaKV3ZuCiAkbT1B+fFM2mmXQaRi6ysXyMdQO4PNTm0q//ANMW4tm0+aON+dg+JWPqRyetK4+TthidXQq20yzN0tvLCgbblJWPGegHy9KtrGe+0C5uk0yUCS5jCyRDay4xnv3Gaq7HSrm/vy1qJ2/chm+MKB64z1Gai3GpNZyL5pSWR24DAuyY6dxQ6ZbgXGpyPdN5ZWdpiwLsZN+4+uT0x8qmyQQ2UbiS7kZ5VBKquGQgYxkjjjIPrVVp+pXqajO0hBR2UbtvD5AODjp1qY1zBJd3U15ZXMSopSR1HwNg8Y/xzU0kOMeaRHaOxtYXNxC4nkGIm3EgHjqMelKu7K0vHh/fQvLEgIM7nOOykn9fpWNO1WK4sJjdRzQqpUWkituCnOSD86YvZHlZZdQlhY3KnyTHyxw2CG/5v96i23/ApQvobu7VZbF5mtmhMZx+MMDnofpVfK0KSiIzxDepwUJBHbFP381t5giW+mWPlJAFOM+mDUF7a2AWK0jE0r/hJHPHb/pW6ZMo0ybBe3GnzIGchkX4Asm4Z/NxntUvSrrT7ZoPMupL7fJmeIKQFHzPYVUWroJ2jMUCNtKksDuHqc9Kf0O0Sa4mNsPMwhLqW2BvUknt3pXZcVRumiaraQSx20aB7fd5asVQgZYcZ5wMd6tr02ESpdyXBEfnbhA8AYkcDIYdiOa07T44La2QL5EM6n42yWjbn8o7Y7981cWDa1caj7vaWkd1ZrKjTwxKA0gzyAeoWo4s2XCs1z20az7zJaaWjTuADOzTHLYY5UD0HyrmbNg7T17Vv/tfi0yHU4Es9OeyuMOZdz7t65+A57nGR+lc8mOePQ8GvY0yUcSo8nUu8jJ+nSWbW1yZ1n80ACHYBjdnnd8sZ6UhpI8ZY8fOmLZ2EQOOp5oZtr46ofXtXSnwc1IeVVldUVlG4gAk4FTdOsprbVnlLw5tHOCfjRnB7djVZ8LDArYNKgWOxjBLljliOwzWGpm4xNsMbkWsWpXd5HLdbYo1jw0hchSz/wDKP8U6dQkefzby4jPmDcwRNh4/L2AqHIxiVYh5iq687iOfnQl1KjjbErnGFJUHHavKcWd6kvIu5nu0vYr6xkZ4cFlGMkY+vNbBpWr69JFcPbaYzTz9bhGLkgYODzwK1sSSDcqqiOwxuAxU2wv9Y03ItbuW2VgC5jbBI+YqXEtT+C2tfEWrTx3UlzaWjzY+AohCx4/mAHBx86o7nV5VvWnkkBkKhQYUwG+RA7VaapqIu5GaFZ0Em3zNrbd2B1wuB+lQ7yytWjaeEeWznJUc4wO46ikn8jdVwV19IrIqSw733ZUoACoPXmpMdobuGSOwidoxy5mkwFPrzyTTqw6fCplf3S4ZRgKu7cSR1z04qjjilmYMZpBGGyVD4optcMXtvokoLOzs5B54kdvxK5IGf0H96iLezIYbpZYvgbCYGP70xEg377mKSWAH40BxTIEMweOK2ZVyMFmz3q9rItPotxLcW+oETrtjkYsxZT8Y9BisCGe6tNiLLHBHKQhQ/D8s1Ljubq6gUQ2jOwXG7HGPX5UiwstRt5JvOZ3jifdtEm4FuvQevrUt0OHPZVxeZFdNEk0lxIw2gqo3D1zS0guveXupZNy7Mg425IB+5+lWVpp76jqMjxCO3LgFUlkHxMevPaqYRXsE7QXEe3EuDuyRwex71Sp8IlxfZ6n/AGIRMfD+vSSgDdPDgAH8retejq86fsUSI+j+IfLnlkUXEPwt0T4W4Fei60XRDCiiimIKKKKACiiigApq6/gt9Kdpq6/gt9KAOa67ZwPdXDtGpZ3yc960/wAa2a/8L6ikMK5MDYUcZroeoW+6WVsZyaofEUCtod4rKuPJbt8q63OThVnn7Iqd15PMVwkHmBII3gaJfiMTEncfU+gp62jLRrMsJaPcQ0pyS5+R/wACsQw2dtM7CAOwILNzhR96TBeXshmeAmFIsgPt4Az/AErkk7OiOoi5e2NolaneP5K289tO8ZwyBMKjD7feiNrFtpttNhtVhjDSKZNwJzw39aavbR4p4Vvb6OUzRhgqDlMgfalajcpbzxC4EDIEwAnUjPIzjrWNLtHoVxQxq91c39wiSYjEeVRIwB6enXpUlL0G1W0ilMCxnKPKS5U452jpzzT1ykepTwyWVolnsXBBlBLZPXn/AGpjV3hMkkYkhwuFYxBgQo6nn15oTtfAbOSO/ntGUaZ/NY8E9Qv6VHsLKebUohGI0JJKSyOAGb1+LpU6yuLAwE280x+AqzBCzKPX0FLOn6ZPaQLBc3bOGw7PFkHuOB3/ANqLV00Nw44I+oPqc8kcsIM6242KcAoh9emDSAly11JNMtupRA0gK44PqecZP96IJkWZrSF2kVTuEvlGMKR3waudV0630nw5ay3EXntfS7ZUSY/H3Bb7U210Sk+7KFLZikzXE0oQsWUqcgei/MU3FHPeNtQPtgXdIFI27R1xmre/sL+2slOm2xaAOrSIyk7T15zUSFZ7K5NxexRmNgWaANkA444zxQ2mOEZJ/RVrfz20xaG5WFQc4TJ4p62t5b24jN1A0hkICBBtDDBxxUyeOySR5bnTRakH4WVsFs9gDTTmQss9qs8CJHhWkbBxjqD60rK2fY1dWvuN88UEawyJlGESh9o75zn9fSrBNE1FHQrcKY5CrITt+NhxgHHPfimre0ubaLzJztw5JedSS+R1HrT85eS0mj97aRJiDE4blCDmhvgSjT4RK0yyuJ2lNnbe9XVyCjo6gIjZ6gnrUO4iTT9Skt7qaS3e1BdYo4zgMeoHGOajrf3a2/uUXnMATulGcdepIpdrqMUCO0sDm4YhYgVDD67j/ap2vo0lkTadGPEOp3VyI1UG1MUQQFZSdvOcD50xa3fkJGJYEmnUhoXdAT8wfUVjxEuoWl2kd8sSNKPMYdM577expPh2/SO9aC6gW7VkKISSGjJ6GmoKiN7vsspr+1N6t1Bbi7vZQHAEe1Ym6HjoahX97evqOFa3mQqAFLkgNzxxjv2pjVi1nctaNMkWGHCNnHQ8Um3j8y6E8lwBEpJLFCxyBxwPWp9NXZXqf5FalJdx2yrNZmBWLMIi3w7j3AHQ/Wo8dp+596lnKzj4mjjG2QY9c8VmFvOvmKtuDMPKBBAB7nntU+5i81ffLtHeUMd7McggcDgf3rRRaMpZE1SIeqW8M5iXT5Zh5nxPvkBIPp9ahR7LW+J814URipcdc+pz3OKl6dBa29yVucupT4Hjc8/I0p5La3lk3yJ5bk+VFIc44xuPy5pU26G3tQ9FNp1zbR+VZq00J3BnI/eL+Yt0+gpZNrO3kRsq/BmQeVjaTk8EfXvUKe3nZUeGJ1hP7oIvG4jnPHUHP9Kn6Jp8kj+e1y0EinKkMFOB14PWhpII3J9D+l6tBpkfujWIkcyfCxUEjoR9astLv70SXcumXhhkuG3BJHGVPOduDnucVFk0q7lkYGRLh5cy7kk+IbTzg+vB6U3olpBfvLd3k0FqbUAQhzgv2GNoyKhq+TVOuDXfEOiTanJJeQ3TSToAkkcuScj59hWl6lp93aktPbyxrnGSpwa7NDb3NhATAmGHxMYJAd+fUnrj0qw8QLeTaXMrxzX1rNBl/wB2nwPjqRjjHyrfHrJwSjVoxnpIzbd0cHgUeSuDWHjUhicjHervxxpsdhq0awx+XHLEHAHr3qg+NeATt9fSvVjkUopnmSg4uhaKNobGMVuum28c1lE8Uq7SFj8wnAyR0/uK0uKG9kkVIsyFugC5JrpHg3wTry6ZLc3UHkoUJhRuHLevyrm1TTj2b6aLcuhi602CxmBEysmMF1XI6cmlQrZJNHLHdpIGA2hEJI+ePWpLtbQ3/wC7ikS54jeOQbx8zyOuaXpS2mjXwvIbqN3wybHByv8At+tedJtI7lGLYq1AXUoz8MsoUuPMRfi59OKr9ct5Z7uWeaGCGSQcpEuwY+lSReI1zcXMs6klvgiVOw6ANg7aVcavDI6hrZoSGVYii9SOpJJpRTuxykttWU8DSwkGMsvJALdP61YL/qlmwvIp1WJsL5oGUJIzjB/WmvOhW52KGeRDn4ycMPmKmXVvc6xJIbARSPEisypFtCcfLt86pmceeiv1W8E2/wA2G1eacLvdEwRj0AwBmoUVzbkbHjdkUcDA5rZtL02KXR5ZJDbG5bhXETSDrgjcp+A/XiquXQPdpDHNfW8cxXKoH3Fj2AI4oi0+Bzi1yR9ZtQ+npMIo7MyjgB93mD1AxxVNaWsQhktAsZkc7llkGCp+RNWmoxzxRRtcK8SwAJzzz1prTLC41GV7fTofeJMbz8XIHyq0klyRubdIjpFcW9qJC/morEERnlKFnvZLj31HuMqAELYOR+lSwNQs7ZrciaGJ3IdG6E0xeLDtTyWm8xRhwQMfpg0OCYKbiSrC0up7mXVnhS6dGGEcY3n1A+VIne81W/fFgMlQFjViEGPUVGW4u/JW23MYw2VbaMj6HrUuOS7tt0XmR7JxucBfjH6k1O1oLTPRP7E9o1ro/iPMcce66iBCtk5AbOa9GVwH9j2dJtH1tUiCBJogWx8Tna3Jrvxq43XJEkk+AoooqhBRRRQAUUUUAFNXX8FvpTtNXX8FvpQBqNwf3r/WqbxBaPdaZcW8RCmVCmT2zVrcyj3iQehqvv5v3ZHr6Vq5e05lH3HH5PZJfeSog1G08wsS4cEpj6Y5/WkWfsp12F2hn1a0uInU7olLLkds8dq6ysiY6n9acWZSMCuLczuXHRzC98AeKZghF5pzFIBAhJJZFHocVVH2Q6zOkbXk8ExRshfOPP3FdmByODilMDIFzIeD0FLdXRTm32cTT2Q6+k5fzreRSScebjPoKl2vsq1WSSRtQjhmVsKqi44jHqPnXZGLEYZuPlSXfIwCT9KHNiUjio9kusW86+6W8LopORJKoVh8wKcm9l3iD3fbHBbhVyBELnHUdeK7K0kjYG77UBpM4z1qXJspTpHEZfZb4mltVgS3tYlB+JWlBJH/ALs03a+y7xXaXQdILeRAoAV5VKH6iu5rv/Mc0suT+lClJA5t9nE4/AfjJDcqbRJPNXobsBc9selNL7OfFjpcXVzptsbqYqNqXI2qB1ODxk13LedvII+YpSMmz4gcmlbuw9RpUcEtvZX4hgMlxNYx3jSLtCSzr+7GfXPNYuPZt4vv5obeSwFvajlibpXwcccfKu9bgFZcdehpKyBcDAx3zRuYb3RwH/4a+O5mMF1DDJGsh8t3nB2p04FTz4H8Xw6dJpKaRayxEf8AmmlUEH/2iu37k3biCfqayWXt09MUbmG9rg842vs08bWrSJHbxvA/xMgOOc9PtTjezjxs0kbR2oVc/GC44HfFeijIm3bj9TTbSJjG7FV6jJ3HnvU/Zd4hlia6kjhgCDAWWcsfuahWnsw8R3UZt1W1Xn8aSruPyzXouZIZIjHKolU9c1GSC3h5hjCY7irWV10Zu7tHD29jPjIQYlEYGeN8o3Yqfp3sx8R2MzIbO3dJBsJeVTj55Ndllu7mT4Wmcr8zxSnkLgF2JI7mk5tgty5OI3vsl183Ki3trOXzA2ZGmBCn9Kkz+xzxldWyy3vu8ixxBVxKFXPqeK7GruOEkYfrT/vd6Y/La6fbjGMCqjNeRNTZ56k9nfiy2228dvBcKGJDRsP6Hr+lMH2UeKpLlrqVUaRjwXlJIHoRXohG2EMGO4dDmlJLkEE/rQ8i8D58nC9L9nfiCS9ik1hFkgT/ANJSW4/Wp6+zzUQrQQuWhAJAY9fkeDXZAy56A/pSg8YOAPsKy7NVla6OLN4B1c6RHZyIt00YySjush5OF5+HjPpTT+B/EDOyRaFItqEwEaZd5P1z/iu25QNuAyfpSy25gRTXInmlVHDIfZz4isk97htmWQsGiRHXcuOzE/3FWaeF/GY0eSAwwRTEckSszSA9Qc8V2AsxPJHHaklsnOeaGuQ9Z1RxW88BXV9EI7/SUmZVwCeo/WtFvPZneR6yUl02SO2wfw849K9RkA/EeSKj3Ntb3BUzRqxHQ4rX1JfJnuXwec9G8K6npF0CumMWH4XT4h9PlXQ9Ht9ZmiWNrC4OR0KGuirZxxySPF8JcYOAOOMcelTRqN+kaxxziMAbQVXBxUyqTtsuOaUVSRwzxh4PvrvfdW1vJDcdCCvDEf5rU4PB2qI/m6jYXEqlTtERG7I9c9q9Lu0srZmleQ4xyaS1vExAeNWx0yKN1EuVu2eatN9nvifUZf8A5SyWBM4zI/T9a2mH2P8Aie+WGO91DT4ypOZPMz9OB3/3rt8cEajEcarn04rPk44wAD15pqb+BWmcWX2H6+p8xdcsfMxtJyen2qVZexzV7Z3W41DRbmOQYLSq+R9MYxXYBFgE5GPrQYVbnP8AWnuvwJP7OQ657M5tJ8OzTxa3JNJGQEt7ZeACefma51qPhvW1hGdOvZOSMBAcj1x/L9K9Q+7qD+IUryuM8Gk38IqM2u2eXn8C+Jp4ka30yQoy5AYYOait4P8AFmnI0/8Ap91A/Q+UT0+or1S0IPOR9qpLzUI0vGto4XkkXrxiqi5PiiXJLk80W3hvxBdLJ/4bfNNkHDRH4vmTTi+DvELbv/CrqNhjAaPg16K1DUbi1jDSWzqMelK8P3kWrTiJJBG2P5q02TZO+J5h1PRdXtLoQ3dhKjt0wuM/SlSaLq6BR7hdEY/+ma9OeItOhMUsdyILhU7MAa1qGWGAbY7NCo6ZJNNqUew3J9F3+xxa3dtpOv8AvVvJDuuItoYYzhWzXoGua+xO4Fxb6hiARbXTgd+DXSqVjCiiigAooooAKKKKACmrr+C30p2mrr+C30oA59fTBdRnXPRqotV1aGGZY/x+uOcVO1izZ9VunMrBWfOM/Kq0WcRPwxjr1IrjyZ5O4o2jij2EWoRy9GK/pUiG4QcmTP1qNJbiNgAgz9KXtVB8SL9qx3SNNqLKO4iIA8xfvT6NGR+LP0NUySljtEarj5VJidwODj6CjexbSyypGAT96wBjvUBbpwcYc/UUtZ5mjVkGC3QNxRYtpPXOetL344/xUNHc9ev1pZdx1wKtMmiWJBjp/ShcE54qJvfpuFKVm/MKdsRMAB9KzsXrUYO/qKPNkHG4UWxUSGVT0FBRcc4qMZJOhYfesGRj/MPvRYUSWVQuOKQQAeCB+lRnkbPDj70kyN2IP60WMkNGCPx02YRjkj70y0smcgj71kTSY5I+9MVDoiAGMikNGc/iWmleUElpAefWjzHzgMppoGLEYB5IP0rO2PGMYpvzGz+NaTvbPLCiwJCxrjO4UBR6/wBKY8w/mFK3nuwosQ8EA6nP6UiUxptDsF3HAz3NNiQj+fNJkYNjdtbByOKLAkKqg8nmjYPWorlZFUPztORz3pzzHxwRRY6Hti+tK2CoxkbPWstM4Hb709xND3l8024IPFI85iuf7U00zc07Ch4hvQYpOw55przX74+9HmSYzxj1zRuDaP4OOtN7Ru3d6aaZh1K/ek+89sr96W5BtZJZcjG7H0oX4QRyfrUcXJzjP9aUZyOq0bg2igrgnB4PUGlc44JyPWmlucE5WlC5U9qpSQqY7uY8EA0BiMkd/WmveF+lY89D1OKq0J2PB/lSlfuajeYCfxCsGXtuFMmmSjIKoNdtLxr86hbS/vCACMVaeYPzCkyuGXGauM66FtspZ9bvEQJf2O9RwSBU3RNR0B5182FYc9yMYqZIEa1bcobHYioVnbWM8uJbdTzWsciXgTgX0lhot484tJoXVU3MSaoDpGlSA7Sh+jVcW+gaZulZd6bojgKcVqU/h4hmaC8lTngbqhz3MvbSOley2yt7OO9W36M6k8/I1vVc59jNtNbQ6gs07S5kTBPbg10agYUUUUwCiiigAooooAKauv4LfSnaauv4LfSgDm+rDOoT9fxVDd9q4HP6VP1Zx7/MCf5qhYDVwTfLOiPRHkaQ9h9TTTB+4z+tSipHc4pLdeDx9KyZZHU4PKg06DuAGCv0p1QPl9qzwDQAKwIC7enelLIg/EuT86SWAHb7VkYbnimmJoy027hW2D5UkYY5Ls3zpQ25xsU0sDav8q00xUIBVTjaP1pxZEHRVptnAPJXFJadF6EVVioeaUY/CAe3FNh2PU/oKba4B4ArHvGP5QPoKW4No+7AL8I5+ZptpcjBb7U282T/ANKbS5SVSUGQDjpRvBRHjIqjk/1pt5geRkD60ndn+Q0ZHdKW5j2oSZj+asGV/wA39KUQOojpODn8FFsdIUkxPXn9KyZifw8Uy2QOIyRSJZTGmTDI2PyrmnukTSJBnIHTP0oE5xyp/WmIZN6hvKkXPYjFOfETwpouQUjPvGJEURud3cDgU4020fgNNkfDnafpSGDH+RvvT3MOB33kDsawblSOtM7WB5Q0oKeMr9eKW5htQ4s3cGlea2OFpACjoD9qSQD2YfpTTFSFGdwM4H3rDTlgVKjB6iseWjdz9qyYsdKasToykz7AFUccdaS00gPKj70tVxxkUMARhv6U+RDLXDZ5UUG4kIxtFOGNcZAz9TSWCKRlSOOxpgMmQk4ZP6UyUhaQM1vnHcE1OAiJ298d6Sydx/WlY7GvORBhYmo98I4KfenVjB/9RR8qybRT/MST3p2A370GIHlg0pbgdNq/esi1TPLY/ShbNDyHzTTQmZNwpHCj70gzDP4R96HstvxA5qO0ShsYOfSqVCVEjzgvJXr86wZR125powkAds/Ole7sv83B+dNNE0KE6E4Kms+Ymcd6aFthiyPzWTAQc9+/NNUBK8wCN8dcVCtSFmyD1PNPOGwQO4qLEq7wCT15q7EbRprGacxDJPlHGKpScSODxgnIqfo8ywalHIZNo2kZ/Sq+UZuZWz1Y8+vNQrsrwbd7LduL4qOrrn7Gt6rSPZgpVLzP51/sa3et10QFFFFMAooooAKKKKACmrr+C30p2mrr+C30oA53qhUahMCv83pUf4CPw/0p7VZSuozKEz8VMIznkrivPkvczoT4MhEI5FYZYgORWGBxknFMSNtwOWzUUUuTDOpJ2J/WkqjP0P8AWs4YngYFPLhBwAKVDEeTIOr1kqF4MtIkmdmCr+ppY2KMtjPzqqAAM8jNII+LGTn0zTcsrFsKePlS1yEyCM/OhCoGQZ+Lj5YoEYI5H9KFxs3E/F3zWRkg4P8A0ooLD4VGeKbMgY8CmmHUMxK5rL7wPhI2/KhhQppMDnisB/gJ6YpHATI5b502jByVdiP0pDHIJJmzviVV7MGzTm8Hn/FCMiLtBUim2MZbO4inwIdSZc4B6fKleavoajgKOjZoKoRy30o3CpD5nQHBNDTAcHp9Kj7YcY3H71ghAOCT+tG4No+Z0PQ9aBIOoZajkKe1JIUcYo3BtRMEh9RWfMX8w+9QwQBWdqnkAUWLaSy4/OtJLg87h96jEJ3AoIHbj6GhyYUPl1JxuFZBGOtQyyZxuOaVCqRRiNGOM9zmhNg0Sty5xms7lxyKjhBnIPPrS2U7eXFUmKhYbJ5xSWZ9mQPizSVJHQjFZ83aOWAo3CocKlkG3hvnQihWy67v1pl7hehYGmlkRmxjP0p2FEyYqQMKE9eKxFJG42jBxUYKCeY/60sZX8KmnuCiUVRefKx9BRuQeoqMJpMfzVn3hwMEfcUWiaJGY24XGfmabPvCZ2QqR8jTPm7jyi/alCQqOD/WnaAdSaQjDrt/Sk+Urvuds+lJ89/UUCUk8qMfSmA75SsuNwpzyE24zmmPMUdF+9Y84bsYNUqFyPLEqN2xRJDuHwsRTZlGOCaPOXbgE0+BUxkxbmxuNM+7tvxmnlkAfjvQXw/NUPkW0LLtYHmkguJjlM5qQ7rtQj9awHHmcYqqQrZtns36XnGPiX+xrc61HwBj/wCax6r/AJrbq0XRIUUUUwCiiigAooooAKauv4LfSnaauv4LfSgDm2qzRjVpoi3x5zt+VMbuOP61I1UD/U52wM7utRix7VxSXLNl0JLEnmsbh8/tWSST2rBYg44qdpSZkupHeksxIx8IrG7Ham5HJ7VJSMkn1P6CsHIHA+9JLP0wKwGYntRYzKgA8nn0pXVsfhHrSdxz0FYLMe1AC5GAOBx86cBUR5BqMS571g7sdaVgBYhztwPXNGMrnI/Q026ue+BQ0eVwGqRmTwfxUMnqwpJTaecGjA9KQCSvPAP2o2j1pW3j5VgLg8GgQkrj5Vgr/wA1L470kY9KBidprIUg5PTtStw6AVgtjjNACSrFuKNjZ/FSt3PBo75PWgBPlvnOaBE/XcKWWI7isZ+eaYhJRh/Nimy0y8DH1NPbQBWQARgiiwKK9k1sXJFrbwNHgYbPOaladNqzMwvLeKNQPhIPWrMoOw4rO0E09wCFEzDJKkfWshJC2c4HpmlgBTwaPNReCG+1NUS7AoT0A+9JMYxjA/WhrmJerY+opSXED9JBRaFTEBdrbiF+1ZDlnwVP2p0bW6HNBXmmBjbg5U/eks0q5JAP0pwD50EP2NKwSELID0+E+hpSvyPMB+orHlkn4gTis7SBwKpMTSHAqEZHNNEckOi/I4pJVuOSvPYU7vULyCf0piErFGRnaP0pDJHuO1nz8jS8k8hdtYHwjkkn5Umx0NDzRJjLFfnTqFs4Yf0rG2dj8AwKcEcnVgfvVpiDcB2ptgxPCjFPBCT3pwRnuOKdsOCGQc9MUBSWzUoRDzcHpUqOKNSMgfrW0Y2iW6IIgkdeM0gBkf4qvpfJW3XDKDVZLIhcjK1TVCs2r2bvvW7z2K/5rc6072dgbbrGPxL/AJrcauPRLCiiimIKKKKACiiigApq6/gt9Kdpq6/gt9KAOa6uT/qc4x/NUJ2P/ZqVrOTqdxyB8VQHIAwTn51wTlyzoiuDJbHU1gzL0HNMu6nocUhmUdD9qz3GiiOs5J/FWC4HTP3qPk5wBS0HqKjcUojgY55rO7HekbT1xWNnUkUw4Hd9G8f9mmwD04rGcGnuCh0n/vNYJ7k4/Wm8/OsZY9BU2FC3K+tI3gdDWGJHUUng9qW4EjLSZ7g0kyqOtBVfT+tNuq9iB+tLcyqQ4JVIpPm47D70zjnrWCO5/vRuYUiT5gPUVjzF71GHHU/1pQI9aNwbR8Op7VncKj7hS1YZ4FFi2jvA/wD3RkZ/60kYxzWQvcU7EZzQOlY2k96zt680WLgzn61g7s8ZoxWefWqEYzJnGKyWb50EZx8VJ5zyc0CHAxz0NLDEDoabX61nPOM0wozIFbhh/SmljWNtyD707weoBptl5pAOB3HOPsKwZv8AvFIzgYzTbDJ5/vTsCR5pPesiQDqajAehrBPzosKJokBHBrO/HeoSscdaPN7NmnYtpOD/ADrIOagq49TTiyANwTTTJ2kvPzoUkGmVcetDPnoRTCmSlzjg80rDHq5qNG/bdzSvNIOKpSCiTs46mgE9CabEwHUUoSoflTTRIxqEjRBSh+Kq+S5u5HAzT2tSYiVlOSDUCO63EDoazyZ9ro3x4rVk0SOi/vGLHHHNV0k7icjdWLmdhkbhVQdTSO6cSoW4OCDjBqHlL9I637JWZ4b0sc/GuPsa36ub+xS595tb48fC6dPoa6RXoYXcEzjyqpMKKKK1MwooooAKKKKACmrr+C30p2mrr+C30oA5drh/8VuBn+aq5qleIM/6xc/Fj4/8VBxnqzGvKnzNnbBcIw6EnqKykHP4gKwUHzpQ2jt/WlRViwqgctWS0YHWkZT8vNZBH5RTJFCSJfWsPID2NAYdABQWPWgBJdPymsB13cqaN2TnApan1xSoLMCSMfyGleYh/wDTP2rO7joKTvI9KKEZ3R4wYzWAYv8A6f8ASs73xyRWd+Bj4aKHYkmL/wCn/SkHyjz5f9KeycD8NYLnGMLRtFYwxg/KftSSISP+lSMkdlNYJB/lWltHuIrRxY4H9KxsjHJ/tUvK/lrJKY/BRtHuIymAD8P9Kz+7PQD7U4DHniOslkx+CgLEBY+5FKAjx1FY+An8NYIizgqaQhREeM5FY2pnINI2RehrDJHjgkGkwQ6FWs7RUfYM/jNKWPP89FhtHioPpSBGM4BzSDGw6PRskzndRYUPCMVnyxTYEo/mrH77HUGqsVDmwdjWDH/zU2GmzggUkmfOfhp9hQtoQf5qx5KD0o3zdNg+9YJlz/D/AK0OwQFQBkYpDA/8tZZpf/pH702zS5/gn70cgBTvu/pRg9M/0pLyuOsTfpTL3YX+Rh9RTGP7W7CkgsO9MG/i6EkH6Un3yEj8fNTbCiUJH9RSg/HJqL56noRR5w7mje0OkSw5B4NLEvxZwagiX0NKMjdafqC2osPPzx/iso/xDB4qALhx2qRHOPSqU0xbRzU1VrfIxmqN+pq6mdXiYfKqacYbFcWr7s6tP1RHl3DkH71XX0JlO7ZzmrGQ9qYccZJrljlkjZxTOjewRNlpqWM/jTOfoa6n3rmfsP8A/Laj/wDcT+xrplfRaSW7DFnk6hVkYUUUV0mIUUUUAFFFFABTV1/Bb6U7TV1/Bb6UAci8Qs3+t3QBA+P/AAKhKWJxu+1SvEhxrl0f+f8AwKgLNtryZ/vZ3xXtRIAPcn9TWG5HWo7TMxwKFSZj0NLcVRIGB3rO4dSaY2SDqKSI3zyaW4VD/mDHSsebk0nYR3FKEYPenYqDzR6VjzOOlOLEvc0eVH+ajcOhCy46ilCUflpSxx+nNZxEvYUtwqQ20wzistKo7UoLETnApe2I9VpWOkNCcdhR5u49KdKRAfhrASL0xT3CpCd6kdcUlpI8ckUsxL2NR5LcdQ2flRuYkkOo6546Upj86jLGy8lftSWlVDjpS3FbSQ3yJrBZsdTUbzFb+bHzzWRIx+EPn60rCiQGY9HpRUnnFRxIVHx4NKEzHoBiiwaHCSOq1gMCaBOvQmkmVCew/Sk2G0WAB1pJwTwwNZVVIJVjWGQ4zxQCQBeSf80oN6g018S9zS1k9etA2LY8fiNZUtjhzWMofxUAKfwtTsmjLBxzuFZBbHY0klgRnmsu6Mu0qVPrVWKjO4jqtKVh86YgLJkElhT6yIeO/wA6e4TQobT3oMY7E1hlVu1IkDKPgzTtCoU8bBfWo0sYHLKKFuZN+1+KkAq45xS3Dpogym2Ucxrn6VEmMBztg/pVrLaxOuKbNrsHwsCPQ0mmOLRQTBifgQiopS83cFgK2SRQBlkz9KbZYiPSpKsqoXmX8Zp5ZS3epTQxnkYNMSRqvIFSwVCwzHgGnkEmKhecyH8NPJdk/DWbk0aJJktMg81HnTLE4p6O4wV+HOTT17AwUlOCRnmsckt3ZpFbSokGBnFRJMnJxUhncN5brj0NR5m8t9rGuejWzpnsO/8ALaj/APcT+xrptc09iGPd9Rx+dP7GuljpX0ei/oRPJ1P9RhRRRXWYBRRRQAUUUUAFNXX8FvpTtNXX8FvpQBx3xKCddu//AH/4FV6IOpNTvEzAa7d8/wA/+BVW0pHSvGyv3s9KC9qJAKL3xTi3Sjiq8Es3JpxMIeKhMraTDcs3RKT5r9MCmmlApsyA9Wp2KiQSx/mFHxfmP6U1G6DvmpMciFetKwpiCDjOWrBXI4zn604zDGc8UjzVzgUWFMRtYDJz96QMnkZqRuBXimnIFLcOgRTnqfvThznAJpoSAVgzDOAaNyCh7BJ/GawWkHSSkpOnQ0mSQMPhWjcFGTLODjIIrKzuD8aVHJIOSaUZgq880kw2koXKZ54oEkLnnBqvcvKfw4FOR27g5NLcx7CZsiP8gpLwRn8PB+VYTA4zSwy+tOxURpA6na34fWmzvi4Qbx3p+aZSMKNxqOGCHcxyx6AUrCgDANvQ59RUhWWVeOtRDgvu/m9BS44337idvyp2JDjBlPBI+hoW6dWCMdw9aVIyBeWFRZG3H4Bk1DZaVk7cH780pyEALDj1pi3DKoDGid2f4AMiqTE0OPIgGR0otmZ856dqYkG1Qv3rC3BUbQv2qrFt4JcwIGVfaabS4y2x+T603h5RnoKUsQjGT1p2TRJVQw4yDTEsjwv8WGU0hrpg2yNcn1pTqWXMrfpTEOsMRmSNiDjOKVaXHmqd3UVEMrSHy0GFp23QQrtHPqaA28EiVI3I45poZikCg7s9qQ8/lqxHJohO+QSMf0poRNTB6ilMFHWkbgq5zTEs6gE557Ve4imOsBnoKbmjjPJApMBYjLnOalHYFyR2otMbVMqXidjmFSOec08LZiOVqQXMhwmABS0Rhy71PAyvks8r0qHNZuvK1sG1MdM0h448crUySY4yNeE7xEBlzg1c2r/6lB8DBJFHANEiWwP4VJ9KZkhDcwgo3YiueWM3UrRDv0kRdrD4h1NVEoH8/JzVy0dwm8yqXOOKq7njJdCq96h42Lc0dN9h4AttQI7un9jXTK5d7CJPMttSx0EiY+xrqFe7pFWGKPOzu5szRRRXSZBRRRQAUUUUAFNXX8FvpTtNXX8FvpQBxXxY3/j94P8An/wKqFbPFWXit1/4kvVLLw/TPyFViunqPvXhZX73/J6sF7UKLgD50kTEdaWdhGcUzIOOn9azLFtOGHJrBYEdaY5IwBilRBz1FOwocQkHg06JivNRnYq2OawxYDJpMZZC6DR7QOaYacg5NQPPVT+LmkmXJ/FUtsVFnHdjnPFZ94D8Zqr3NWRvOCGxSsKLBpAp5Oabeb0BpuNRjJbNPRiMdxRY6EK0r/h4qREGH42zSdyKeo+9BkRuA1FhRKUREUSCNFyVqCZirYXmnXuFZNr9aLCh5bkM2yNBRNcFMBzjPYUzFiNSxI5qN5wlmPOQKNzsTRLWRm6CsZlyWJwKaglXJPpShN5pweFqrJSYts4+DJJpccGRlzihSqL8JpLXBX50rKUSQqRR8g8+pqPLKd2F5NMl5JjwOKeSPYOmKTdglQgITy9OxNEOnWmXZ3OFB4rEbLHnfyaVlUPvISOBgVhZFQckE0xI5kb0FZUKOetPdQqMySmRvhFKhiIJZqbMoBwBSomZjgtxVKQqJSsFH4qS0pb4RTJUb+SacyqjOM1SkTtQIoTk9aUzFjSFJY5xSy4VcYqkyTEKEsSDipKAhcVFty5YgLwaloD3NUmJiJEBGcUxbEmRh2BqU7DGDUOD+MwWgRPA3Lio80W7oKfQ7E5NMSS4HwnmmILZiF2nqDUkHcuCajQqc5bvTzSoBimgY3IAjhlP6U47nYp9aabBcO3T0pIlyTgZpWOiZE4A5pu7niCYJ+1R/wB5JwPhpa2+T8XOKLDbyRYlJm3gHHzqygAzWERF4YDiloQzYUVJQ5IsaqT3qJJHBMNrRBv0qZHGp4dv0pwLGB+7TJp9iNm9lNpFax3vlJt3spI/Q1vnetP9ngIS5z1yv+a2/vXq6f8Apo4Mv72ZooorczCiiigAooooAKauv4LfSnaauv4LfSgDzL7RNOv5vG+qS216satKOCenwiqiOy1GEZ9+Eh9N1bD4+t2PjLUn8tmBlHQ/8oqiNspP8KRfoa8XI/c/5PUx3tRHnPiM8QsgX1LVgHxFEm55Vc+gNSjD0G6YAfOktCm7Iln+9ZuRoiMJ/Esh4VUHzNSYZtdjOXIP0pLQtvytxIPrSXS4HCXLY+dK/oY9c6zqMI/8qzn5UwuvakeZLJ8fSlxRT4O66bPzFOok4U5ufuKnd9ARX12bI3WcgPfisx6+24k2sn2p50mPHnIf0pMInByXj4PcUrXwCscXxGuPjtpB+lDeJoV6wt9qy7ylcgQN+gqHO0gXLQxH6AUe34GrJKeKbcghlK/pTjeJLQJksQT8qhoYGTLWi5pJjSVSfdY8fSj2/AKyZH4jsm6y4+tPprNux3JICPrVStnFJ+KzXHyp+OytIxn3dh8hSqI7ZYNr1sp5kIFCeI9PJwZgD86r2htSoHup/UUg6dp0gy1sR9BTUYitlqusWkwOLsbR86XFqNqOUnB/WqZtI07bxE+PQVHk0e0XmNpEPpmjbH5CzYhq1up/i4HepVrq9i52rMufrWqw2drEMSO5+ppB0yxmfdFcMjeoNJJfI/7G6NqMIBCSrn60RXsRILyL961K20/yjhrvf6ZasXVoGG33oqexBp7V8iv6N3/1KBBhSv3pXvsbjduU/Q1zyO1u1faLzdGfU1Litb2H8NwGT60tq+R/2N0N2ueGA/Ws+8xBccE+taXNHdn4o7obh2zSAupyQkebtbsQaW2/I+DdVnTIJIFLa4jJwCBWhWr6xHPtlYOvY5qcPfnJJJHpijY/kLRt6+X1Lc1LhMOzGea0eGfUY8ggsO1M3Gq6zbSBliLx98U9rI4N8baD+KsM6Ba1SHWb1ogxjbOO9QL7xPqVs2Gs2ZD3ApqDYcG8oS/AOBTyRIfxNWiWXiK+l+IRsB8xVnHr8pT4kbd9KEn8CcUbaZI4V+CkpMW5xxWpt4hDLhkbP0rA8QiMcKSKr3LwLan5NrkIY430Iu38OM1pj+K4YmLNDJ8zisweM7JpMlZM+mKfPwG1G4PI44dqI2jX4sZNa9H4gtZ2EmWGexqauq2zgYkApJsHEtjKH6dKyvTjGapZNRt4zgSUJqcWRiYAU9zFsLgEZIYk08gAXKiqqPUISeZV+9SY76AA/vl+9CmGxkwNIP5ayJCxxmoiahE3WRPvTyTRk7lkTH1p7kLax11ZhkE07DcFFwRzTAnQnG9cfWnDs4OR96doe1j0LF33k1JWVhwq1DjYdF+9PRvjuKLJaZu/s3LMt2W/Mv8Amtz71pfs1fet2cfzL/Y1unevW0/9NHBm/ewooorcyCiiigAooooAKauv4LfSnaauv4LfSgDgPjY//wB03/8A9z/AqnyKs/G11bL4s1CN5kDCQZBP/KKqBcWxOFmT718/li97/k9nG1sQo4pJb5D7VkvFn+Ip+hpQ8sjIcfes2mXY2cE8qv2rBVfyLj6U6FQ/zVnaB3pAMiNPyL9qDFFjlBTuATjNZ2L60ARWgiPOyke7REZK/wBamsoxSVRc9aTGQjbQjoD96S1tET3+9T2jXNY2ID0o5Ar3tUx+I0gWseMB2+1WWxD1pDKo6Ci2PghC0AHEjCj3WTHE5qcFXbzScDoKLYUiD7vODxNSxHcD/wBUVLXaOtKOw9qakxUiEEuh0kBpMguy2fh/pU3C0ELRuYbUVk0M0g+NFP6CmFtGQ8Rj7VbFRmksFBxmk5MdIrfLZePJ6fKmJbdnbd5ZH3q22gtzSlVRScmNRRUC3ITAQ/c1lC8fBVyPrVyoBrLIuOlLcG0pn8uQfgkB+tYQlTjfJj61cqi4/CPtQY0zyi/ampBRUxuu4ly/2qVFNEAf3jfapghj7ov2o8iI5+BftVKRLjZBeQgnbNkfMUz5rMSDOKsvdoSD8C021nBnOzmnuQtozEZRyJ4z8qzcTMRtYRtTwtIcdD96w1nE3TNCkg2kZJHVcJHGKV5lwSMQpTvuKH+ZhShZYORK1VaFTG3aRgNluu7vS4XhPwy221+3FLFqwORKftQ1tIzbvNyR6inuQtrGGKpIRPZjy/XFZSLTnVnjt1JHbFPSQ3L/AA+aCvoaRHaTIfhZRRf2FEQz2inEtoyrnqBTzzaYsY2sfpUporgrtKowqPLp+85MS/pVbvhi2kYz2JOSJMetJmuNMVdxmZfrU+O3aNNvu6sPpTdxZRXA2vZj9BTUvkVDVulnOoaO7wPmaTeaXLLEfJvwg9Q1PrZ2qgJ7ow+lYexhb8IlX5ZobGis0/STbyb7jVWY56FqsZvNWM+7365PQE1mLTYdxMiOw+tPHSrA/wAki/rRdgQbWz1HzBNLqi/+0NVhJcajGFCXCt/+VN/6TZ/yvIDUaTSZA5KTtim39BV+STJqWrRIVVxk/Oq+XUPExk/c85+dSU0qZhkzHNOixvEwBcf0qLsq0da/Z8fVJLDUm1T8fmJs+mDXV65Z7AknSz1JZpN/7xMfY11OvZ039NHlaj+owooorcxCiiigAooooAKauv4LfSnabuf4LfSgDxd7aL5k9oHiG3BEZF0CJAeRiMcCtEub65Qgw3bLlM53nAP+9b17atK872qat7wQqzTKYgD8TDaoP6cVqB0iZoc2slu9uobEzSqFSo2xs13tIkaJrV1aWbTyXKzSMrAAkkr88Umy8R3b6pFHPqDNGVO4n4V3dhgc1RRwy20eEeNcksdp3ZA/xT9tZypbe9tE0aY3b3x19B/SpeKD8DWWSNquPEE1vYe822rs9wJSssHlHCJ67jTD+M9Rkiae3ZZQzCONVByT3+1auj3E0u9trNkZ54b/AHraV086bZJI720oaTEmwfFETyMYPcf2qPRgu0X6siXaeK7sW6urNLcS/D5Y7N25rNl4y1iS2lne1KpGAxZiAMfrVBam5tbtrl0SSHzC6B17jnI+dIubp79lNxcMu5txLITx6dKX6fG/AetM2W48cXseGWFWzzgHoKfsvGV1KQHSOMbC2Xbg/KtYgk02ORojaz3sjLhA52L9eKi3k8cNtiC3kjlyQSH3Db6fKk9Li+A9fJ8m8w+Nnkk2m3KqB+JuKsF8UIkIluTDGuASN2WH6DmuYWInSdZ5WYMqjBB5/Wri1srWSQut1dOZhudREpH0xnNJ6TH8DWombq3jKwB2j95gZOwZ2/X0p2LxRaSojRxO+84AUHNaBdG1s5Jra0u7f3WZcssMZ3n5HdyKrDJdtM5luZFjjU+bl8BiB0GKhaLGV+pkjqI8W6dllOQVJBHoRSo/FejuAwlxk4Fc60yeKURvceXDuBVMRnLnHSmdQ05be92xTgyuuUi3Yx6/THSl+ix3RX6mdWdXfWdPRQ0j7cjIB64oGtaW2MToSe2ea5JmRJFRz57EYdWOe3HNO2gOZ0WBY8HLMCTtHXAqf0Ma7K/VNs6vHq2nvuxOvHXnpTsd9Zu+FnQ57Zrj1yJLqeUWMkixuAWJPGARUuxs5rNokudTzIcljGxOxcdKl6BV2P8AVteDrRuLcjcJVK+uaS00Gf4i/eubSajdSCJ7dZZI4G2qdp2k55LD5VWprF2Lx2nMrwmXDSI+PLGcAgdxWf6FvyU9Wl4OtmSIrw6/esrJH+YfeuarqbPPuimLIMhsyYKnHde/3qqXxLqKDzGkKQhsKCCGI9aP/j5fILWR+DsIZemf604QuOv9a5JB4j1HzGkE+5VHxJu5FOR+Jtalkdg3lRIBgueT+lZ/oJ/Ja1MWdW4B6isZya5daeKdWPvCTIVkidlOSMACnIPHFwFmMjw/uwMtvwMml+hyFfqYHTuO5pQArQW8WXi2S3QTcobEo6lfn8xTkHjZicvG3lgZLAZxR+jyAtRCzelx0obG7ArS7HxvFcyOgULj8LNwG+WfWlHxzbJkTQSIwIBG3pUvS5F4H68Pk3HbzQqj1rU28c6bGxR929WII2kVIh8Z6W0YlLqFI9an9NkXgPWh8mzqq0oAVrI8aaQTjzMEjpUiLxPpjtgSHOM4xSeGa8DWSL8mwYWkkVU/8Q6aFy0wUepNOxa3p0mNk6nJwOaXpy+B718lkFHFKAWoK6pYsdonXd6ZpaahZk4WdD+tLZL4K3RJqhScUEIDxUaO9tS3Eyfeli5gPSRfvSphaHwARgU6gUCoyzRDncv3pxZlb+YY+tKh2P4U84pRVc8Cmd+F/X1pSyDOOKAHVVT2FOBEK5Kj7UyrjJpwSccCqQhwRRYztFHkw90FAcY/DSvMUjlaAMC3g/IKw1tA3WIUtHGD8NOoVOOKAN+9jsaRwXwRduXXP2NdD71ofsmTFteMB+Jx/Y1vnevb0v8ASR5Go/qMKKKK6DEKKKKACiiigApMo3RkUqigDzD+074WljvV8Q28OUI2TlVOVPZj8q4WkssEG6O3JeXIDhOD8q99eIdHt9StZIZ4kljdSGRhkEelcO8Tew62l1AXWkX09iFORAV3x/oM8UmikzgVo6WUXvN0YYWf4WTq2PQD160/ca3DcWrQ+77YWzsMjfCRjvnuK6M/7PerG6859ahlwSQHjbP606/sD1qS0FtLrcLRgHA8s8c1DiVuRyi4uo9OhkgtjDcNJg7tucA9gegx3pyxeNnKtmMeWVEhfqwXg112w9hV7a2kkfvVpNLIm0tKjEIfUUix9hes20cqHVLSQSqV+OEnb8xT5oHXycViuY43jmkLMq/Ft6g8981MtYmurOW/lkAjZ8Alvwc+ldZi9geprIHfVLc4zxsJ4p+f2F6o7ps1C1jVCDjYxB/SimFo4+z2y2aNunklX4Rs449c5qGIp3ifyx8KEb8HJOT1x3rtknsK1PyfIt9UihiJy2VJLf0phvYLrKy74dbhQkYP7k88U0hORyawiDyxl5IgYwX/AHh28DnGe54oe9cyJLC7e8SgKGKjHz6V1VvYDrAz5etQ84zujJpf/wABdbMokOs24KnIAjIwcYooLOQTQlrmOJ2hRm6ux4A+fypNyq3Dssz7GQ7iBjBB9K7InsI1kWhhfVbd33ZDGM8DnIxio/8A/T9qxfcdWt8YxgI3NMVnMLS296iRIJ2jSOdQhL9z+UVO1jTLRNUVIrqS6cwAyBhsKnuBnrXS9M9g2p2syyy6pFLtIKoFYCrZvY9qD6pHeNdW4jEbK0QVsZPpn9fvWU3NdKzSGx9nDv8AQ9Tluy9hBNIACQQOF7U3daXrllOr3drInm5BJyAQa9H2ns91mwshb2F7AhAxl4ywxVbeeynWNRtJodS1CGYynjCEBPTFYY8mob90aRUlj8M896clxauxDqqg845B+XPWm5tRmiuNtsg5G1nI+f8Afmu2T+wrVsfuNWhU7yw3RkgegqOvsD1oxSCTWomkY53bDjrXZZlZxv3q9gJeG42kglsP1P071jTzJPHJBbxs0sjBnIB/CDnH35/Suwn9nzVNqqdaib1Plkfapumew3WrASJFrEGyVSH/AHZyR6ZpJCs4faRuFfILIOnHJJOAAa6B4T8A2OsaJDqmoa2WiCljCGH7vBPB9PWtwl9husNCsS6rboq9VEZwevX+lPzexXWxAIINWhRAgAO1lOc5OcdQfSiSb6GmkcRe02Xs0aR+bAH2q6vgOgPBBqy1u/t762s7e3tJIoLdgpyA0nT4iSOoro7+wHXzLJIuu26ZHwKI2wvX/epSew7xHAym01u3hYDaXEbZxjB7d6ThfJUZro5Fr9jaQzwDS7+S4mm+NwQPi/7FM3C2y24uvdYpJo/hMOMNIf8ApXWz7ANZMjS/65F5pk3b/LPTGMYpC/s+auty03+tQkkED92wxS2s0c4uzlmn31zJNcRTXAiW4RMJGgAABxtANW15b+4SlITM8WNsscoU7O+RjqORW8N+ztqryGSXWYZmGNm5WAXH0q6tPYtrls+I9UgaP/nDMcde/wA6mUWlwEZxb5OGTCKC5jWEfuHfDnb29avji6niW12RAfE8h2kbR3PPyrqs3sKuJr6O4a+SNd2ZVRD8Ypeq+wp5bvzdMvzaREZMbAnnGPt8qlxbGskUzkk0MN5bTSrcrLeyEsqBME9RnJ+VUmnwW8YilZixjkHmxucbl9K7Vfew3xBPcxzR61bxFUCtiNuo7iob/s/a06YOr2u8NuDeW2apKSRLcHyc913VfBMupQpBp2pW5RMeYjqV56rg9aYk1hv9KxZKmmx4KLLMfiK56gck8f3rrA9hmqqiMNRtHnBBMjQ8D6AD+9Vl5+zzrd1qXvkuvQvltxUxt69B6Cq9NPsn1K6OPz3WLUQWMW7eQXebOZD6/IVPtLiOB4kDucvt2jghvUeorrN37AdZkujPBrEEOTyAjdKyf2fLw6f5Y1ONbzJ/fgN0PanX0JS57Oa6GLnVbl59LcSGNtvmE4AYdCahXUepaVIw1LcblmOSr5j698dK7P4e9imsaLIxtdStwjqFdNjEN8/rVvJ7K9UkDiW4tJQ+M74yePSs5KSlwuC4uLjy+ThdhcTQLcXMd2Lpo2CBI23YOf7dqn3Gl+KfK9+STdn42RW+Jf0rptj7Criz8RJqVvd26wKd3kbD1/2zWwzezTVmjm2XsW9lIQFTtB+dJ433QvU+zgdn4iminliuZJ3ZAQu5gAP+tRbjxJrUbSeTchVPMYByTXUrj2A69czyTzaxZLLI247ICADTknsA1URxCDWYo2j5DGInJ7/p8q09KHwT6svk0Gx8Ta0fd/ekEW4ZDF/xD1p7w342nmYnV5NvGcQA/CfmD1H0rdJvYDr06ATa1bblPwsI24HpUi39gmpxQkHUbaSUoUDsrYUH5VnPBFqqNYZ2mijTxdp11pbz2F8zSKcqhXDNg8jBqrPj4LerFmfyycAYwQfn+tbYv7P+pq8cqanbRyKPiKowzUqT2FalK587U42RhzgENn1zisY6RRNnqkzSrr2jussaW22UYxKc5CHNFr7RruUlRCrMrYPP9a3IewK6WMwLqUXk44zEd2fQ+oqM/wCz9qqyK9trEMTDqRGefrWn6aDXRH6l3dkCx8eRMMXUTr6smDj6irqw19b9d+n3STZIAUggk+mKYj/Z61Oe6E9xr+xyACYoj/Y11n2a+yjSvDUqXLGS7ux0lkAAH0UcCpWjjYpan4Nw9m+nz2Ph+EXS7Z5PjcehPatqpuCNYowopyuqMVFUjklJydsKKKKoQUUUUAFFFFABRRRQAUhoo26qKXRkUANe7Q/kFY92h/IKeooAZ92h/IKPdofyCnqKAGfdofyCj3aH8gp6igBn3aH8go92h/IKeooAZ92h/IKPdofyCnqKAGfdofyCj3aH8gp6igBn3aH8go92h/IKeooAZ92h/IKPdofyCnqKAGfdofyCj3aH8gp6igBn3aH8go92h/IKeooAZ92h/IKPdofyCnqKAGfdofyCj3aH8gp6igBn3aH8go92h/IKeooAZ92h/IKPdofyCnqKAGfdofyCj3aH8gp6igBn3aH8go92h/IKeooAZ92h/IKPdofyinqMj1oAZ93h/IKPd4vyCoJ17Rhrg0Q6lb/6kV3i23/HjrnFWeaqUJRrcqslST6GvdofyCj3aH8op3tUfUL210+0ku724jt4Ixl5HOFUfM1KTbpDsX7tF+QUe7Q/kFI0+8tdQtI7yynjngkGUkQ5Vh8qkCm006YJp8oa92h/IKPdofyCnqKQxn3aH8go92h/IKTd3lraRPLc3EUSRrucuwG0eppdvLFPCk0Lq8bgMrKcgg96e11dcCvmjHu0P5BR7tD+QU9RSGM+7Q/kFHu0P5BT1NzSxwpvlkSNfVmAH9aOwMCCIdFFOBQOgxWI3SRA6MGU9CDkGseYnmeXvXfjO3POPpRTFYuiiigYUUUUAFFFFABRRRQAUE4BPaimrvPusu3rsOPtUydKxpW6OU+IfFvibxH4rm8N+DXS3jtyRPdEZwR169u1RNYHtK8FwDVrjV49Xs4yDPGV6D7A/rTv7PpjXVPESTYF17xznrjc2f610Xx20C+EdTa52iL3d92fpXmxjKeD1nJ32fVajPDR6uOjhii4cJ2uXdc2Q9M8baHceHLLWru7jtIro7AJDjD91q31bWtL0qwW+1C8it7ZsbZHbAOelcN0HSptQ9huoSbSTbXRnh//ABxnH9astfuG8YaL4S0KKQ5nhMs23qAi4q3q5qPXNJr+5GT8LgeZqMqipNP6SVo7BcazpsGj/wCrS3ca2O0OJifhwehqNL4o0CK0tbubVLaOC7/gO74En0rjWpaxNP7I7Lw+WJuvf/cnXv8AC2ane2vTksdI8LaYhKiMiPI9cDJ+9OesltcorhV/sjF+DxvLHFOTTlKS/tFdnTpvG3haHUv9Pl1m1W4zt2lxwfTNXV1eWtraNd3E6RQKNzOxwAPWuS+1bwXoOl+ADf2VmI7uEoTNklnJIzn61r3jrVb258G+ENNYyyx3Me6VEPMu0gBf60p6yePdGa5VVX2GH8Lg1axywSdNtO68K7R2DT/HHhW/vBZ2us2rzMcKu/8AEfl61Z6vrOl6RHG+p38Fosp2oZWxuPoK4t4o02XUdCSz0v2ealYXURUxXAQZGPXB5pXtV/1GT2f+F11aOSK983ZKrjDAgEc/PGKJazJGDbXKr+OSo/hdPky44wnSk2mrTfCu+Dr9h4m0O/1ZtKs9Rhnu1XcY0OSBVxmtZ8GeE9D0W0truzslW7MQ3zkkuxI5zWzV3Q3V7uzwNUsMclYbr7M0UUVZzhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBG1GJ57CeBJTC0kbKJB1Ukda81eLbqTR9Num0/2q3V7f27FfdT8JYg4Iz616bm/ht9DXlOw1C30638WSP4aj1OaTUJES6lUGO25bJJ7ev6V9R/03Byc33TjxxzbryjzfyLpR+7+f8AwNwDSZNOXxTL7RblNdFuf3Pl/vQeRszn/vNT/CGoS6rpUc+re1O6028kcqLbO4gdBmm9Q0rwens3sbGx13RZddS4E87vIBuB/k3egqH4w0/VJdM0jXZbLRrXTprqOKH3EhvMYdWyK+qbxZ1surbSbUU0l0kq5TPI90KffFum+f55Oxe0ex1PS/Cul3Z8bXGlwWUYiuLgRFzOzYwSOa5J4r1s3Ph+7g/+Jd1qm+PHurWxUSfLOOK6d7bdY120uvDukaP7sy6gSjrcQCRN3GCQa1TULHxhYeI7Tw/c3nhdNQuwDDGNOU7h9dvFeN+JahihPI427a6uk+f/AKt/7O3Uu3Ub6X+/7mueFNbNt4ftIP8A4l3Wl7Ex7qtsWEXJ4ziuxexdL+7S51d/GE2v2LgwoJItmxwQSenpWgaJYeMNa1e+0rT7vwvJd2JxcIdOUbTnHUrzW1+w/V/EEvifXNA1j3VUsBwttbiNC+cEjA5qfzCWXDklDbfDa4un/wDlP/ZOluE4p3XX/vJtXtp1278O+z++1HT7g292CiROMZBLAd6i+GtU8QXvsdXVp7rdq0lk8qS7B+LnHH6Vpn7TGqG/udG8HWZ8y4uZxJIi9cZwo/z+ldg0bTIrHw7baSANkVusJ+eFwa8XJCGn/H4ZSit0pN/dLj/DPQUnPVNJ8Jf7OL+zix1X2g2Vprt3qSzSoZrPVI5eksLD4cAcZHOK6bp2iav4Z8AtpGjXQ1C+t4mW1a4+EfIH6VzH2NXR8I+1LXfBt4THFcyl7fPTI5X7qa71V/m8s8WoUVXpupRVcV/7aI0UE4tv9ybTON+zz2q6gmuDwr45s2s9T3+XHPtwHPYEf56V2NmVELscKoySaqtQ8O6Le6xa6zd2EMl7aZ8qYjla5r7a/aPHbW7eFPDMnver3f7p2h+LygeMcfzGsHhh+T1EVpse2/3fC+X9I0UnpoSeSVrx8nQfCPi7RfFBuxpVyJHtJWilQ9QQcZ+hrUv2lCV9mFyykgieLkH/AJhVj7F/Bg8H+FVjuADqN3iW5buD2X9Krv2l/wD/ABddf/fi/wD+hV6THgh+WhDC7ipLlg5zlppSmqbTL/2Yhp/ZlpCRzlHazADqclT61q/h/wAKeL5/EFvqeqX7QXul3LRC6Y5F9bHnBUdCPWtG8NeGfaP4e8NWHiHwjqz31rNCJXsXOceoCnr+ldC9l3tPbxPqZ0LVNIuLHVo0JkAQlOOufy/rXZqtLlwPNl00ozi27+Y9+Gc2HLGcIQyJrj+zOm0UUV8uesFFFFABRRRQAUUUUAFB5FFFAHKfE/gnxBpXiiTxN4LmjEsxJntnOA2ev1B9Kg6ppPtN8Youm6tHbabYFh5xQ8sPvk12OiuN6OHVuvjwezD83miotxi5RVKTXKKTS/DtnpvhQaBbqDCITGc/zEjkmtE9lPgTW9C8Qz3usKnkwxNFaYkDcFvTtxXVqK1lgg5qfwcuP8nnhjyY7vf2chT2eawPaZ/qBSM6ILv3ofvBndj8vXrV17X/AArrHiObSH0qGOQWsu6XdIFwOPWuiGioWkxqGxdXZu/zOoeWGV1cFSNS9puiahrngmfStPjWS5fZgMwUcEZ5rXdV9nt9qXgPR7PzEttY01cxnOVznpkfpXUKxVT00Jtt+TLB+Uz4IRhDinf96r/ByuSD2sanDFpsws9ORSBJdxuCxAqX7T/B+t6zoejWWnsL2a0mDTSSuFLccmuk1kVL0sZRcW27/wDBovy2SOSOTHCMdt9L5GLCNorKGJ/xJGqn6gU/3ozRXUeW3bthRRRQIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAG5f4bf+01518K28954J9pNtawvNNJdsERBkk7n7V6NIBGDzULTdJ03TWmawsoLZp23ymNcbz6mvS0OvWkhNVbbi/8ADs58+D1XHnq/+xwHSPD3jGTwfFZR+zzSX3W5QXMjqs3OfiIPete1fWbGT2feHfCKO51iw1Mi4gCH4cMR1716s7VWroOiLeG7XSLEXBbd5ogXdn1zjrXqYv8AqFbnLJj87lTffPd38+KOOX46opRl9f2Nc9oHjHQvB9hZz6xZS3E7ri3VYN3xAdNx4BrS/Ztp2t+M/aA/tB1yxaytIY/LsYXHJHY/1zmuwX1hZX6ot7aQXIjbeglQMFPqM0+qqqhVAAHAA7V5mLXww4HDHH3y4bb8Pwl4Omenc5K37VXB568KeLtK8F+1HxZLrouYkuJiIykLNnnPatv9lHijVPFPi/xFeWsKLpCqPdGktwjFjjAJAyRwTXTLrStMuZTJc6daTSH+aSFWP3Ip61tre1j8u1t4oE/LGgUfYV06n8pgzQbWP3tJXfHFeK+iIabJGX7uLs5B4A8B+Ibn2mah4s8YonmQSH3UA5Vj2K/ID+tdlrPesV52s1uTVzUp+EkkukkdGHBHFdeeTkftv8B6rq2q6d4m8MIf9WtpFVwpwSM8N+n9q3bX73xJpvgOS8traG61qCAM0SAlXcdcVs1FaS/ITyY8ePIk1Dr+Pj+BLBFTlOPDZwKSx9tPjYeTeyLodlJ+ID90cfTljW+ezb2WaJ4RYX0hOoaoetzKPw/+0dvrXQqK31H5nNlx+ljShD4iqv8AnyzKGjgpbptyf2YNc0/aSR5PZlcpGjOxniwFXJ/EK6YaRJGki7ZEVx6MM1xaPUfps8M1XtdnRkhvg4/Ko1r2VKy+zvRFdSpFquQRgir6Owso7576O1hS6ddryhAGYehNSEVVAVQFUdABWe9Z5szyZJTXG5t/5FjxqEIw7ozRRRWRqFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAf/Z" alt="商売バンド 1st Album『Owner』ジャケット" class="w-full h-auto raw-border bg-[#fff]">
+                                <p class="text-[11px] text-[#555] mt-1 font-mono-raw">
+                                    Photo: 商売仲間と屋台という原始的な商売に挑戦した日の記録
+                                </p>
+                            </div>
+
+                            <!-- アルバムコンセプト・ステートメント -->
+                            <div class="flex-1 space-y-3 text-sm leading-relaxed">
+                                <p class="font-bold">
+                                    「つたなくても、自分が主体者（Owner）としてつくり、実行するから商売も表現も面白い」
+                                </p>
+                                <p>
+                                    この音楽を作った自分はまだつたないかもしれないけれど、誰かのせいにせず、自らが主体者（Owner）として手を動かして形にしたという矜持。<br>
+                                    そして、仲間と屋台という原始的な商売に挑んだ日の空気とともに、「商売とは自らが主体者として実行するからこそ面白い」という信念を詰め込んだ全5曲・14分のデビューアルバムです。
+                                </p>
+                                <div class="raw-border p-3 bg-[#f9f8f6] text-xs space-y-1">
+                                    <p class="font-bold font-mono-raw">■ リリース形態（3つの展開）</p>
+                                    <p>① WEBプラットフォーム（リンク限定ストリーミング）</p>
+                                    <p>② 地べたブログ「地べたサポーター」（月額100円・承認制）</p>
+                                    <p>③ CDリリース（自主制作盤）</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 限定ストリーミング配信（地べたサポーター申請）導線 -->
+                        <div class="raw-border p-4 bg-[#f3f1ec] space-y-3">
+                            <div class="flex flex-wrap justify-between items-center gap-2 raw-border-b pb-1">
+                                <span class="font-bold text-sm">▼ 限定ストリーミング配信（地べたサポーター・承認制）</span>
+                                <span class="font-mono-raw text-xs text-[#555]">月額100円 / PIXIV FANBOX経由</span>
+                            </div>
+                            <p class="text-xs leading-relaxed text-[#222]">
+                                本作『Owner』全5曲のフル音源は、リンクを知っている方、および<strong>「地べたサポーター（月額100円・承認制）」</strong>限定でストリーミング配信（SoundCloud Secret Link）しています。<br>
+                                以下のフォームから参加を申請していただき、佐藤が承認した方へメールにて専用決済ページ（PIXIV FANBOX）をご案内します。お支払い完了と同時に、全曲ストリーミングURLへアクセスいただけます。
+                            </p>
+                            <div class="pt-1 flex flex-wrap gap-3 items-center">
+                                <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn font-bold text-xs py-2 px-4 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
+                                    ▶ 地べたサポーター（月額100円）参加申請フォームを開く
+                                </a>
+                                <button onclick="openSupportModal()" class="underline text-xs font-mono-raw text-[#444] hover:text-black">
+                                    &gt; 申請から再生までの流れを確認する
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nice飲酒! フル尺試聴プレイヤーバー -->
+                    <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] flex flex-wrap justify-between items-center gap-2 font-mono-raw text-xs">
+                        <div id="audio-status">■ STOP // Track 04『Nice飲酒!』のみフル尺で試聴できます</div>
+                        <button onclick="stopNiceInshu()" class="border border-[#f9f8f6] px-2 py-0.5 hover:bg-[#f9f8f6] hover:text-[#111]">
+                            [ ■ 停止 ]
+                        </button>
+                        <audio id="nice-inshu-audio" src="04_Nice飲酒!.mp3" preload="metadata"></audio>
+                    </div>
+
+                    <!-- 1st Album『Owner』収録曲トラックリスト -->
+                    <div>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ 1st Album『Owner』収録曲（全5曲 / 14分）</h3>
+                        <table class="raw-table bg-[#fff]">
+                            <thead>
+                                <tr>
+                                    <th class="w-16 font-mono-raw">Track</th>
+                                    <th>曲名 / タイトル</th>
+                                    <th class="w-24 font-mono-raw">Time</th>
+                                    <th class="w-32 text-center">音源</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-mono-raw">01</td>
+                                    <td class="font-bold">はじまりのアバンティ</td>
+                                    <td class="font-mono-raw text-xs">2:58</td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">02</td>
+                                    <td class="font-bold">High-Tempo</td>
+                                    <td class="font-mono-raw text-xs">3:06</td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">03</td>
+                                    <td class="font-bold">もしもあの子が当日休んでも</td>
+                                    <td class="font-mono-raw text-xs">2:56</td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">04</td>
+                                    <td class="font-bold">Nice飲酒!</td>
+                                    <td class="font-mono-raw text-xs">1:06</td>
+                                    <td class="text-center">
+                                        <button onclick="toggleNiceInshu()" class="raw-btn font-mono-raw text-xs" id="track-btn-4">▶ フル試聴</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">05</td>
+                                    <td class="font-bold">商売バンド</td>
+                                    <td class="font-mono-raw text-xs">3:04</td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-[#555] mt-2">
+                            ※『Nice飲酒!』以外の全収録曲フル音源は、上の「地べたサポーター参加申請フォーム」からの承認後に限定ストリーミングでお聴きいただけます。
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     2. Dialy (日々の短文ログ)
+                =========================================== -->
+                <section id="tab-dialy" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● Dialy（日録・短文）</h2>
+                        <span class="font-mono-raw text-xs">DAILY RAW LOGS</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        格好をつけない日々のメモ。SNSに流すと消えてしまうけれど、自分の地べたに残しておきたい断片。
+                    </p>
+
+                    <!-- その場で書いて試せる下書きボックス -->
+                    <div class="raw-border p-3 bg-[#f0eee9] space-y-2">
+                        <div class="text-xs font-bold font-mono-raw">＋ 新しいDialyを書き足す（プレビュー体験）</div>
+                        <textarea id="dialy-input" rows="2" class="w-full raw-border p-2 text-sm bg-[#fff] focus:outline-none" placeholder="今日起きたこと、見かけた景色などを短く書く..."></textarea>
+                        <div class="text-right">
+                            <button onclick="addDialyEntry()" class="raw-btn text-xs font-mono-raw">日録に追加する</button>
+                        </div>
+                    </div>
+
+                    <!-- Dialyタイムライン -->
+                    <div id="dialy-list" class="space-y-4">
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.11.08 (Sun) / 晴れ</div>
+                            <p class="text-sm leading-relaxed">
+                                『商売バンド』の1stアルバム『Owner』全5曲がついに完成した。ジャケットは、仲間と屋台という原始的な商売に挑戦したときの写真にした。つたなくても、自分が主体者（Owner）としてつくって世に出すこと。ここからまた新しく始まる感じがしている。
+                            </p>
+                        </article>
+
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.26 (Mon) / 晴れ・風少し冷たい</div>
+                            <p class="text-sm leading-relaxed">
+                                夕方、自転車で商店街の端っこを通ったら、八百屋の店先で段ボールにマジックで「柿 1山200円」とだけ書いてあった。東京のおしゃれなフォントより、ガムテープの上から太いマッキーで書かれた文字のほうがなぜか安心する。1山買って帰った。
+                            </p>
+                        </article>
+
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.23 (Fri) / 曇り</div>
+                            <p class="text-sm leading-relaxed">
+                                ギターの弦を張り替えたあと、1時間くらい同じリフばかり弾いていた。自分のサイトを作るなら、こういう何でもない時間をそのまま箱詰めできる場所がいい。
+                            </p>
+                        </article>
+
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.19 (Mon) / 雨あがり</div>
+                            <p class="text-sm leading-relaxed">
+                                朝の満員電車を1本見送って、ホームの端で缶コーヒーを飲んだ。たった5分遅らせるだけで、人間としての呼吸が戻る感じがする。
+                            </p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     3. 雑記 (ZAKKI / ESSAYS)
+                =========================================== -->
+                <section id="tab-zakki" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 雑記（考えたこと・長文）</h2>
+                        <span class="font-mono-raw text-xs">THOUGHTS &amp; ESSAYS</span>
+                    </div>
+
+                    <!-- 雑記の目次テーブル -->
+                    <div>
+                        <p class="text-xs text-[#444] mb-2">タイトルをクリックすると下に本文が表示されます。</p>
+                        <table class="raw-table bg-[#fff]">
+                            <thead>
+                                <tr>
+                                    <th class="w-28 font-mono-raw">日付</th>
+                                    <th>題名</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(0)">
+                                    <td class="font-mono-raw text-xs">2026.10.24</td>
+                                    <td class="underline font-bold">背伸びしないまま、頭を本気で使うことについて</td>
+                                </tr>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(1)">
+                                    <td class="font-mono-raw text-xs">2026.10.15</td>
+                                    <td class="underline font-bold">地方で育った身体感覚と、東京のアスファルト</td>
+                                </tr>
+                                <tr class="cursor-pointer hover:bg-[#f0eee9]" onclick="showZakki(2)">
+                                    <td class="font-mono-raw text-xs">2026.10.02</td>
+                                    <td class="underline font-bold">なぜ今、自分の手で簡素なホームページを作るのか</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 雑記の本文リーダー枠 -->
+                    <article id="zakki-reader" class="raw-border p-5 bg-[#fff] space-y-4">
+                        <!-- JSで初期表示 -->
+                    </article>
+                </section>
+
+                <!-- ==========================================
+                     4. 地べたMAP (JIBETA MAP)
+                =========================================== -->
+                <section id="tab-map" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 地べたMAP（東京・生活圏の定点観測）</h2>
+                        <span class="font-mono-raw text-xs">FIELD NOTES</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        ガイドブックには載らないけれど、自分の生活を支えている場所の記録。図の中の番号（[01]〜[04]）をクリックするとメモが開きます。
+                    </p>
+
+                    <!-- アナログテキスト地図（ASCII＆罫線マップ） -->
+                    <div class="raw-border p-4 bg-[#fff] font-mono-raw text-xs leading-relaxed overflow-x-auto">
+<pre class="m-0 select-none">
+  ==================== [ 私鉄沿線・ガード下エリア ] ====================
+         |                                                |
+   <button onclick="selectMapSpot(0)" class="raw-btn font-bold px-1 py-0">[01: 深夜スーパー見切り品コーナー]</button>                     |
+         |                                                |
+  -------+-------------------- 環状線通り ----------------+-------------
+         |                                                |
+         |          <button onclick="selectMapSpot(1)" class="raw-btn font-bold px-1 py-0">[02: 450円の個人経営・中華定食]</button>       |
+         |                                                |
+   <button onclick="selectMapSpot(2)" class="raw-btn font-bold px-1 py-0">[03: 河川敷の誰もいないベンチ]</button>                         |
+         |                                                |
+  =======+================================================+=============
+                                                          |
+                                     <button onclick="selectMapSpot(3)" class="raw-btn font-bold px-1 py-0">[04: 古本と中古カセットの店]</button>
+</pre>
+                    </div>
+
+                    <!-- 選択したスポットの詳細表示 -->
+                    <div id="map-detail" class="raw-border p-4 bg-[#fff] space-y-2">
+                        <!-- JSで初期表示 -->
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     5. 本Log (BOOK & MANGA LOG)
+                =========================================== -->
+                <section id="tab-book" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 本Log（読書・漫画の記録）</h2>
+                        <span class="font-mono-raw text-xs">BOOKS &amp; COMICS</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        電車の中や寝る前に読んだ本、漫画の備忘録。
+                    </p>
+
+                    <table class="raw-table bg-[#fff]">
+                        <thead>
+                            <tr>
+                                <th class="w-20">種別</th>
+                                <th class="w-48">書名 / 作者</th>
+                                <th>地べたメモ・感想</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-mono-raw text-xs">漫画</td>
+                                <td class="font-bold">『つげ義春大全』（短編集）</td>
+                                <td class="text-xs leading-relaxed">
+                                    旅先の鄙びた宿や、何者でもない生活者の描き方がやっぱりすごい。東京にいながらふと地方の湿った空気を思い出すときに開く本。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono-raw text-xs">小説</td>
+                                <td class="font-bold">ハードボイルド短編集（古文庫）</td>
+                                <td class="text-xs leading-relaxed">
+                                    100円棚で買った背表紙の焼けた文庫。余計な形容詞を削ぎ落として、行動と会話だけで空気を作る文体は、音楽の歌詞やこのサイトの文章にも通じる気がする。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-mono-raw text-xs">エッセイ</td>
+                                <td class="font-bold">『貧乏サバイバル読本』系古書</td>
+                                <td class="text-xs leading-relaxed">
+                                    お金を使わずに知恵と工夫で面白がる人たちの記録。知識体験というのは高い金を払うことじゃなくて、目の前の現象をどう観察するかだと再確認。
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- ==========================================
+                     6. 地べたゲーム (TOKYO JIBETA RPG)
+                =========================================== -->
+                <section id="tab-game" class="tab-pane hidden space-y-6">
+                    <div class="raw-border-b pb-2 flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold">● 地べたゲーム（東京日常RPG・シミュレーション）</h2>
+                        <span class="font-mono-raw text-xs">HTML5 PROTOTYPE #01</span>
+                    </div>
+
+                    <p class="text-xs text-[#444]">
+                        HTMLとJavaScriptだけで動く「東京の地べたRPG」のプロトタイプ第1弾です。特別な勇者ではなく、東京で暮らす「佐藤」として日々のささいな選択を切り抜けます。
+                    </p>
+
+                    <!-- ゲーム筐体枠（モノトーン・レトロPC風） -->
+                    <div class="raw-border bg-[#fff] p-4 space-y-4">
+                        <!-- ゲームタイトル＆ステータスバー -->
+                        <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] font-mono-raw">
+                            <div class="flex flex-wrap justify-between items-center border-b border-[#555] pb-2 mb-2 text-xs">
+                                <span id="rpg-scene-title">【第1話】高円寺・19時45分のスーパーマーケット</span>
+                                <span id="rpg-turn-display">経過: 1 / 5 ターン</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                <div>体力(HP): <span id="stat-hp" class="font-bold">70</span>/100</div>
+                                <div>所持金: <span id="stat-yen" class="font-bold">680</span>円</div>
+                                <div>背伸び度: <span id="stat-ego" class="font-bold">15</span>%</div>
+                                <div>地べた度: <span id="stat-jibeta" class="font-bold">80</span>pt</div>
+                            </div>
+                        </div>
+
+                        <!-- メインテキストウィンドウ -->
+                        <div id="rpg-log-box" class="raw-border p-4 bg-[#f9f8f6] min-h-[160px] text-sm leading-relaxed space-y-2 font-serif">
+                            <!-- JSで描画 -->
+                        </div>
+
+                        <!-- コマンド選択肢ボタン群 -->
+                        <div class="space-y-2">
+                            <div class="text-xs font-mono-raw text-[#555]">▼ どうする？（コマンドを選択）</div>
+                            <div id="rpg-commands" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <!-- JSでコマンド生成 -->
+                            </div>
+                        </div>
+
+                        <!-- リセット＆ゲーム解説フッター -->
+                        <div class="raw-border-t pt-3 flex flex-wrap justify-between items-center text-xs text-[#555] font-mono-raw">
+                            <span>※シナリオや選択肢はHTML内の配列を書き換えるだけで無限に増やせます。</span>
+                            <button onclick="initRpgGame()" class="raw-btn text-xs">[ 最初からやり直す ]</button>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- 最下部フッター -->
+    <footer class="max-w-5xl w-full mx-auto px-3 mb-6 text-xs text-[#555] font-mono-raw flex flex-wrap justify-between items-center">
+        <div>&copy; 2026 佐藤の地べたブログ (SATO NO JIBETA BLOG). All Rights Reserved.</div>
+        <div>Built with Minimal Raw HTML. No Heavy Frameworks.</div>
+    </footer>
+
+    <!-- ==========================================
+         モーダル1: 月額100円 地べたサポーター参加申請窓口
+    =========================================== -->
+    <div id="support-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+        <div class="raw-border bg-[#f9f8f6] max-w-md w-full p-5 space-y-4">
+            <div class="flex justify-between items-center raw-border-b pb-2">
+                <h3 class="font-bold text-base">■ 地べたサポーター（月額100円・承認制）参加窓口</h3>
+                <button onclick="closeSupportModal()" class="raw-btn text-xs font-mono-raw">× 閉じる</button>
+            </div>
+            <div class="text-xs leading-relaxed space-y-3">
+                <p>
+                    「地べたサポーター」は、商売バンド 1st Album<strong>『Owner』全5曲の限定ストリーミング配信</strong>や、デモ音源・制作の裏側を共有する月額100円のクローズド枠です。
+                </p>
+                <div class="raw-border p-3 bg-[#fff] space-y-1.5">
+                    <p class="font-bold">【参加申請からストリーミング再生までの流れ】</p>
+                    <p>1. 下のボタンから<strong>Googleフォーム</strong>を開き、参加申請を送信します。</p>
+                    <p>2. 佐藤が申請内容を確認・承認し、メールにて専用決済ページ（<strong>PIXIV FANBOX 月額100円プラン</strong>）をご案内します。</p>
+                    <p>3. お支払い完了と同時に限定記事が解放され、<strong>『Owner』全5曲の限定ストリーミングURL（SoundCloud Secret Link）</strong>をお聴きいただけます。</p>
+                </div>
+                <div class="pt-1">
+                    <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn w-full text-center font-bold py-2 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
+                        ▶ Googleフォームで参加申請する
+                    </a>
+                </div>
+            </div>
+            <div class="text-right">
+                <button onclick="closeSupportModal()" class="raw-btn text-xs">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         モーダル2: 最小限HTMLテンプレート構造の確認
+    =========================================== -->
+    <div id="source-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+        <div class="raw-border bg-[#f9f8f6] max-w-xl w-full p-5 space-y-4">
+            <div class="flex justify-between items-center raw-border-b pb-2">
+                <h3 class="font-bold text-base">■ このサイトの骨格（最小限HTML構造）</h3>
+                <button onclick="closeSourceModal()" class="raw-btn text-xs font-mono-raw">× 閉じる</button>
+            </div>
+            <p class="text-xs text-[#444]">
+                阿部寛のHPや四畳半レコードのように、画像や重いスクリプトに頼らず、白黒の枠線（<code>border: 1px solid #111</code>）と明朝体だけで組んでいます。
+            </p>
+            <pre id="minimal-code-preview" class="raw-border bg-[#fff] p-3 text-[11px] font-mono-raw overflow-x-auto max-h-60 leading-normal">&lt;!-- 佐藤の地べたブログ 最小骨格 --&gt;
+&lt;div style="display:flex; border:1px solid #111; font-family:serif;"&gt;
+  &lt;!-- 左メニュー --&gt;
+  &lt;nav style="width:200px; border-right:1px solid #111;"&gt;
+    &lt;h1&gt;佐藤の地べたブログ&lt;/h1&gt;
+    &lt;ul&gt;
+      &lt;li&gt;商売バンド&lt;/li&gt;
+      &lt;li&gt;Dialy&lt;/li&gt;
+      &lt;li&gt;雑記&lt;/li&gt;
+      &lt;li&gt;地べたMAP&lt;/li&gt;
+      &lt;li&gt;本Log&lt;/li&gt;
+      &lt;li&gt;地べたゲーム&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;!-- 右メイン枠 --&gt;
+  &lt;main style="flex:1; padding:20px;"&gt;
+    ここに本文やRPGを記述
+  &lt;/main&gt;
+&lt;/div&gt;</pre>
+            <div class="flex justify-end gap-2">
+                <button onclick="copyMinimalCode()" id="copy-btn" class="raw-btn text-xs font-mono-raw">骨格コードをコピー</button>
+                <button onclick="closeSourceModal()" class="raw-btn text-xs">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================
+         * 1. タブ切り替えロジック（アニメーションなし・瞬時切り替え）
+         * ========================================================= */
+        function switchTab(tabId) {
+            // すべてのセクションを非表示
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.add('hidden'));
+
+            // 対象セクションを表示
+            const target = document.getElementById('tab-' + tabId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // ナビゲーションのアクティブ表示更新
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // ページ上部へスクロール
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        /* =========================================================
+         * 2. 商売バンド：Track 04『Nice飲酒!』フル尺再生機能
+         * ========================================================= */
+        const audioCandidates = ['04_Nice飲酒!.mp3', 'Nice飲酒!.mp3', 'nice_inshu.mp3'];
+        let candidateIdx = 0;
+
+        function formatSec(sec) {
+            if (!sec || isNaN(sec)) return '0:00';
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return m + ':' + String(s).padStart(2, '0');
+        }
+
+        function stopNiceInshu() {
+            const audio = document.getElementById('nice-inshu-audio');
+            const btn = document.getElementById('track-btn-4');
+            const status = document.getElementById('audio-status');
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            if (btn) {
+                btn.textContent = '▶ フル試聴';
+                btn.classList.remove('active-btn');
+            }
+            if (status) {
+                status.textContent = '■ STOP // Track 04『Nice飲酒!』のみフル尺で試聴できます';
+            }
+        }
+
+        function toggleNiceInshu() {
+            const audio = document.getElementById('nice-inshu-audio');
+            const btn = document.getElementById('track-btn-4');
+            const status = document.getElementById('audio-status');
+            if (!audio) return;
+
+            if (!audio.paused) {
+                stopNiceInshu();
+                return;
+            }
+
+            audio.play().then(() => {
+                if (btn) {
+                    btn.textContent = '■ 停止';
+                    btn.classList.add('active-btn');
+                }
+                if (status) {
+                    status.textContent = '▶ PLAYING // 04. Nice飲酒! (フル尺再生中...)';
+                }
+            }).catch(() => {
+                if (candidateIdx < audioCandidates.length - 1) {
+                    candidateIdx++;
+                    audio.src = audioCandidates[candidateIdx];
+                    toggleNiceInshu();
+                } else {
+                    if (status) {
+                        status.textContent = '▲ 音源読込エラー // GitHubの同じ階層に「04_Nice飲酒!.mp3」をアップロードしてください';
+                    }
+                }
+            });
+
+            audio.ontimeupdate = () => {
+                if (!audio.paused && status) {
+                    status.textContent = '▶ PLAYING // 04. Nice飲酒! (' + formatSec(audio.currentTime) + ' / ' + formatSec(audio.duration || 66) + ')';
+                }
+            };
+
+            audio.onended = () => {
+                stopNiceInshu();
+            };
+        }
+
+        /* =========================================================
+         * 3. Dialy：ローカル下書き追加機能
+         * ========================================================= */
+        function addDialyEntry() {
+            const input = document.getElementById('dialy-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const list = document.getElementById('dialy-list');
+            const now = new Date();
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} (${days[now.getDay()]}) / 東京にて`;
+
+            const article = document.createElement('article');
+            article.className = 'raw-border p-4 bg-[#fff]';
+            article.innerHTML = `
+                <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">${dateStr}</div>
+                <p class="text-sm leading-relaxed"></p>
+            `;
+            article.querySelector('p').textContent = text;
+
+            list.prepend(article);
+            input.value = '';
+        }
+
+        /* =========================================================
+         * 4. 雑記：記事データと切り替え
+         * ========================================================= */
+        const zakkiArticles = [
+            {
+                date: '2026.10.24',
+                title: '背伸びしないまま、頭を本気で使うことについて',
+                body: `東京にいると、つい「何者かにならなければいけない」とか「賢そうな言葉を使わなければいけない」という空気に飲まれそうになる。\n\nでも、自分が本当に面白いと感じるのは、地方で育ったときのあの素朴な感覚のまま、目の前の音楽や仕組みや人間の行動について本気で頭をひねっている時間だ。格好をつけた瞬間に、言葉も音楽も急に嘘くさくなる。\n\n地面に足をつけたまま、泥臭く考え抜くこと。このサイトはそういう自分のための実験場にしていきたい。`
+            },
+            {
+                date: '2026.10.15',
+                title: '地方で育った身体感覚と、東京のアスファルト',
+                body: `地元の夜道は、街灯が途切れると本当に真っ暗になった。一方で東京の夜は、深夜2時でも自販機とコンビニの白い光でずっと明るい。\n\nその明るさの中で暮らしていると、自分の輪郭がぼやけることがある。だからこそ、四畳半の部屋で弦を鳴らしたり、スーパーの見切り品コーナーで今日のおかずを真剣に選んだりする「手触りのある生活」をちゃんと言葉にして残しておきたいと思う。`
+            },
+            {
+                date: '2026.10.02',
+                title: 'なぜ今、自分の手で簡素なホームページを作るのか',
+                body: `SNSのタイムラインは便利だけど、流れていく速度が速すぎる。誰かのアルゴリズムに乗っかるのではなく、路地裏に自分の小さな看板を出しておくような場所が欲しかった。\n\n白と黒の文字だけでいい。クリックしたら一瞬で開いて、そこに自分の音楽と、日記と、くだらなくて真剣な地べたRPGが置いてある。それだけで十分に豊かな気がしている。`
+            }
+        ];
+
+        function showZakki(index) {
+            const item = zakkiArticles[index];
+            if (!item) return;
+            const reader = document.getElementById('zakki-reader');
+            const paragraphs = item.body.split('\n\n').map(p => `<p class="text-sm leading-loose mb-3">${p}</p>`).join('');
+            reader.innerHTML = `
+                <div class="raw-border-b pb-2 mb-3">
+                    <span class="font-mono-raw text-xs text-[#555]">${item.date}</span>
+                    <h3 class="text-lg font-bold mt-1">${item.title}</h3>
+                </div>
+                <div>${paragraphs}</div>
+            `;
+        }
+
+        /* =========================================================
+         * 5. 地べたMAP：スポット詳細切り替え
+         * ========================================================= */
+        const mapSpots = [
+            {
+                id: '01',
+                name: '深夜スーパー見切り品コーナー（私鉄沿線）',
+                tag: '生活・サバイバル',
+                desc: '19時45分を過ぎると、総菜コーナーに黄色い半額シールを持った店員さんが現れる。ここで見栄を張らずにアジフライをカゴに入れられるかどうかが、東京の地べた生活の基本になる。'
+            },
+            {
+                id: '02',
+                name: '450円の個人経営・中華定食',
+                tag: '食事・人間観察',
+                desc: 'テレビがずっと野球中継を流している小さな店。誰もスマホの画面を見ず、黙々とレバニラとご飯を食べている。背伸びしたカフェより100倍落ち着く。'
+            },
+            {
+                id: '03',
+                name: '河川敷の誰もいないベンチ',
+                tag: '思考・歌詞書き',
+                desc: '頭の中がごちゃごちゃしたときに行って、ノートを広げる場所。風の音と遠くの電車の走行音しか聞こえないので、商売バンドの歌詞がよく進む。'
+            },
+            {
+                id: '04',
+                name: '古本と中古カセットの店',
+                tag: '好奇心・インプット',
+                desc: '店主のおじいさんが奥で半分寝ている古書店。100円の文庫本と、誰が聴いていたのか分からない古いカセットテープが積まれている宝の山。'
+            }
+        ];
+
+        function selectMapSpot(idx) {
+            const spot = mapSpots[idx];
+            if (!spot) return;
+            const box = document.getElementById('map-detail');
+            box.innerHTML = `
+                <div class="flex justify-between items-baseline raw-border-b pb-1">
+                    <span class="font-bold text-sm">■ [${spot.id}] ${spot.name}</span>
+                    <span class="font-mono-raw text-xs text-[#555]">分類: ${spot.tag}</span>
+                </div>
+                <p class="text-sm leading-relaxed pt-1">${spot.desc}</p>
+            `;
+        }
+
+        /* =========================================================
+         * 6. 地べたゲーム（東京日常コマンドRPG・試作第1弾）
+         * ========================================================= */
+        let rpgState = {
+            hp: 70,
+            yen: 680,
+            ego: 15,     // 背伸び度（低いほど自然体）
+            jibeta: 80,  // 地べた度（高いほど良い曲や雑記が書ける）
+            step: 0
+        };
+
+        const rpgScenes = [
+            {
+                turn: '1 / 4',
+                text: `午後7時45分。仕事帰りの佐藤は、私鉄沿線のスーパーマーケット「ライフマート」の総菜売り場に立っている。\nポケットの中の小銭は680円。奥の扉から、半額シール機を持った店員さんがゆっくりと姿を現した。周りには3人のライバル（常連の主婦、疲れたサラリーマン、学生）が息を潜めている。`,
+                choices: [
+                    {
+                        label: '1. カゴを持つ手を緩め、店員さんの動線を静かに先読みする',
+                        effect: { hp: -5, yen: 0, ego: -5, jibeta: +15 },
+                        result: '変に焦らず、地べたの観察眼を発揮した！店員さんが最初にシールを貼る「幕の内弁当（元値580円→290円）」の正面ポジションを自然に確保した。'
+                    },
+                    {
+                        label: '2. 「別に半額なんて狙ってませんけど」という顔で輸入チーズ棚を見る',
+                        effect: { hp: -5, yen: 0, ego: +20, jibeta: -10 },
+                        result: '東京の妙な見栄が出てしまった！輸入チーズを眺めている間に、狙っていたアジフライと弁当がすべてライバルのカゴに吸い込まれていった……。'
+                    },
+                    {
+                        label: '3. 総菜は諦め、1袋38円のもやしと特売の豚こま切れ肉へ直行する',
+                        effect: { hp: -10, yen: -180, ego: -10, jibeta: +20 },
+                        result: '自炊の道を選んだ！フライパンで炒める手間はかかるが、180円で山盛りのもやし炒めが確定した。地べた度が大きく上がった。'
+                    }
+                ]
+            },
+            {
+                turn: '2 / 4',
+                text: `スーパーを出ると、商店街の路地からいい匂いが漂ってきた。\n時刻は午後8時15分。スマホが震え、東京で知り合った知人から「今夜、渋谷のちょっといいバーで飲まない？会費4,000円くらい！」と連絡が入った。`,
+                choices: [
+                    {
+                        label: '1. 「今日は曲作りと自炊があるからまた今度！」と正直に断る',
+                        effect: { hp: +10, yen: 0, ego: -10, jibeta: +20 },
+                        result: '変な付き合いに流されず、自分の時間と財布を守った！心がスッと軽くなり、帰ってからギターを触る元気が湧いてきた。'
+                    },
+                    {
+                        label: '2. 見栄を張って「行く！」と返信し、ATMへ走る（所持金マイナス）',
+                        effect: { hp: -25, yen: -500, ego: +30, jibeta: -20 },
+                        result: '背伸びをしてしまった……！慣れない横文字のカクテルと業界トークに気疲れし、帰り道でどっと体力を消耗した。'
+                    },
+                    {
+                        label: '3. 返信を保留にし、まずは駅前のガード下のベンチで缶コーヒー（110円）を飲む',
+                        effect: { hp: +5, yen: -110, ego: -5, jibeta: +10 },
+                        result: '電車のガタゴトという音を聞きながら一息ついた。「やっぱり今日は真っ直ぐ帰ろう」と自分のペースを取り戻した。'
+                    }
+                ]
+            },
+            {
+                turn: '3 / 4',
+                text: `四畳半の部屋に帰宅した。時刻は午後10時。\nご飯を食べて一息つくと、机の上にはノートとアコースティックギターが置いてある。今日一日の東京での出来事をどう形にしようか？`,
+                choices: [
+                    {
+                        label: '1. 『商売バンド』の新曲として、今日のスーパーの風景を3コードで鳴らす',
+                        effect: { hp: -10, yen: 0, ego: -5, jibeta: +25 },
+                        result: '指先から素朴で力強いメロディが生まれた！背伸びしない歌詞が1番まるごと完成した。'
+                    },
+                    {
+                        label: '2. 『佐藤の地べたブログ』を開き、Dialyと雑記に今日の思考を書き留める',
+                        effect: { hp: -5, yen: 0, ego: -10, jibeta: +20 },
+                        result: 'キーボードを叩くうちに、東京で暮らす自分の立ち位置がクリアに言語化された。良い記事が1本上がった！'
+                    },
+                    {
+                        label: '3. 今日はもう布団に潜り込み、古本屋で買った文庫本を読んで寝る',
+                        effect: { hp: +25, yen: 0, ego: -5, jibeta: +10 },
+                        result: 'ハードボイルド小説を15ページ読んでそのまま熟睡した。体力がしっかり回復した！'
+                    }
+                ]
+            }
+        ];
+
+        function updateRpgStatsUI() {
+            document.getElementById('stat-hp').textContent = Math.max(0, Math.min(100, rpgState.hp));
+            document.getElementById('stat-yen').textContent = rpgState.yen;
+            document.getElementById('stat-ego').textContent = Math.max(0, rpgState.ego);
+            document.getElementById('stat-jibeta').textContent = rpgState.jibeta;
+        }
+
+        function initRpgGame() {
+            rpgState = { hp: 70, yen: 680, ego: 15, jibeta: 80, step: 0 };
+            updateRpgStatsUI();
+            renderRpgScene();
+        }
+
+        function renderRpgScene(lastActionResult = null) {
+            const logBox = document.getElementById('rpg-log-box');
+            const cmdBox = document.getElementById('rpg-commands');
+            const turnDisplay = document.getElementById('rpg-turn-display');
+
+            // 全ターン終了時（エンディング判定）
+            if (rpgState.step >= rpgScenes.length) {
+                turnDisplay.textContent = '結果発表';
+                let rankTitle = '';
+                let rankComment = '';
+
+                if (rpgState.jibeta >= 120 && rpgState.ego <= 15) {
+                    rankTitle = '【称号：四畳半の哲学者・純度100%の地べた】';
+                    rankComment = '東京のノイズや見栄に一切惑わされず、自分の足元から最高の音楽と言葉を生み出しました。今夜のデモテープは名曲になります。';
+                } else if (rpgState.ego >= 35) {
+                    rankTitle = '【称号：少し背伸びして足がつりそうな東京人】';
+                    rankComment = '都会の空気に当てられて少し見栄を張ってしまいましたが、こういう失敗もまた『Dialy』の良いネタになります。明日は38円のもやしからやり直しましょう。';
+                } else {
+                    rankTitle = '【称号：健やかなる地べた生活者】';
+                    rankComment = '無理をせず、自分のペースで東京の一日を生き抜きました。こういう何気ない1日の積み重ねが『佐藤の地べたブログ』の骨格になります。';
+                }
+
+                logBox.innerHTML = `
+                    ${lastActionResult ? `<div class="raw-border p-2 bg-[#fff] text-xs mb-3">▶ 直前の結果: ${lastActionResult}</div>` : ''}
+                    <div class="font-bold text-base mb-2">${rankTitle}</div>
+                    <p class="text-sm leading-relaxed mb-3">${rankComment}</p>
+                    <div class="font-mono-raw text-xs text-[#444]">
+                        最終スコア // 地べた度: ${rpgState.jibeta}pt / 背伸び度: ${Math.max(0, rpgState.ego)}% / 残り所持金: ${rpgState.yen}円
+                    </div>
+                `;
+                cmdBox.innerHTML = `
+                    <button onclick="initRpgGame()" class="raw-btn font-bold py-2 col-span-2">▶ もう1日プレイする（最初から）</button>
+                `;
+                return;
+            }
+
+            const currentScene = rpgScenes[rpgState.step];
+            turnDisplay.textContent = '経過: ' + currentScene.turn;
+
+            logBox.innerHTML = `
+                ${lastActionResult ? `<div class="raw-border p-2 bg-[#fff] text-xs mb-3">▶ ${lastActionResult}</div>` : ''}
+                <p class="whitespace-pre-line">${currentScene.text}</p>
+            `;
+
+            cmdBox.innerHTML = '';
+            currentScene.choices.forEach((choice) => {
+                const btn = document.createElement('button');
+                btn.className = 'raw-btn text-left p-2.5 text-xs leading-snug';
+                btn.textContent = choice.label;
+                btn.onclick = () => {
+                    rpgState.hp += choice.effect.hp;
+                    rpgState.yen += choice.effect.yen;
+                    rpgState.ego += choice.effect.ego;
+                    rpgState.jibeta += choice.effect.jibeta;
+                    rpgState.step += 1;
+                    updateRpgStatsUI();
+                    renderRpgScene(choice.result);
+                };
+                cmdBox.appendChild(btn);
+            });
+        }
+
+        /* =========================================================
+         * 7. モーダル＆クリップボード制御
+         * ========================================================= */
+        function openSupportModal() {
+            const m = document.getElementById('support-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function closeSupportModal() {
+            const m = document.getElementById('support-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        function openSourceModal() {
+            const m = document.getElementById('source-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+        function closeSourceModal() {
+            const m = document.getElementById('source-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+        function copyMinimalCode() {
+            const text = document.getElementById('minimal-code-preview').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            const btn = document.getElementById('copy-btn');
+            btn.textContent = 'コピーしました！';
+            setTimeout(() => { btn.textContent = '骨格コードをコピー'; }, 2000);
+        }
+
+        // 初期描画の実行
+        window.onload = function () {
+            showZakki(0);
+            selectMapSpot(0);
+            initRpgGame();
+        };
+    </script>
+</body>
+</html>
