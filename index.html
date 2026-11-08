@@ -156,7 +156,7 @@
     <div class="raw-border-b px-3 py-1 text-xs flex flex-wrap justify-between items-center bg-[#f0eee9] font-mono-raw">
         <div>SATO NO JIBETA BLOG // TOKYO UNDERGROUND ARCHIVE</div>
         <div class="flex items-center gap-4">
-            <span>最終更新: 2026.10.26</span>
+            <span>最終更新: 2026.11.08</span>
             <span>文字サイズ: 標準</span>
         </div>
     </div>
@@ -166,7 +166,7 @@
         <div class="raw-border bg-[#f9f8f6] flex flex-col md:flex-row min-h-[640px]">
 
             <!-- 左カラム：フレームメニュー（ナビゲーション＆基本情報） -->
-            <aside class="w-full md:w-56 raw-border-b md: border-b-0 md:raw-border-r flex flex-col justify-between shrink-0 select-none">
+            <aside class="w-full md:w-56 raw-border-b md:border-b-0 md:raw-border-r flex flex-col justify-between shrink-0 select-none">
                 <div>
                     <!-- サイト表札 -->
                     <div class="p-4 raw-border-b cursor-pointer" onclick="switchTab('top')">
@@ -212,14 +212,14 @@
                         <p class="font-mono-raw text-[11px] mt-1">人目の地べた訪問者です</p>
                     </div>
 
-                    <!-- 月額100円パトロン枠（試作） -->
+                    <!-- 月額100円パトロン枠（承認制・本稼働） -->
                     <div class="raw-border p-2 bg-[#f9f8f6]">
                         <p class="font-bold text-xs mb-1">【地べたサポーター】</p>
                         <p class="text-[11px] leading-normal text-[#333] mb-2">
-                            月額100円（缶コーヒー未満）でデモ音源のボツ曲や制作の裏側を共有する実験枠。
+                            月額100円（承認制）。1st Album『Owner』全5曲の限定配信や制作の裏側を共有する実験枠。
                         </p>
                         <button onclick="openSupportModal()" class="raw-btn w-full text-center font-mono-raw text-[11px]">
-                            [ 月額100円 応援窓口 ]
+                            [ 月額100円 参加申請窓口 ]
                         </button>
                     </div>
 
@@ -257,12 +257,16 @@
                         <h3 class="text-sm font-bold mb-2 font-mono-raw">■ What's New（更新履歴）</h3>
                         <div class="raw-border bg-[#fff] p-3 max-h-48 overflow-y-auto text-sm space-y-2">
                             <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
+                                <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.11.08</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> 1st Album『Owner』（全5曲・14分）が完成しました。地べたサポーター（月額100円・承認制）にて限定ストリーミング配信を開始。</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
                                 <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.26</span>
                                 <span><a href="javascript:void(0)" onclick="switchTab('game')" class="underline font-bold">【地べたゲーム】</a> 試作第1弾『19時45分、スーパー半額シール攻防戦』を公開しました。</span>
                             </div>
                             <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
                                 <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.25</span>
-                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> デモ音源3曲（Webシンセ試聴）とアルバム構想メモを追加。</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> デモ音源（Webシンセ試聴）とアルバム構想メモを追加。</span>
                             </div>
                             <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
                                 <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.24</span>
@@ -282,7 +286,7 @@
                             <tbody>
                                 <tr>
                                     <th class="w-32"><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">商売バンド</a></th>
-                                    <td>自作の音楽プロジェクト。デモテープの試聴、歌詞、録音メモ。</td>
+                                    <td>自主制作音楽ユニット。1st Album『Owner』（全5曲）の限定ストリーミング配信申請、デモ試聴。</td>
                                 </tr>
                                 <tr>
                                     <th><a href="javascript:void(0)" onclick="switchTab('dialy')" class="underline font-bold">Dialy</a></th>
@@ -318,69 +322,147 @@
                         <span class="font-mono-raw text-xs">CATALOG NO: JBT-001</span>
                     </div>
 
-                    <div class="raw-border p-4 bg-[#fff] space-y-2">
-                        <p class="text-xs font-mono-raw text-[#555]">PROJECT STATEMENT</p>
-                        <p class="text-sm leading-relaxed">
-                            部屋の隅で鳴らしたギターと生活のリズムをそのままパッケージする音楽枠。<br>
-                            綺麗なスタジオ音源というよりは、カセットMTRや宅録のざらついた質感のまま置いていきます。下の「▶ 試聴」ボタンを押すと、ブラウザ内蔵のローファイ音源（Web Audio）がテスト再生されます。
-                        </p>
+                    <!-- 1st Album『Owner』特設ボックス -->
+                    <div class="raw-border p-5 bg-[#fff] space-y-4">
+                        <div class="raw-border-b pb-2 flex flex-wrap justify-between items-baseline gap-2">
+                            <div>
+                                <span class="font-mono-raw text-xs text-[#555] block">1ST DEBUT ALBUM</span>
+                                <h3 class="text-2xl font-bold tracking-wider">『Owner』 / 商売バンド</h3>
+                            </div>
+                            <span class="font-mono-raw text-xs text-[#444]">2026 / Alternative / 5 Tracks (14 min)</span>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-5 items-start">
+                            <!-- ジャケット画像（同じ階層に owner.jpg を配置すると表示されます） -->
+                            <div class="w-full sm:w-56 shrink-0">
+                                <img src="owner.jpg" alt="商売バンド 1st Album『Owner』ジャケット" class="w-full h-auto raw-border bg-[#f0eee9]" onerror="this.style.display='none'; document.getElementById('jacket-fallback').style.display='flex';">
+                                <div id="jacket-fallback" style="display:none;" class="w-full aspect-square raw-border bg-[#f0eee9] p-4 flex-col justify-between text-xs font-mono-raw">
+                                    <div class="text-[#555]">JBT-001 // JACKET PHOTO</div>
+                                    <div class="my-auto py-6 text-center">
+                                        <p class="text-xl font-serif font-bold text-[#111] mb-1">Owner</p>
+                                        <p class="text-xs text-[#333]">商売バンド</p>
+                                        <p class="text-[10px] text-[#666] mt-3">※リポジトリの同じ階層に<br><code>owner.jpg</code> を置くと<br>屋台の写真が表示されます</p>
+                                    </div>
+                                    <div class="flex justify-between text-[11px]">
+                                        <span class="text-red-700 font-bold">Owner</span>
+                                        <span class="text-blue-700 font-bold">商売バンド</span>
+                                    </div>
+                                </div>
+                                <p class="text-[11px] text-[#555] mt-1 font-mono-raw">
+                                    Photo: 商売仲間と屋台という原始的な商売に挑戦した日の記録
+                                </p>
+                            </div>
+
+                            <!-- アルバムコンセプト・ステートメント -->
+                            <div class="flex-1 space-y-3 text-sm leading-relaxed">
+                                <p class="font-bold">
+                                    「つたなくても、自分が主体者（Owner）としてつくり、実行するから商売も表現も面白い」
+                                </p>
+                                <p>
+                                    この音楽を作った自分はまだつたないかもしれないけれど、誰かのせいにせず、自らが主体者（Owner）として手を動かして形にしたという矜持。<br>
+                                    そして、仲間と屋台という原始的な商売に挑んだ日の空気とともに、「商売とは自らが主体者として実行するからこそ面白い」という信念を詰め込んだ全5曲・14分のデビューアルバムです。
+                                </p>
+                                <div class="raw-border p-3 bg-[#f9f8f6] text-xs space-y-1">
+                                    <p class="font-bold font-mono-raw">■ リリース形態（3つの展開）</p>
+                                    <p>① WEBプラットフォーム（リンク限定ストリーミング）</p>
+                                    <p>② 地べたブログ「地べたサポーター」（月額100円・承認制）</p>
+                                    <p>③ CDリリース（自主制作盤）</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 限定ストリーミング配信（地べたサポーター申請）導線 -->
+                        <div class="raw-border p-4 bg-[#f3f1ec] space-y-3">
+                            <div class="flex flex-wrap justify-between items-center gap-2 raw-border-b pb-1">
+                                <span class="font-bold text-sm">▼ 限定ストリーミング配信（地べたサポーター・承認制）</span>
+                                <span class="font-mono-raw text-xs text-[#555]">月額100円 / PIXIV FANBOX経由</span>
+                            </div>
+                            <p class="text-xs leading-relaxed text-[#222]">
+                                本作『Owner』全5曲のフル音源は、リンクを知っている方、および<strong>「地べたサポーター（月額100円・承認制）」</strong>限定でストリーミング配信（SoundCloud Secret Link）しています。<br>
+                                以下のフォームから参加を申請していただき、佐藤が承認した方へメールにて専用決済ページ（PIXIV FANBOX）をご案内します。お支払い完了と同時に、全曲ストリーミングURLへアクセスいただけます。
+                            </p>
+                            <div class="pt-1 flex flex-wrap gap-3 items-center">
+                                <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn font-bold text-xs py-2 px-4 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
+                                    ▶ 地べたサポーター（月額100円）参加申請フォームを開く
+                                </a>
+                                <button onclick="openSupportModal()" class="underline text-xs font-mono-raw text-[#444] hover:text-black">
+                                    &gt; 申請から再生までの流れを確認する
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- プレイヤー状態表示バー -->
+                    <!-- プレイヤー状態表示バー（ローファイWebシンセ試聴） -->
                     <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] flex flex-wrap justify-between items-center gap-2 font-mono-raw text-xs">
-                        <div id="audio-status">■ STOP // 試聴したいトラックの [▶ 試聴] を押してください</div>
+                        <div id="audio-status">■ STOP // トラックリストの [▶ 試聴] でブラウザ内蔵ローファイデモが鳴ります</div>
                         <button onclick="stopDemoAudio()" class="border border-[#f9f8f6] px-2 py-0.5 hover:bg-[#f9f8f6] hover:text-[#111]">
                             [ ■ 停止 ]
                         </button>
                     </div>
 
-                    <!-- トラックリスト（カセットテープのインデックスカード風） -->
+                    <!-- 1st Album『Owner』収録曲トラックリスト -->
                     <div>
-                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ デモテープ収録曲 / 制作中リスト</h3>
+                        <h3 class="text-sm font-bold mb-2 font-mono-raw">■ 1st Album『Owner』収録曲（全5曲 / 14分）</h3>
                         <table class="raw-table bg-[#fff]">
                             <thead>
                                 <tr>
-                                    <th class="w-12 font-mono-raw">No.</th>
+                                    <th class="w-12 font-mono-raw">Track</th>
                                     <th>曲名 / タイトル</th>
-                                    <th>制作メモ・編成</th>
-                                    <th class="w-24 text-center">デモ試聴</th>
+                                    <th class="w-20 font-mono-raw">Time</th>
+                                    <th>テーマ・楽曲メモ</th>
+                                    <th class="w-24 text-center">Webデモ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="font-mono-raw">01</td>
-                                    <td class="font-bold">四畳半と環七のあいだ</td>
-                                    <td class="text-xs text-[#444]">深夜2時の換気扇のうなりと3コード進行。</td>
+                                    <td class="font-bold">はじまりのアバンティ</td>
+                                    <td class="font-mono-raw text-xs">2:58</td>
+                                    <td class="text-xs text-[#444]">アルバムの幕開け。今日も自分の足で商売と生活の現場へ踏み出す1曲目。</td>
                                     <td class="text-center">
-                                        <button onclick="playDemoTrack(1, '01. 四畳半と環七のあいだ')" class="raw-btn font-mono-raw text-xs" id="track-btn-1">▶ 試聴</button>
+                                        <button onclick="playDemoTrack(1, '01. はじまりのアバンティ')" class="raw-btn font-mono-raw text-xs" id="track-btn-1">▶ 試聴</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">02</td>
-                                    <td class="font-bold">領収書の出ない夜</td>
-                                    <td class="text-xs text-[#444]">アップテンポなカッティング。商売と生活の境界線。</td>
+                                    <td class="font-bold">High-Tempo</td>
+                                    <td class="font-mono-raw text-xs">3:06</td>
+                                    <td class="text-xs text-[#444]">疾走するビートと高まる鼓動。目まぐるしい現場のスピード感を切り取る。</td>
                                     <td class="text-center">
-                                        <button onclick="playDemoTrack(2, '02. 領収書の出ない夜')" class="raw-btn font-mono-raw text-xs" id="track-btn-2">▶ 試聴</button>
+                                        <button onclick="playDemoTrack(2, '02. High-Tempo')" class="raw-btn font-mono-raw text-xs" id="track-btn-2">▶ 試聴</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">03</td>
-                                    <td class="font-bold">各駅停車で帰る</td>
-                                    <td class="text-xs text-[#444]">ゆっくりした2拍子。急行を見送ったホームにて。</td>
+                                    <td class="font-bold">もしもあの子が当日休んでも</td>
+                                    <td class="font-mono-raw text-xs">2:56</td>
+                                    <td class="text-xs text-[#444]">予定通りにいかない日常と現場のリアルを、哀愁とユーモアで鳴らす中盤曲。</td>
                                     <td class="text-center">
-                                        <button onclick="playDemoTrack(3, '03. 各駅停車で帰る')" class="raw-btn font-mono-raw text-xs" id="track-btn-3">▶ 試聴</button>
+                                        <button onclick="playDemoTrack(3, '03. もしもあの子が当日休んでも')" class="raw-btn font-mono-raw text-xs" id="track-btn-3">▶ 試聴</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">04</td>
-                                    <td>地べたのファンファーレ（仮）</td>
-                                    <td class="text-xs text-[#555]">現在歌詞とAメロのコード直し中。</td>
-                                    <td class="text-center font-mono-raw text-xs text-[#777]">録音中</td>
+                                    <td class="font-bold">Nice飲酒!</td>
+                                    <td class="font-mono-raw text-xs">1:06</td>
+                                    <td class="text-xs text-[#444]">1分6秒に凝縮されたショートチューン。やり切った夜の一杯に捧げる賛歌。</td>
+                                    <td class="text-center">
+                                        <button onclick="playDemoTrack(4, '04. Nice飲酒!')" class="raw-btn font-mono-raw text-xs" id="track-btn-4">▶ 試聴</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono-raw">05</td>
+                                    <td class="font-bold">商売バンド</td>
+                                    <td class="font-mono-raw text-xs">3:04</td>
+                                    <td class="text-xs text-[#444]">言い訳ばかりの環境を抜け出し、自らがハンドルを握って商売と挑戦を楽しむ最終曲。</td>
+                                    <td class="text-center">
+                                        <button onclick="playDemoTrack(5, '05. 商売バンド')" class="raw-btn font-mono-raw text-xs" id="track-btn-5">▶ 試聴</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="text-xs text-[#555] mt-2">
-                            ※実際の運用時は、ここに自分のMP3ファイル（<code>&lt;audio src="song01.mp3"&gt;</code>）を置くだけでそのまま再生できます。
+                            ※実際のフル音源（ボーカル入り全5曲）は、上の「地べたサポーター参加申請フォーム」からの承認後に限定ストリーミングでお聴きいただけます。
                         </p>
                     </div>
                 </section>
@@ -409,6 +491,13 @@
 
                     <!-- Dialyタイムライン -->
                     <div id="dialy-list" class="space-y-4">
+                        <article class="raw-border p-4 bg-[#fff]">
+                            <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.11.08 (Sun) / 晴れ</div>
+                            <p class="text-sm leading-relaxed">
+                                『商売バンド』の1stアルバム『Owner』全5曲がついに完成した。ジャケットは、仲間と屋台という原始的な商売に挑戦したときの写真にした。つたなくても、自分が主体者（Owner）としてつくって世に出すこと。ここからまた新しく始まる感じがしている。
+                            </p>
+                        </article>
+
                         <article class="raw-border p-4 bg-[#fff]">
                             <div class="font-mono-raw text-xs text-[#555] raw-border-b pb-1 mb-2">2026.10.26 (Mon) / 晴れ・風少し冷たい</div>
                             <p class="text-sm leading-relaxed">
@@ -620,30 +709,32 @@
     </footer>
 
     <!-- ==========================================
-         モーダル1: 月額100円 地べたサポーター仕組み確認
+         モーダル1: 月額100円 地べたサポーター参加申請窓口
     =========================================== -->
     <div id="support-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
         <div class="raw-border bg-[#f9f8f6] max-w-md w-full p-5 space-y-4">
             <div class="flex justify-between items-center raw-border-b pb-2">
-                <h3 class="font-bold text-base">■ 月額100円「地べたサポーター」の実装イメージ</h3>
+                <h3 class="font-bold text-base">■ 地べたサポーター（月額100円・承認制）参加窓口</h3>
                 <button onclick="closeSupportModal()" class="raw-btn text-xs font-mono-raw">× 閉じる</button>
             </div>
-            <div class="text-xs leading-relaxed space-y-2">
+            <div class="text-xs leading-relaxed space-y-3">
                 <p>
-                    この枠は、実際にサイトを公開した際に<strong>「月額100円の購読・応援システム」</strong>を置く場所のサンプルです。
+                    「地べたサポーター」は、商売バンド 1st Album<strong>『Owner』全5曲の限定ストリーミング配信</strong>や、デモ音源・制作の裏側を共有する月額100円のクローズド枠です。
                 </p>
-                <div class="raw-border p-3 bg-[#fff] space-y-1">
-                    <p class="font-bold">【一番シンプルでアナログな実装方法】</p>
-                    <p>1. <strong>Stripeの決済リンク</strong>（またはpixivFANBOX / OFUSEの100円プラン）を発行する。</p>
-                    <p>2. 下のボタンのリンク先（<code>href="..."</code>）に設定する。</p>
-                    <p>3. 登録してくれた人に、サンクス画面や自動メールで「今月のボツ音源＆秘密の日記ページの合言葉」を届ける。</p>
+                <div class="raw-border p-3 bg-[#fff] space-y-1.5">
+                    <p class="font-bold">【参加申請からストリーミング再生までの流れ】</p>
+                    <p>1. 下のボタンから<strong>Googleフォーム</strong>を開き、参加申請を送信します。</p>
+                    <p>2. 佐藤が申請内容を確認・承認し、メールにて専用決済ページ（<strong>PIXIV FANBOX 月額100円プラン</strong>）をご案内します。</p>
+                    <p>3. お支払い完了と同時に限定記事が解放され、<strong>『Owner』全5曲の限定ストリーミングURL（SoundCloud Secret Link）</strong>をお聴きいただけます。</p>
                 </div>
-                <p class="text-[#555]">
-                    これなら大掛かりなデータベースを組まなくても、この最小限のHTMLサイトのまま今日から月額100円システムを動かせます。
-                </p>
+                <div class="pt-1">
+                    <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn w-full text-center font-bold py-2 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
+                        ▶ Googleフォームで参加申請する
+                    </a>
+                </div>
             </div>
             <div class="text-right">
-                <button onclick="closeSupportModal()" class="raw-btn text-xs">了解した</button>
+                <button onclick="closeSupportModal()" class="raw-btn text-xs">閉じる</button>
             </div>
         </div>
     </div>
@@ -728,8 +819,8 @@
                 audioInterval = null;
             }
             currentPlayingTrack = null;
-            document.getElementById('audio-status').textContent = '■ STOP // 試聴したいトラックの [▶ 試聴] を押してください';
-            [1, 2, 3].forEach(num => {
+            document.getElementById('audio-status').textContent = '■ STOP // トラックリストの [▶ 試聴] でブラウザ内蔵ローファイデモが鳴ります';
+            [1, 2, 3, 4, 5].forEach(num => {
                 const btn = document.getElementById('track-btn-' + num);
                 if (btn) {
                     btn.textContent = '▶ 試聴';
@@ -753,18 +844,20 @@
             }
 
             currentPlayingTrack = trackNum;
-            document.getElementById('audio-status').textContent = '▶ PLAYING // ' + trackTitle + ' (宅録デモシンセ再生中...)';
+            document.getElementById('audio-status').textContent = '▶ PLAYING // ' + trackTitle + ' (Webシンセ・ローファイデモ再生中...)';
             const activeBtn = document.getElementById('track-btn-' + trackNum);
             if (activeBtn) {
                 activeBtn.textContent = '■ 停止';
                 activeBtn.classList.add('active-btn');
             }
 
-            // トラックごとの素朴なコード・メロディ進行（四畳半フォーク/インディーロック風）
+            // 『Owner』全5曲をイメージしたコード・メロディ進行
             const patterns = {
-                1: { tempo: 420, notes: [220.0, 261.63, 329.63, 293.66, 220.0, 246.94, 196.0, 220.0] }, // Am - C - Em - G
-                2: { tempo: 260, notes: [164.81, 196.0, 246.94, 220.0, 293.66, 246.94, 196.0, 164.81] }, // アップテンポ
-                3: { tempo: 550, notes: [196.0, 246.94, 293.66, 392.0, 329.63, 293.66, 246.94, 196.0] }  // ゆったり各駅停車
+                1: { tempo: 380, notes: [220.0, 261.63, 329.63, 293.66, 220.0, 246.94, 196.0, 220.0] }, // 01. はじまりのアバンティ
+                2: { tempo: 220, notes: [164.81, 196.0, 246.94, 293.66, 329.63, 293.66, 246.94, 196.0] }, // 02. High-Tempo
+                3: { tempo: 440, notes: [196.0, 246.94, 293.66, 261.63, 220.0, 196.0, 164.81, 196.0] }, // 03. もしもあの子が当日休んでも
+                4: { tempo: 200, notes: [261.63, 329.63, 392.0, 523.25, 392.0, 329.63, 293.66, 261.63] }, // 04. Nice飲酒!
+                5: { tempo: 300, notes: [220.0, 293.66, 329.63, 440.0, 392.0, 329.63, 293.66, 329.63] }  // 05. 商売バンド
             };
 
             const config = patterns[trackNum] || patterns[1];
@@ -776,8 +869,7 @@
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
 
-                // 少しざらついた矩形波・三角波
-                osc.type = trackNum === 2 ? 'square' : 'triangle';
+                osc.type = (trackNum === 2 || trackNum === 4 || trackNum === 5) ? 'square' : 'triangle';
                 osc.frequency.setValueAtTime(config.notes[step % config.notes.length], now);
 
                 gain.gain.setValueAtTime(0.08, now);
