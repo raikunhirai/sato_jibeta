@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="google-site-verification" content="UO2LmraefKs1rMKZaW2fyScniQO9qPcrbLO5UKLGFLY" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佐藤の地べたブログ</title>
+    <title>佐藤の地べたブログ（サトウの地べたブログ）｜商売バンド・四畳半都市生活記録</title>
+    <meta name="description" content="佐藤の地べたブログ（サトウの地べたブログ）。変に背伸びしない東京の地べたからの視点と好奇心の記録。自主制作音楽ユニット「商売バンド」1st Album『Owner』限定配信、Dialy、雑記、地べたMAP、本Log、地べたゲームを公開中。">
+    <meta name="keywords" content="佐藤の地べたブログ,サトウの地べたブログ,地べたブログ,商売バンド,Owner,佐藤光">
+    <link rel="canonical" href="https://raikunhirai.github.io/sato_jibeta/">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 
@@ -267,7 +269,7 @@
                             </div>
                             <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
                                 <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.25</span>
-                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> デモ音源（Webシンセ試聴）とアルバム構想メモを追加。</span>
+                                <span><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">【商売バンド】</a> アルバム構想メモと収録曲リストを追加。</span>
                             </div>
                             <div class="flex flex-col sm:flex-row sm:gap-4 raw-border-b pb-1">
                                 <span class="font-mono-raw text-xs text-[#555] shrink-0">2026.10.24</span>
@@ -287,7 +289,7 @@
                             <tbody>
                                 <tr>
                                     <th class="w-32"><a href="javascript:void(0)" onclick="switchTab('band')" class="underline font-bold">商売バンド</a></th>
-                                    <td>自主制作音楽ユニット。1st Album『Owner』（全5曲）の限定ストリーミング配信申請、デモ試聴。</td>
+                                    <td>自主制作音楽ユニット。1st Album『Owner』（全5曲）の限定ストリーミング配信申請、『Nice飲酒!』フル試聴。</td>
                                 </tr>
                                 <tr>
                                     <th><a href="javascript:void(0)" onclick="switchTab('dialy')" class="underline font-bold">Dialy</a></th>
@@ -367,8 +369,8 @@
                                 <span class="font-mono-raw text-xs text-[#555]">月額100円 / PIXIV FANBOX経由</span>
                             </div>
                             <p class="text-xs leading-relaxed text-[#222]">
-                                本作『Owner』全5曲のフル音源は、リンクを知っている方、および<strong>「地べたサポーター（月額100円・承認制）」</strong>限定でストリーミング配信（SoundCloud Secret Link）しています。<br>
-                                以下のフォームから参加を申請していただき、佐藤が承認した方へメールにて専用決済ページ（PIXIV FANBOX）をご案内します。お支払い完了と同時に、全曲ストリーミングURLへアクセスいただけます。
+                                本作『Owner』全5曲のフル音源は、リンクを知っている方、および<strong>「地べたサポーター（月額100円・承認制）」</strong>限定でストリーミング配信（YouTube限定公開フルアルバム / SoundCloud Secret Link）しています。<br>
+                                以下のフォームから参加を申請していただき、佐藤が承認した方へ自動で専用決済ページ（PIXIV FANBOX）をご案内します。お支払い完了と同時に、全曲ストリーミングURLへアクセスいただけます。
                             </p>
                             <div class="pt-1 flex flex-wrap gap-3 items-center">
                                 <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn font-bold text-xs py-2 px-4 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
@@ -381,12 +383,16 @@
                         </div>
                     </div>
 
-                    <!-- プレイヤー状態表示バー（ローファイWebシンセ試聴） -->
+                    <!-- Nice飲酒! フル尺試聴プレイヤーバー（YouTube限定公開音源 09:00〜10:06 連動） -->
                     <div class="raw-border p-3 bg-[#111] text-[#f9f8f6] flex flex-wrap justify-between items-center gap-2 font-mono-raw text-xs">
-                        <div id="audio-status">■ STOP // トラックリストの [▶ 試聴] でブラウザ内蔵ローファイデモが鳴ります</div>
-                        <button onclick="stopDemoAudio()" class="border border-[#f9f8f6] px-2 py-0.5 hover:bg-[#f9f8f6] hover:text-[#111]">
+                        <div id="audio-status">■ STOP // Track 04『Nice飲酒!』のみフル尺（1:06）で試聴できます</div>
+                        <button onclick="stopNiceInshu()" class="border border-[#f9f8f6] px-2 py-0.5 hover:bg-[#f9f8f6] hover:text-[#111]">
                             [ ■ 停止 ]
                         </button>
+                        <!-- YouTube IFrame API 制御用（画面外極小配置・4曲目区間のみ再生） -->
+                        <div style="position:fixed; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; pointer-events:none;">
+                            <div id="yt-nice-inshu-player"></div>
+                        </div>
                     </div>
 
                     <!-- 1st Album『Owner』収録曲トラックリスト -->
@@ -395,11 +401,10 @@
                         <table class="raw-table bg-[#fff]">
                             <thead>
                                 <tr>
-                                    <th class="w-12 font-mono-raw">Track</th>
+                                    <th class="w-16 font-mono-raw">Track</th>
                                     <th>曲名 / タイトル</th>
-                                    <th class="w-20 font-mono-raw">Time</th>
-                                    <th>テーマ・楽曲メモ</th>
-                                    <th class="w-24 text-center">Webデモ</th>
+                                    <th class="w-24 font-mono-raw">Time</th>
+                                    <th class="w-32 text-center">音源</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -407,51 +412,38 @@
                                     <td class="font-mono-raw">01</td>
                                     <td class="font-bold">はじまりのアバンティ</td>
                                     <td class="font-mono-raw text-xs">2:58</td>
-                                    <td class="text-xs text-[#444]">アルバムの幕開け。今日も自分の足で商売と生活の現場へ踏み出す1曲目。</td>
-                                    <td class="text-center">
-                                        <button onclick="playDemoTrack(1, '01. はじまりのアバンティ')" class="raw-btn font-mono-raw text-xs" id="track-btn-1">▶ 試聴</button>
-                                    </td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">02</td>
                                     <td class="font-bold">High-Tempo</td>
                                     <td class="font-mono-raw text-xs">3:06</td>
-                                    <td class="text-xs text-[#444]">疾走するビートと高まる鼓動。目まぐるしい現場のスピード感を切り取る。</td>
-                                    <td class="text-center">
-                                        <button onclick="playDemoTrack(2, '02. High-Tempo')" class="raw-btn font-mono-raw text-xs" id="track-btn-2">▶ 試聴</button>
-                                    </td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">03</td>
                                     <td class="font-bold">もしもあの子が当日休んでも</td>
                                     <td class="font-mono-raw text-xs">2:56</td>
-                                    <td class="text-xs text-[#444]">予定通りにいかない日常と現場のリアルを、哀愁とユーモアで鳴らす中盤曲。</td>
-                                    <td class="text-center">
-                                        <button onclick="playDemoTrack(3, '03. もしもあの子が当日休んでも')" class="raw-btn font-mono-raw text-xs" id="track-btn-3">▶ 試聴</button>
-                                    </td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">04</td>
                                     <td class="font-bold">Nice飲酒!</td>
                                     <td class="font-mono-raw text-xs">1:06</td>
-                                    <td class="text-xs text-[#444]">1分6秒に凝縮されたショートチューン。やり切った夜の一杯に捧げる賛歌。</td>
                                     <td class="text-center">
-                                        <button onclick="playDemoTrack(4, '04. Nice飲酒!')" class="raw-btn font-mono-raw text-xs" id="track-btn-4">▶ 試聴</button>
+                                        <button onclick="toggleNiceInshu()" class="raw-btn font-mono-raw text-xs" id="track-btn-4">▶ フル試聴</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="font-mono-raw">05</td>
                                     <td class="font-bold">商売バンド</td>
                                     <td class="font-mono-raw text-xs">3:04</td>
-                                    <td class="text-xs text-[#444]">言い訳ばかりの環境を抜け出し、自らがハンドルを握って商売と挑戦を楽しむ最終曲。</td>
-                                    <td class="text-center">
-                                        <button onclick="playDemoTrack(5, '05. 商売バンド')" class="raw-btn font-mono-raw text-xs" id="track-btn-5">▶ 試聴</button>
-                                    </td>
+                                    <td class="text-center font-mono-raw text-xs text-[#666]">限定配信</td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="text-xs text-[#555] mt-2">
-                            ※実際のフル音源（ボーカル入り全5曲）は、上の「地べたサポーター参加申請フォーム」からの承認後に限定ストリーミングでお聴きいただけます。
+                            ※『Nice飲酒!』以外の全収録曲フル音源は、上の「地べたサポーター参加申請フォーム」からの承認後に限定ストリーミングでお聴きいただけます。
                         </p>
                     </div>
                 </section>
@@ -713,8 +705,8 @@
                 <div class="raw-border p-3 bg-[#fff] space-y-1.5">
                     <p class="font-bold">【参加申請からストリーミング再生までの流れ】</p>
                     <p>1. 下のボタンから<strong>Googleフォーム</strong>を開き、参加申請を送信します。</p>
-                    <p>2. 佐藤が申請内容を確認・承認し、メールにて専用決済ページ（<strong>PIXIV FANBOX 月額100円プラン</strong>）をご案内します。</p>
-                    <p>3. お支払い完了と同時に限定記事が解放され、<strong>『Owner』全5曲の限定ストリーミングURL（SoundCloud Secret Link）</strong>をお聴きいただけます。</p>
+                    <p>2. 佐藤が申請内容を確認・承認すると、メールにて専用決済ページ（<strong>PIXIV FANBOX 月額100円プラン</strong>）が自動送信されます。</p>
+                    <p>3. お支払い完了と同時に限定記事が解放され、<strong>『Owner』全5曲の限定ストリーミングURL（YouTube限定公開 / SoundCloud）</strong>をお聴きいただけます。</p>
                 </div>
                 <div class="pt-1">
                     <a href="https://docs.google.com/forms/d/1tlRgL9quRr02tyTNEWQMkVN4J_7Y2YHqC8j7q9AHzjk/viewform" target="_blank" rel="noopener noreferrer" class="raw-btn w-full text-center font-bold py-2 bg-[#111] text-[#f9f8f6] hover:bg-[#333]">
@@ -796,84 +788,119 @@
         }
 
         /* =========================================================
-         * 2. 商売バンド：Web Audio APIによるローファイ・デモ試聴機能
+         * 2. 商売バンド：Track 04『Nice飲酒!』フル尺再生機能 (YouTube _or78LZbvbk 540s〜606s)
          * ========================================================= */
-        let audioCtx = null;
-        let audioInterval = null;
-        let currentPlayingTrack = null;
+        const YT_VIDEO_ID = '_or78LZbvbk';
+        const NICE_INSHU_START = 540; // 09:00
+        const NICE_INSHU_END = 606;   // 10:06 (1分06秒)
+        let ytPlayer = null;
+        let ytReady = false;
+        let ytTimer = null;
+        let isNiceInshuPlaying = false;
 
-        function stopDemoAudio() {
-            if (audioInterval) {
-                clearInterval(audioInterval);
-                audioInterval = null;
-            }
-            currentPlayingTrack = null;
-            document.getElementById('audio-status').textContent = '■ STOP // トラックリストの [▶ 試聴] でブラウザ内蔵ローファイデモが鳴ります';
-            [1, 2, 3, 4, 5].forEach(num => {
-                const btn = document.getElementById('track-btn-' + num);
-                if (btn) {
-                    btn.textContent = '▶ 試聴';
-                    btn.classList.remove('active-btn');
+        // YouTube IFrame API の非同期読み込み
+        (function loadYouTubeAPI() {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        })();
+
+        window.onYouTubeIframeAPIReady = function () {
+            ytPlayer = new YT.Player('yt-nice-inshu-player', {
+                height: '1',
+                width: '1',
+                videoId: YT_VIDEO_ID,
+                playerVars: {
+                    playsinline: 1,
+                    controls: 0,
+                    disablekb: 1,
+                    rel: 0,
+                    start: NICE_INSHU_START,
+                    end: NICE_INSHU_END
+                },
+                events: {
+                    onReady: function () {
+                        ytReady = true;
+                    },
+                    onStateChange: function (event) {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            stopNiceInshu();
+                        }
+                    }
                 }
             });
+        };
+
+        function formatSec(sec) {
+            const clamped = Math.max(0, Math.floor(sec));
+            const m = Math.floor(clamped / 60);
+            const s = clamped % 60;
+            return m + ':' + String(s).padStart(2, '0');
         }
 
-        function playDemoTrack(trackNum, trackTitle) {
-            if (currentPlayingTrack === trackNum) {
-                stopDemoAudio();
+        function stopNiceInshu() {
+            if (ytTimer) {
+                clearInterval(ytTimer);
+                ytTimer = null;
+            }
+            isNiceInshuPlaying = false;
+            if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === 'function') {
+                ytPlayer.pauseVideo();
+                ytPlayer.seekTo(NICE_INSHU_START, true);
+            }
+            const btn = document.getElementById('track-btn-4');
+            const status = document.getElementById('audio-status');
+            if (btn) {
+                btn.textContent = '▶ フル試聴';
+                btn.classList.remove('active-btn');
+            }
+            if (status) {
+                status.textContent = '■ STOP // Track 04『Nice飲酒!』のみフル尺（1:06）で試聴できます';
+            }
+        }
+
+        function toggleNiceInshu() {
+            const btn = document.getElementById('track-btn-4');
+            const status = document.getElementById('audio-status');
+
+            if (isNiceInshuPlaying) {
+                stopNiceInshu();
                 return;
             }
-            stopDemoAudio();
 
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            currentPlayingTrack = trackNum;
-            document.getElementById('audio-status').textContent = '▶ PLAYING // ' + trackTitle + ' (Webシンセ・ローファイデモ再生中...)';
-            const activeBtn = document.getElementById('track-btn-' + trackNum);
-            if (activeBtn) {
-                activeBtn.textContent = '■ 停止';
-                activeBtn.classList.add('active-btn');
+            if (!ytPlayer || !ytReady) {
+                if (status) {
+                    status.textContent = '▶ LOADING // 音源プレイヤーを準備中です。1秒後にもう一度押してください...';
+                }
+                return;
             }
 
-            // 『Owner』全5曲をイメージしたコード・メロディ進行
-            const patterns = {
-                1: { tempo: 380, notes: [220.0, 261.63, 329.63, 293.66, 220.0, 246.94, 196.0, 220.0] }, // 01. はじまりのアバンティ
-                2: { tempo: 220, notes: [164.81, 196.0, 246.94, 293.66, 329.63, 293.66, 246.94, 196.0] }, // 02. High-Tempo
-                3: { tempo: 440, notes: [196.0, 246.94, 293.66, 261.63, 220.0, 196.0, 164.81, 196.0] }, // 03. もしもあの子が当日休んでも
-                4: { tempo: 200, notes: [261.63, 329.63, 392.0, 523.25, 392.0, 329.63, 293.66, 261.63] }, // 04. Nice飲酒!
-                5: { tempo: 300, notes: [220.0, 293.66, 329.63, 440.0, 392.0, 329.63, 293.66, 329.63] }  // 05. 商売バンド
-            };
+            isNiceInshuPlaying = true;
+            ytPlayer.seekTo(NICE_INSHU_START, true);
+            ytPlayer.playVideo();
 
-            const config = patterns[trackNum] || patterns[1];
-            let step = 0;
+            if (btn) {
+                btn.textContent = '■ 停止';
+                btn.classList.add('active-btn');
+            }
+            if (status) {
+                status.textContent = '▶ PLAYING // 04. Nice飲酒! (0:00 / 1:06)';
+            }
 
-            const playStep = () => {
-                if (!audioCtx || currentPlayingTrack !== trackNum) return;
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-
-                osc.type = (trackNum === 2 || trackNum === 4 || trackNum === 5) ? 'square' : 'triangle';
-                osc.frequency.setValueAtTime(config.notes[step % config.notes.length], now);
-
-                gain.gain.setValueAtTime(0.08, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + (config.tempo / 1000) * 0.9);
-
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                osc.start(now);
-                osc.stop(now + (config.tempo / 1000));
-                step++;
-            };
-
-            playStep();
-            audioInterval = setInterval(playStep, config.tempo);
+            if (ytTimer) clearInterval(ytTimer);
+            ytTimer = setInterval(() => {
+                if (!ytPlayer || !isNiceInshuPlaying || typeof ytPlayer.getCurrentTime !== 'function') return;
+                const current = ytPlayer.getCurrentTime();
+                if (current >= NICE_INSHU_END) {
+                    stopNiceInshu();
+                    return;
+                }
+                const elapsed = Math.max(0, current - NICE_INSHU_START);
+                if (status) {
+                    status.textContent = '▶ PLAYING // 04. Nice飲酒! (' + formatSec(elapsed) + ' / 1:06)';
+                }
+            }, 250);
         }
 
         /* =========================================================
